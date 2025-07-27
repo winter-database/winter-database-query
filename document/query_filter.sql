@@ -9,7 +9,7 @@ CREATE TABLE query_filter
     table_name       varchar(64)      NOT NULL DEFAULT '' COMMENT 'Table Name',
     column_name      varchar(64)      NOT NULL DEFAULT '' COMMENT 'Column Name',
     aggregate_func   int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Aggregate Func 1|COUNT 2|SUM 3|MAX 4|MIN 5|AVG',
-    filter_func      int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Filter Func 1|EXPRESSION 2|IN 3|NULL 4|RANGE 5|WILDCARD',
+    filter_enum      int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Filter Enum 1|EXPRESSION 2|IN 3|NULL 4|RANGE 5|WILDCARD',
     show_priority    int(10) unsigned NOT NULL DEFAULT '10000' COMMENT 'Show Priority used for ORDER BY',
     update_version   int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Last Update Version used for Optimistic Lock',
     create_date      datetime         NULL     DEFAULT NULL COMMENT 'Create Date',
