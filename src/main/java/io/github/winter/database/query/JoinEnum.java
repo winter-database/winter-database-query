@@ -5,7 +5,7 @@ package io.github.winter.database.query;
  *
  * @author changebooks@qq.com
  */
-public interface JoinFunc {
+public interface JoinEnum {
     /**
      * 内连
      */

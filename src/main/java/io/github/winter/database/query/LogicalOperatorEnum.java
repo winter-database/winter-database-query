@@ -1,19 +1,19 @@
 package io.github.winter.database.query;
 
 /**
- * 排序
+ * 逻辑与或
  *
  * @author changebooks@qq.com
  */
-public interface OrderFunc {
+public interface LogicalOperatorEnum {
     /**
-     * 升序
+     * 与
      */
-    int ASC = 1;
+    int AND = 1;
 
     /**
-     * 降序
+     * 或
      */
-    int DESC = 2;
+    int OR = 2;
 
 }

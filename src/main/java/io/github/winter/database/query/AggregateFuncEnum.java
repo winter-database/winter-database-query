@@ -5,7 +5,7 @@ package io.github.winter.database.query;
  *
  * @author changebooks@qq.com
  */
-public interface AggregateFunc {
+public interface AggregateFuncEnum {
     /**
      * 总行数
      */

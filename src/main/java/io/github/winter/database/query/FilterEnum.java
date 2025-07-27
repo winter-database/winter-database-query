@@ -5,7 +5,7 @@ package io.github.winter.database.query;
  *
  * @author changebooks@qq.com
  */
-public interface FilterFunc {
+public interface FilterEnum {
     /**
      * 表达式
      */
