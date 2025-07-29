@@ -9,12 +9,6 @@ import io.github.winter.database.query.AggregateFuncParser;
 public class AggregateFuncParserImpl implements AggregateFuncParser {
 
     @Override
-    public String parse(int aggregateFunc, String tableName, String columnName) {
-        String name = joinName(tableName, columnName);
-        return parse(aggregateFunc, name);
-    }
-
-    @Override
     public String parse(int aggregateFunc, String name) {
         return switch (aggregateFunc) {
             case AggregateFuncEnum.COUNT -> "COUNT(*)";
@@ -24,19 +18,6 @@ public class AggregateFuncParserImpl implements AggregateFuncParser {
             case AggregateFuncEnum.AVG -> "AVG(" + name + ")";
             default -> name;
         };
-    }
-
-    @Override
-    public String joinName(String tableName, String columnName) {
-        if (columnName == null || columnName.isEmpty()) {
-            return "";
-        }
-
-        if (tableName == null || tableName.isEmpty()) {
-            return columnName;
-        } else {
-            return tableName + "." + columnName;
-        }
     }
 
 }
