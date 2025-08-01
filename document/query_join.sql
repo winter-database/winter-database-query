@@ -5,7 +5,7 @@ CREATE TABLE query_join
     query_id         int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Query Id',
     join_table       varchar(64)      NOT NULL DEFAULT '' COMMENT 'Join Table Name',
     join_id          int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Join Sub Query Id',
-    join_type        int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Join Type 1|INNER 2|OUTER 3|LEFT 4|RIGHT 5|FULL 6|CROSS 7|SELF 8|NATURAL 9|STRAIGHT',
+    join_type        int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Join Type 1|INNER 2|LEFT 3|RIGHT',
     show_priority    int(10) unsigned NOT NULL DEFAULT '10000' COMMENT 'Show Priority used for ORDER BY',
     update_version   int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Last Update Version used for Optimistic Lock',
     create_date      datetime         NULL     DEFAULT NULL COMMENT 'Create Date',
