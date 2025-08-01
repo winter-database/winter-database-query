@@ -6,7 +6,7 @@ CREATE TABLE query
     is_distinct       int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'DISTINCT ? 1|YES 0|NO',
     from_table        varchar(64)      NOT NULL DEFAULT '' COMMENT 'From Table Name',
     from_id           int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'From Sub Query Id',
-    page_type         int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Page Type 1|OFFSET 2|ID',
+    page_type         int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Page Type 1|OFFSET 2|ID_RANGE',
     page_size         int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Page Limit',
     query_description varchar(255)     NOT NULL DEFAULT '' COMMENT 'Query Description',
     query_remark      varchar(255)     NOT NULL DEFAULT '' COMMENT 'Query Remark',
