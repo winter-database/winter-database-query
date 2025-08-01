@@ -6,7 +6,7 @@ CREATE TABLE query_order
     table_name       varchar(64)      NOT NULL DEFAULT '' COMMENT 'Table Name',
     column_name      varchar(64)      NOT NULL DEFAULT '' COMMENT 'Column Name',
     aggregate_func   int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Aggregate Func 1|COUNT 2|SUM 3|MAX 4|MIN 5|AVG',
-    order_enum       int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Order Enum 1|ASC 2|DESC',
+    order_type       int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Order Type 1|ASC 2|DESC',
     show_priority    int(10) unsigned NOT NULL DEFAULT '10000' COMMENT 'Show Priority used for ORDER BY',
     update_version   int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Last Update Version used for Optimistic Lock',
     create_date      datetime         NULL     DEFAULT NULL COMMENT 'Create Date',

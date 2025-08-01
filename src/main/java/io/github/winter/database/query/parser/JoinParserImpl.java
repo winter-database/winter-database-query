@@ -14,7 +14,7 @@ public class JoinParserImpl implements JoinParser {
             case JoinEnum.INNER -> "INNER JOIN " + joinTable;
             case JoinEnum.LEFT -> "LEFT JOIN " + joinTable;
             case JoinEnum.RIGHT -> "RIGHT JOIN " + joinTable;
-            default -> "JOIN " + joinTable;
+            default -> throw new RuntimeException("unsupported join");
         };
     }
 
