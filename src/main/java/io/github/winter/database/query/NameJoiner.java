@@ -28,7 +28,7 @@ public final class NameJoiner {
         if (tableName == null || tableName.isEmpty()) {
             return columnName;
         } else {
-            return tableName + "." + columnName;
+            return tableName + '.' + columnName;
         }
     }
 

@@ -168,7 +168,6 @@ CREATE TABLE query_filter_wildcard
     filter_id        int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Filter Id',
     is_not           int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'NOT LIKE ? 1|YES 0|NO',
     wildcard_code    int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Wildcard Code 1|CONTAINS 2|STARTS 3|ENDS',
-    value_id         int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Sub Query Id',
     value_name       varchar(64)      NOT NULL DEFAULT '' COMMENT 'Value Name used for REFERENCE PARAMETER',
     value_string     varchar(255)     NULL     DEFAULT NULL COMMENT 'Value String',
     update_version   int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Last Update Version used for Optimistic Lock',

@@ -27,7 +27,6 @@ CREATE TABLE query_join_on
     id               int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Join On Id',
     query_id         int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Query Id',
     join_id          int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Join Id',
-    logical_operator int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Logical Operator 1|AND 2|OR',
     left_table       varchar(64)      NOT NULL DEFAULT '' COMMENT 'Left Table Name',
     left_column      varchar(64)      NOT NULL DEFAULT '' COMMENT 'Left Column Name',
     right_table      varchar(64)      NOT NULL DEFAULT '' COMMENT 'Right Table Name',
