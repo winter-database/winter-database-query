@@ -34,7 +34,7 @@ public final class Query implements Serializable {
     private int fromId;
 
     /**
-     * Page Type OFFSET ID_RANGE
+     * Page Type
      */
     private int pageType;
 

@@ -29,7 +29,7 @@ public final class QueryJoin implements Serializable {
     private int joinId;
 
     /**
-     * Join Type INNER OUTER LEFT RIGHT FULL CROSS SELF NATURAL STRAIGHT
+     * Join Type
      */
     private int joinType;
 

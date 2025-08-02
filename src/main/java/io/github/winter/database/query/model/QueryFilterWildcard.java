@@ -29,7 +29,7 @@ public final class QueryFilterWildcard implements Serializable {
     private Boolean not;
 
     /**
-     * Wildcard Code CONTAINS STARTS ENDS
+     * Wildcard Code
      */
     private int wildcardCode;
 

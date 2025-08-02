@@ -29,7 +29,7 @@ public final class QueryOrder implements Serializable {
     private String columnName;
 
     /**
-     * Aggregate Func COUNT SUM MAX MIN AVG
+     * Aggregate Func
      */
     private int aggregateFunc;
 

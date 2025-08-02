@@ -44,12 +44,12 @@ public final class QueryFilter implements Serializable {
     private String columnName;
 
     /**
-     * Aggregate Func COUNT SUM MAX MIN AVG
+     * Aggregate Func
      */
     private int aggregateFunc;
 
     /**
-     * Filter Type EXPRESSION IN NULL RANGE WILDCARD
+     * Filter Type
      */
     private int filterType;
 

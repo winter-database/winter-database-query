@@ -26,7 +26,7 @@ public final class QueryFilterExpression implements Serializable {
     private int filterId;
 
     /**
-     * Expression Code EQ NE GT LT GE LE
+     * Expression Code
      */
     private int expressionCode;
 
