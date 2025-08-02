@@ -38,7 +38,7 @@ public final class QueryFilterRange implements Serializable {
     /**
      * From Sub Query Id
      */
-    private Integer fromValueId;
+    private int fromValueId;
 
     /**
      * From Value Name used for REFERENCE PARAMETER
@@ -73,7 +73,7 @@ public final class QueryFilterRange implements Serializable {
     /**
      * To Sub Query Id
      */
-    private Integer toValueId;
+    private int toValueId;
 
     /**
      * To Value Name used for REFERENCE PARAMETER
