@@ -20,12 +20,17 @@ public final class QueryJoin implements Serializable {
     private Query subQuery;
 
     /**
-     * 连表类型
+     * 子查询别名
+     */
+    private String subQueryName;
+
+    /**
+     * 连表方式
      */
     private int joinType;
 
     /**
-     * 条件列表
+     * 连表条件
      */
     private List<On> joinOns;
 

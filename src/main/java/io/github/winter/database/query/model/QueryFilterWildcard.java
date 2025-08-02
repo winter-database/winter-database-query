@@ -19,11 +19,6 @@ public final class QueryFilterWildcard extends QueryFilter {
     private int wildcardCode;
 
     /**
-     * 子查询
-     */
-    private Query subQuery;
-
-    /**
      * 参数
      */
     private Parameter parameter;

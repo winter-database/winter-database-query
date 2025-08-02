@@ -10,9 +10,9 @@ import java.util.List;
  */
 public class QueryFilter implements Serializable {
     /**
-     * 子条件列表
+     * 条件列表
      */
-    private List<QueryFilter> subFilters;
+    private List<QueryFilter> filters;
 
     /**
      * 逻辑或？

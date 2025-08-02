@@ -1,7 +1,7 @@
 package io.github.winter.database.query;
 
 /**
- * 连表类型
+ * 连表方式
  *
  * @author changebooks@qq.com
  */
