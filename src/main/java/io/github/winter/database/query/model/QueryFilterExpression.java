@@ -1,7 +1,5 @@
 package io.github.winter.database.query.model;
 
-import io.github.winter.boot.filter.Parameter;
-
 /**
  * 表达式
  *
@@ -14,13 +12,8 @@ public final class QueryFilterExpression extends QueryFilter {
     private int code;
 
     /**
-     * 子查询
-     */
-    private Query subQuery;
-
-    /**
      * 参数
      */
-    private Parameter parameter;
+    private QueryParameter parameter;
 
 }
