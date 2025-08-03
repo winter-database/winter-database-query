@@ -5,7 +5,7 @@ CREATE TABLE query_order
     query_id         int(10) unsigned NOT NULL DEFAULT '0' COMMENT '查询主键',
     table_name       varchar(64)      NOT NULL DEFAULT '' COMMENT '表名',
     column_name      varchar(64)      NOT NULL DEFAULT '' COMMENT '字段名',
-    aggregate_func   int(10) unsigned NOT NULL DEFAULT '0' COMMENT '聚合函数',
+    func_type        int(10) unsigned NOT NULL DEFAULT '0' COMMENT '函数类型',
     order_type       int(10) unsigned NOT NULL DEFAULT '0' COMMENT '排序方式',
     show_priority    int(10) unsigned NOT NULL DEFAULT '10000' COMMENT '排序',
     update_version   int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新版本',
