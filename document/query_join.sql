@@ -3,10 +3,10 @@ CREATE TABLE query_join
 (
     id                  int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
     query_id            int(10) unsigned NOT NULL DEFAULT '0' COMMENT '查询主键',
-    join_type           int(10) unsigned NOT NULL DEFAULT '0' COMMENT '连表方式',
     join_table          varchar(64)      NOT NULL DEFAULT '' COMMENT '表名',
     join_sub_query_id   int(10) unsigned NOT NULL DEFAULT '0' COMMENT '子查询',
     join_sub_query_name varchar(64)      NOT NULL DEFAULT '' COMMENT '子查询别名',
+    join_type           int(10) unsigned NOT NULL DEFAULT '0' COMMENT '连表方式',
     show_priority       int(10) unsigned NOT NULL DEFAULT '10000' COMMENT '排序',
     update_version      int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新版本',
     create_date         datetime         NULL     DEFAULT NULL COMMENT '创建时间',
