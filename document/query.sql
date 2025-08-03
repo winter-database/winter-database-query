@@ -2,7 +2,6 @@ DROP TABLE IF EXISTS query;
 CREATE TABLE query
 (
     id                  int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-    query_id            int(10) unsigned NOT NULL DEFAULT '0' COMMENT '查询主键',
     query_name          varchar(255)     NOT NULL DEFAULT '' COMMENT '名称',
     is_distinct         int(10) unsigned NOT NULL DEFAULT '0' COMMENT '去重？',
     from_table          varchar(64)      NOT NULL DEFAULT '' COMMENT '表名',
