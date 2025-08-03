@@ -12,8 +12,8 @@ public interface PageType {
     int OFFSET = 1;
 
     /**
-     * FROM id LIMIT limit
+     * id SCROLL LIMIT limit
      */
-    int ID_RANGE = 2;
+    int ID_SCROLL = 2;
 
 }
