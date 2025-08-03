@@ -16,4 +16,18 @@ public interface OrderType {
      */
     int DESC = 2;
 
+    /**
+     * 降序？
+     *
+     * @param type 排序方式
+     * @return True|DESC, False|ASC, Null|UNDEFINED
+     */
+    default Boolean isDesc(int type) {
+        return switch (type) {
+            case ASC -> false;
+            case DESC -> true;
+            default -> null;
+        };
+    }
+
 }

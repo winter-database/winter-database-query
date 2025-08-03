@@ -16,4 +16,18 @@ public interface LogicalOperator {
      */
     int OR = 2;
 
+    /**
+     * 逻辑或？
+     *
+     * @param op 逻辑与或
+     * @return True|OR, False|AND, Null|UNDEFINED
+     */
+    default Boolean isOr(int op) {
+        return switch (op) {
+            case AND -> false;
+            case OR -> true;
+            default -> null;
+        };
+    }
+
 }
