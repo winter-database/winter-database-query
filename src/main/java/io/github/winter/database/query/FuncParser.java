@@ -1,18 +1,18 @@
 package io.github.winter.database.query;
 
 /**
- * 解析聚合函数
+ * 解析函数
  *
  * @author changebooks@qq.com
  */
-public interface AggregateFuncParser {
+public interface FuncParser {
     /**
      * 解析
      *
-     * @param aggregateFunc 聚合函数
-     * @param name          名称
+     * @param func 函数
+     * @param name 名称
      * @return COUNT(1), SUM(name), MAX(name), MIN(name), AVG(name)
      */
-    String parse(int aggregateFunc, String name);
+    String parse(int func, String name);
 
 }

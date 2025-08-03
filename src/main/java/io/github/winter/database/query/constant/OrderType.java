@@ -1,4 +1,4 @@
-package io.github.winter.database.query;
+package io.github.winter.database.query.constant;
 
 /**
  * 排序方式

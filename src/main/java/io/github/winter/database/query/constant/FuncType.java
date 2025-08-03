@@ -1,11 +1,11 @@
-package io.github.winter.database.query;
+package io.github.winter.database.query.constant;
 
 /**
- * 聚合函数
+ * 函数类型
  *
  * @author changebooks@qq.com
  */
-public interface AggregateFunc {
+public interface FuncType {
     /**
      * 总行数
      */
