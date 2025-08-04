@@ -61,6 +61,7 @@ CREATE TABLE query_filter_in
     filter_id              int(10) unsigned NOT NULL DEFAULT '0' COMMENT '条件主键',
     is_not                 int(10) unsigned NOT NULL DEFAULT '0' COMMENT '取反？',
     parameter_sub_query_id int(10) unsigned NOT NULL DEFAULT '0' COMMENT '子查询',
+    parameters_name        varchar(64)      NOT NULL DEFAULT '' COMMENT '参数列表名',
     update_version         int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新版本',
     create_date            datetime         NULL     DEFAULT NULL COMMENT '创建时间',
     last_update            datetime         NULL     DEFAULT NULL COMMENT '更新时间',

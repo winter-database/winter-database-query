@@ -21,6 +21,11 @@ public final class QueryFilterIn extends QueryFilter {
     private Query subQuery;
 
     /**
+     * 参数列表名
+     */
+    private String parametersName;
+
+    /**
      * 参数列表
      */
     private List<Parameter> parameters;
@@ -39,6 +44,14 @@ public final class QueryFilterIn extends QueryFilter {
 
     public void setSubQuery(Query subQuery) {
         this.subQuery = subQuery;
+    }
+
+    public String getParametersName() {
+        return parametersName;
+    }
+
+    public void setParametersName(String parametersName) {
+        this.parametersName = parametersName;
     }
 
     public List<Parameter> getParameters() {
