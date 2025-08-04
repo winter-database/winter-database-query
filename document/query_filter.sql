@@ -61,7 +61,7 @@ CREATE TABLE query_filter_in
     filter_id              int(10) unsigned NOT NULL DEFAULT '0' COMMENT '条件主键',
     is_not                 int(10) unsigned NOT NULL DEFAULT '0' COMMENT '取反？',
     parameter_sub_query_id int(10) unsigned NOT NULL DEFAULT '0' COMMENT '子查询',
-    parameters_name        varchar(64)      NOT NULL DEFAULT '' COMMENT '参数列表名',
+    parameter_name         varchar(64)      NOT NULL DEFAULT '' COMMENT '参数名',
     update_version         int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新版本',
     create_date            datetime         NULL     DEFAULT NULL COMMENT '创建时间',
     last_update            datetime         NULL     DEFAULT NULL COMMENT '更新时间',
@@ -76,14 +76,13 @@ CREATE TABLE query_filter_in
   AUTO_INCREMENT = 10000
   CHARACTER SET = utf8mb4 COMMENT = '在列表中';
 
-DROP TABLE IF EXISTS query_filter_in_parameter;
-CREATE TABLE query_filter_in_parameter
+DROP TABLE IF EXISTS query_filter_in_value;
+CREATE TABLE query_filter_in_value
 (
     id                int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
     query_id          int(10) unsigned NOT NULL DEFAULT '0' COMMENT '查询主键',
     filter_id         int(10) unsigned NOT NULL DEFAULT '0' COMMENT '条件主键',
     filter_in_id      int(10) unsigned NOT NULL DEFAULT '0' COMMENT '在列表中主键',
-    parameter_name    varchar(64)      NOT NULL DEFAULT '' COMMENT '参数名',
     value_string      varchar(255)     NULL     DEFAULT NULL COMMENT '字符串',
     value_integer     int(10)          NULL     DEFAULT NULL COMMENT '整数',
     value_long        bigint(20)       NULL     DEFAULT NULL COMMENT '长整数',
