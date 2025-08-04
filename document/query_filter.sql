@@ -82,7 +82,7 @@ CREATE TABLE query_filter_in_value
     id                int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
     query_id          int(10) unsigned NOT NULL DEFAULT '0' COMMENT '查询主键',
     filter_id         int(10) unsigned NOT NULL DEFAULT '0' COMMENT '条件主键',
-    filter_in_id      int(10) unsigned NOT NULL DEFAULT '0' COMMENT '在列表中主键',
+    filter_in_id      int(10) unsigned NOT NULL DEFAULT '0' COMMENT '列表主键',
     value_string      varchar(255)     NULL     DEFAULT NULL COMMENT '字符串',
     value_integer     int(10)          NULL     DEFAULT NULL COMMENT '整数',
     value_long        bigint(20)       NULL     DEFAULT NULL COMMENT '长整数',
@@ -101,7 +101,7 @@ CREATE TABLE query_filter_in_value
     PRIMARY KEY (id)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 10000
-  CHARACTER SET = utf8mb4 COMMENT = '在列表中参数';
+  CHARACTER SET = utf8mb4 COMMENT = '列表值';
 
 DROP TABLE IF EXISTS query_filter_null;
 CREATE TABLE query_filter_null

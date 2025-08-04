@@ -1,6 +1,6 @@
 package io.github.winter.database.query.model;
 
-import io.github.winter.boot.filter.Parameter;
+import io.github.winter.boot.tuple.Value;
 
 import java.util.List;
 
@@ -21,14 +21,14 @@ public final class QueryFilterIn extends QueryFilter {
     private Query subQuery;
 
     /**
-     * 参数列表名
+     * 参数名
      */
-    private String parametersName;
+    private String parameterName;
 
     /**
-     * 参数列表
+     * 值列表
      */
-    private List<Parameter> parameters;
+    private List<Value> values;
 
     public Boolean getNot() {
         return not;
@@ -46,20 +46,20 @@ public final class QueryFilterIn extends QueryFilter {
         this.subQuery = subQuery;
     }
 
-    public String getParametersName() {
-        return parametersName;
+    public String getParameterName() {
+        return parameterName;
     }
 
-    public void setParametersName(String parametersName) {
-        this.parametersName = parametersName;
+    public void setParameterName(String parameterName) {
+        this.parameterName = parameterName;
     }
 
-    public List<Parameter> getParameters() {
-        return parameters;
+    public List<Value> getValues() {
+        return values;
     }
 
-    public void setParameters(List<Parameter> parameters) {
-        this.parameters = parameters;
+    public void setValues(List<Value> values) {
+        this.values = values;
     }
 
 }
