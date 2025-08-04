@@ -55,9 +55,9 @@ public final class Query implements Serializable {
     private List<QueryFilter> filters;
 
     /**
-     * 分组列表
+     * 分组
      */
-    private List<QueryGroup> groups;
+    private QueryGroup group;
 
     /**
      * 排序列表
@@ -161,12 +161,12 @@ public final class Query implements Serializable {
         this.filters = filters;
     }
 
-    public List<QueryGroup> getGroups() {
-        return groups;
+    public QueryGroup getGroup() {
+        return group;
     }
 
-    public void setGroups(List<QueryGroup> groups) {
-        this.groups = groups;
+    public void setGroup(QueryGroup group) {
+        this.group = group;
     }
 
     public List<QueryOrder> getOrders() {

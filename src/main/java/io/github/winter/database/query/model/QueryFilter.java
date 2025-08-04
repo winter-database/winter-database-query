@@ -10,9 +10,9 @@ import java.util.List;
  */
 public class QueryFilter implements Serializable {
     /**
-     * 子条件列表
+     * 逻辑或？
      */
-    private List<QueryFilter> filters;
+    private Boolean or;
 
     /**
      * 字段
@@ -20,16 +20,16 @@ public class QueryFilter implements Serializable {
     private QueryColumn column;
 
     /**
-     * 逻辑或？
+     * 子条件列表
      */
-    private Boolean or;
+    private List<QueryFilter> filters;
 
-    public List<QueryFilter> getFilters() {
-        return filters;
+    public Boolean getOr() {
+        return or;
     }
 
-    public void setFilters(List<QueryFilter> filters) {
-        this.filters = filters;
+    public void setOr(Boolean or) {
+        this.or = or;
     }
 
     public QueryColumn getColumn() {
@@ -40,12 +40,12 @@ public class QueryFilter implements Serializable {
         this.column = column;
     }
 
-    public Boolean getOr() {
-        return or;
+    public List<QueryFilter> getFilters() {
+        return filters;
     }
 
-    public void setOr(Boolean or) {
-        this.or = or;
+    public void setFilters(List<QueryFilter> filters) {
+        this.filters = filters;
     }
 
 }
