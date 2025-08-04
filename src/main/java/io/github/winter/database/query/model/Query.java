@@ -89,4 +89,132 @@ public final class Query implements Serializable {
      */
     private int showPriority;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isDistinct() {
+        return distinct;
+    }
+
+    public void setDistinct(boolean distinct) {
+        this.distinct = distinct;
+    }
+
+    public List<QueryColumn> getColumns() {
+        return columns;
+    }
+
+    public void setColumns(List<QueryColumn> columns) {
+        this.columns = columns;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    public Query getSubQuery() {
+        return subQuery;
+    }
+
+    public void setSubQuery(Query subQuery) {
+        this.subQuery = subQuery;
+    }
+
+    public String getSubQueryName() {
+        return subQueryName;
+    }
+
+    public void setSubQueryName(String subQueryName) {
+        this.subQueryName = subQueryName;
+    }
+
+    public List<QueryJoin> getJoins() {
+        return joins;
+    }
+
+    public void setJoins(List<QueryJoin> joins) {
+        this.joins = joins;
+    }
+
+    public List<QueryFilter> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(List<QueryFilter> filters) {
+        this.filters = filters;
+    }
+
+    public List<QueryGroup> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<QueryGroup> groups) {
+        this.groups = groups;
+    }
+
+    public List<QueryOrder> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<QueryOrder> orders) {
+        this.orders = orders;
+    }
+
+    public int getPageType() {
+        return pageType;
+    }
+
+    public void setPageType(int pageType) {
+        this.pageType = pageType;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public int getShowPriority() {
+        return showPriority;
+    }
+
+    public void setShowPriority(int showPriority) {
+        this.showPriority = showPriority;
+    }
+
 }

@@ -24,4 +24,28 @@ public class QueryFilter implements Serializable {
      */
     private Boolean or;
 
+    public List<QueryFilter> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(List<QueryFilter> filters) {
+        this.filters = filters;
+    }
+
+    public QueryColumn getColumn() {
+        return column;
+    }
+
+    public void setColumn(QueryColumn column) {
+        this.column = column;
+    }
+
+    public Boolean getOr() {
+        return or;
+    }
+
+    public void setOr(Boolean or) {
+        this.or = or;
+    }
+
 }

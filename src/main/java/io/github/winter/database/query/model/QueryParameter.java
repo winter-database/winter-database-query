@@ -20,4 +20,20 @@ public final class QueryParameter implements Serializable {
      */
     private Parameter parameter;
 
+    public Query getSubQuery() {
+        return subQuery;
+    }
+
+    public void setSubQuery(Query subQuery) {
+        this.subQuery = subQuery;
+    }
+
+    public Parameter getParameter() {
+        return parameter;
+    }
+
+    public void setParameter(Parameter parameter) {
+        this.parameter = parameter;
+    }
+
 }

@@ -21,4 +21,28 @@ public final class QueryFilterWildcard extends QueryFilter {
      */
     private QueryParameter parameter;
 
+    public Boolean getNot() {
+        return not;
+    }
+
+    public void setNot(Boolean not) {
+        this.not = not;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public QueryParameter getParameter() {
+        return parameter;
+    }
+
+    public void setParameter(QueryParameter parameter) {
+        this.parameter = parameter;
+    }
+
 }

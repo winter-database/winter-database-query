@@ -26,4 +26,36 @@ public final class QueryFilterRange extends QueryFilter {
      */
     private Boolean includeUpper;
 
+    public QueryParameter getFrom() {
+        return from;
+    }
+
+    public void setFrom(QueryParameter from) {
+        this.from = from;
+    }
+
+    public QueryParameter getTo() {
+        return to;
+    }
+
+    public void setTo(QueryParameter to) {
+        this.to = to;
+    }
+
+    public Boolean getIncludeLower() {
+        return includeLower;
+    }
+
+    public void setIncludeLower(Boolean includeLower) {
+        this.includeLower = includeLower;
+    }
+
+    public Boolean getIncludeUpper() {
+        return includeUpper;
+    }
+
+    public void setIncludeUpper(Boolean includeUpper) {
+        this.includeUpper = includeUpper;
+    }
+
 }

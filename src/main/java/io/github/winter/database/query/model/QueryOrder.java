@@ -18,4 +18,20 @@ public final class QueryOrder implements Serializable {
      */
     private Boolean desc;
 
+    public QueryColumn getColumn() {
+        return column;
+    }
+
+    public void setColumn(QueryColumn column) {
+        this.column = column;
+    }
+
+    public Boolean getDesc() {
+        return desc;
+    }
+
+    public void setDesc(Boolean desc) {
+        this.desc = desc;
+    }
+
 }

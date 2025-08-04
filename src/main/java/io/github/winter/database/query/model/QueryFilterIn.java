@@ -25,4 +25,28 @@ public final class QueryFilterIn extends QueryFilter {
      */
     private List<Parameter> parameters;
 
+    public Boolean getNot() {
+        return not;
+    }
+
+    public void setNot(Boolean not) {
+        this.not = not;
+    }
+
+    public Query getSubQuery() {
+        return subQuery;
+    }
+
+    public void setSubQuery(Query subQuery) {
+        this.subQuery = subQuery;
+    }
+
+    public List<Parameter> getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(List<Parameter> parameters) {
+        this.parameters = parameters;
+    }
+
 }

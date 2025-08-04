@@ -11,4 +11,12 @@ public final class QueryFilterNull extends QueryFilter {
      */
     private Boolean not;
 
+    public Boolean getNot() {
+        return not;
+    }
+
+    public void setNot(Boolean not) {
+        this.not = not;
+    }
+
 }

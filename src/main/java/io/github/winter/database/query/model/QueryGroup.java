@@ -19,4 +19,20 @@ public final class QueryGroup implements Serializable {
      */
     private List<QueryFilter> filters;
 
+    public List<QueryColumn> getColumns() {
+        return columns;
+    }
+
+    public void setColumns(List<QueryColumn> columns) {
+        this.columns = columns;
+    }
+
+    public List<QueryFilter> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(List<QueryFilter> filters) {
+        this.filters = filters;
+    }
+
 }
