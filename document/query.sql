@@ -2,8 +2,9 @@ DROP TABLE IF EXISTS query;
 CREATE TABLE query
 (
     id                  int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-    query_name          varchar(255)     NOT NULL DEFAULT '' COMMENT '名称',
+    query_name          varchar(64)      NOT NULL DEFAULT '' COMMENT '名称',
     is_distinct         int(10) unsigned NOT NULL DEFAULT '0' COMMENT '去重？',
+    is_wild             int(10) unsigned NOT NULL DEFAULT '0' COMMENT '全字段？',
     from_table          varchar(64)      NOT NULL DEFAULT '' COMMENT '表名',
     from_sub_query_id   int(10) unsigned NOT NULL DEFAULT '0' COMMENT '子查询主键',
     from_sub_query_name varchar(64)      NOT NULL DEFAULT '' COMMENT '子查询名',
