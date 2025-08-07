@@ -32,6 +32,6 @@ public class QueryJoin implements Serializable {
     /**
      * 条件列表
      */
-    private List<String> filters;
+    private List<QueryJoinOn> filters;
 
 }
