@@ -1,6 +1,7 @@
 package io.github.winter.database.query;
 
 import io.github.winter.boot.filter.RangeFilter;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * 范围
@@ -27,5 +28,39 @@ public class QueryRangeFilter extends RangeFilter {
      * 结束子查询名
      */
     private String toSubQueryName;
+
+    public Query getFromSubQuery() {
+        return fromSubQuery;
+    }
+
+    public void setFromSubQuery(Query fromSubQuery) {
+        this.fromSubQuery = fromSubQuery;
+    }
+
+    @NotNull
+    public String getFromSubQueryName() {
+        return fromSubQueryName != null ? fromSubQueryName : "";
+    }
+
+    public void setFromSubQueryName(String fromSubQueryName) {
+        this.fromSubQueryName = fromSubQueryName != null ? fromSubQueryName.trim() : "";
+    }
+
+    public Query getToSubQuery() {
+        return toSubQuery;
+    }
+
+    public void setToSubQuery(Query toSubQuery) {
+        this.toSubQuery = toSubQuery;
+    }
+
+    @NotNull
+    public String getToSubQueryName() {
+        return toSubQueryName != null ? toSubQueryName : "";
+    }
+
+    public void setToSubQueryName(String toSubQueryName) {
+        this.toSubQueryName = toSubQueryName != null ? toSubQueryName.trim() : "";
+    }
 
 }
