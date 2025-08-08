@@ -1,7 +1,6 @@
 package io.github.winter.database.query;
 
 import io.github.winter.boot.filter.InFilter;
-import jakarta.validation.constraints.NotNull;
 
 /**
  * 在列表中？
@@ -24,9 +23,8 @@ public class QueryInFilter extends InFilter {
      */
     private String subQueryName;
 
-    @NotNull
     public String getParameterName() {
-        return parameterName != null ? parameterName : "";
+        return parameterName;
     }
 
     public void setParameterName(String parameterName) {
@@ -41,9 +39,8 @@ public class QueryInFilter extends InFilter {
         this.subQuery = subQuery;
     }
 
-    @NotNull
     public String getSubQueryName() {
-        return subQueryName != null ? subQueryName : "";
+        return subQueryName;
     }
 
     public void setSubQueryName(String subQueryName) {

@@ -2,10 +2,10 @@ package io.github.winter.database.query;
 
 import io.github.winter.boot.filter.BaseFilter;
 import io.github.winter.boot.filter.Order;
-import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 查询
@@ -106,9 +106,8 @@ public class Query implements Serializable {
         this.id = id;
     }
 
-    @NotNull
     public String getName() {
-        return name != null ? name : "";
+        return name;
     }
 
     public void setName(String name) {
@@ -138,9 +137,8 @@ public class Query implements Serializable {
                 .toList();
     }
 
-    @NotNull
     public String getTableName() {
-        return tableName != null ? tableName : "";
+        return tableName;
     }
 
     public void setTableName(String tableName) {
@@ -155,18 +153,16 @@ public class Query implements Serializable {
         this.subQuery = subQuery;
     }
 
-    @NotNull
     public String getSubQueryName() {
-        return subQueryName != null ? subQueryName : "";
+        return subQueryName;
     }
 
     public void setSubQueryName(String subQueryName) {
         this.subQueryName = subQueryName != null ? subQueryName.trim() : "";
     }
 
-    @NotNull
     public List<Join> getJoins() {
-        return joins != null ? joins : new ArrayList<>();
+        return joins;
     }
 
     public void setJoins(List<Join> joins) {
@@ -177,9 +173,8 @@ public class Query implements Serializable {
                 .toList();
     }
 
-    @NotNull
     public List<BaseFilter> getFilters() {
-        return filters != null ? filters : new ArrayList<>();
+        return filters;
     }
 
     public void setFilters(List<BaseFilter> filters) {
@@ -198,9 +193,8 @@ public class Query implements Serializable {
         this.group = group;
     }
 
-    @NotNull
     public List<Order> getOrders() {
-        return orders != null ? orders : new ArrayList<>();
+        return orders;
     }
 
     public void setOrders(List<Order> orders) {
@@ -227,18 +221,16 @@ public class Query implements Serializable {
         this.pageSize = pageSize;
     }
 
-    @NotNull
     public String getDescription() {
-        return description != null ? description : "";
+        return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    @NotNull
     public String getRemark() {
-        return remark != null ? remark : "";
+        return remark;
     }
 
     public void setRemark(String remark) {
@@ -253,42 +245,18 @@ public class Query implements Serializable {
         this.priority = priority;
     }
 
-    @NotNull
     public Map<String, Class<?>> getValueTypes() {
-        return valueTypes != null ? valueTypes : new HashMap<>();
+        return valueTypes;
     }
 
     public void setValueTypes(Map<String, Class<?>> valueTypes) {
-        if (valueTypes == null) {
-            return;
-        }
-
-        for (Map.Entry<String, Class<?>> entry : valueTypes.entrySet()) {
-            String name = entry.getKey();
-            Class<?> valueType = entry.getValue();
-            setValueType(name, valueType);
-        }
-    }
-
-    public void setValueType(String name, Class<?> valueType) {
-        if (name == null) {
-            return;
-        }
-
-        String trimmedName = name.trim();
-        if (trimmedName.isEmpty()) {
-            return;
-        }
-
-        if (valueTypes == null) {
-            valueTypes = new HashMap<>();
-        }
-
-        if (valueType != null) {
-            valueTypes.put(trimmedName, valueType);
-        } else {
-            valueTypes.remove(trimmedName);
-        }
+        this.valueTypes = Optional.ofNullable(valueTypes)
+                .orElse(Collections.emptyMap())
+                .entrySet()
+                .stream()
+                .filter(x -> x.getKey() != null)
+                .filter(x -> x.getValue() != null)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
 }

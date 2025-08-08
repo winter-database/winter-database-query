@@ -1,10 +1,12 @@
 package io.github.winter.database.query;
 
 import io.github.winter.boot.filter.BaseFilter;
-import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * 分组
@@ -22,9 +24,8 @@ public class Group implements Serializable {
      */
     private List<BaseFilter> filters;
 
-    @NotNull
     public List<String> getNames() {
-        return names != null ? names : new ArrayList<>();
+        return names;
     }
 
     public void setNames(List<String> names) {
@@ -43,7 +44,11 @@ public class Group implements Serializable {
     }
 
     public void setFilters(List<BaseFilter> filters) {
-        this.filters = filters;
+        this.filters = Optional.ofNullable(filters)
+                .orElse(Collections.emptyList())
+                .stream()
+                .filter(Objects::nonNull)
+                .toList();
     }
 
 }

@@ -1,9 +1,10 @@
 package io.github.winter.database.query;
 
-import jakarta.validation.constraints.NotNull;
-
 import java.io.Serializable;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * 连表
@@ -36,9 +37,8 @@ public class Join implements Serializable {
      */
     private List<On> filters;
 
-    @NotNull
     public String getTableName() {
-        return tableName != null ? tableName : "";
+        return tableName;
     }
 
     public void setTableName(String tableName) {
@@ -53,9 +53,8 @@ public class Join implements Serializable {
         this.subQuery = subQuery;
     }
 
-    @NotNull
     public String getSubQueryName() {
-        return subQueryName != null ? subQueryName : "";
+        return subQueryName;
     }
 
     public void setSubQueryName(String subQueryName) {
@@ -70,9 +69,8 @@ public class Join implements Serializable {
         this.type = type;
     }
 
-    @NotNull
     public List<On> getFilters() {
-        return filters != null ? filters : new ArrayList<>();
+        return filters;
     }
 
     public void setFilters(List<On> filters) {
@@ -99,18 +97,16 @@ public class Join implements Serializable {
          */
         private String rightName;
 
-        @NotNull
         public String getLeftName() {
-            return leftName != null ? leftName : "";
+            return leftName;
         }
 
         public void setLeftName(String leftName) {
             this.leftName = leftName != null ? leftName.trim() : "";
         }
 
-        @NotNull
         public String getRightName() {
-            return rightName != null ? rightName : "";
+            return rightName;
         }
 
         public void setRightName(String rightName) {

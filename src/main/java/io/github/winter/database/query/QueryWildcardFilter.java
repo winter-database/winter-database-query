@@ -1,7 +1,6 @@
 package io.github.winter.database.query;
 
 import io.github.winter.boot.filter.WildcardFilter;
-import jakarta.validation.constraints.NotNull;
 
 /**
  * 模糊匹配
@@ -27,9 +26,8 @@ public class QueryWildcardFilter extends WildcardFilter {
         this.subQuery = subQuery;
     }
 
-    @NotNull
     public String getSubQueryName() {
-        return subQueryName != null ? subQueryName : "";
+        return subQueryName;
     }
 
     public void setSubQueryName(String subQueryName) {

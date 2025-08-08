@@ -37,9 +37,8 @@ public class QueryRangeFilter extends RangeFilter {
         this.fromSubQuery = fromSubQuery;
     }
 
-    @NotNull
     public String getFromSubQueryName() {
-        return fromSubQueryName != null ? fromSubQueryName : "";
+        return fromSubQueryName;
     }
 
     public void setFromSubQueryName(String fromSubQueryName) {
@@ -54,9 +53,8 @@ public class QueryRangeFilter extends RangeFilter {
         this.toSubQuery = toSubQuery;
     }
 
-    @NotNull
     public String getToSubQueryName() {
-        return toSubQueryName != null ? toSubQueryName : "";
+        return toSubQueryName;
     }
 
     public void setToSubQueryName(String toSubQueryName) {
