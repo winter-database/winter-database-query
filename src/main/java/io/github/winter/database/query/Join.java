@@ -3,7 +3,7 @@ package io.github.winter.database.query;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.*;
 
 /**
  * 连表
@@ -34,7 +34,7 @@ public class Join implements Serializable {
     /**
      * 条件列表
      */
-    private List<JoinOn> filters;
+    private List<On> filters;
 
     @NotNull
     public String getTableName() {
@@ -70,12 +70,53 @@ public class Join implements Serializable {
         this.type = type;
     }
 
-    public List<JoinOn> getFilters() {
-        return filters;
+    @NotNull
+    public List<On> getFilters() {
+        return filters != null ? filters : new ArrayList<>();
     }
 
-    public void setFilters(List<JoinOn> filters) {
-        this.filters = filters;
+    public void setFilters(List<On> filters) {
+        this.filters = Optional.ofNullable(filters)
+                .orElse(Collections.emptyList())
+                .stream()
+                .filter(Objects::nonNull)
+                .toList();
+    }
+
+    /**
+     * 连表条件
+     *
+     * @author changebooks@qq.com
+     */
+    public static class On implements Serializable {
+        /**
+         * 左表名 + 左表字段名
+         */
+        private String leftName;
+
+        /**
+         * 右表名 + 右表字段名
+         */
+        private String rightName;
+
+        @NotNull
+        public String getLeftName() {
+            return leftName != null ? leftName : "";
+        }
+
+        public void setLeftName(String leftName) {
+            this.leftName = leftName != null ? leftName.trim() : "";
+        }
+
+        @NotNull
+        public String getRightName() {
+            return rightName != null ? rightName : "";
+        }
+
+        public void setRightName(String rightName) {
+            this.rightName = rightName != null ? rightName.trim() : "";
+        }
+
     }
 
 }

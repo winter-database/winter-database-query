@@ -93,6 +93,11 @@ public class Query implements Serializable {
      */
     private int priority;
 
+    /**
+     * [ 字段名 : 字段类型 ]
+     */
+    private Map<String, Class<?>> valueTypes;
+
     public int getId() {
         return id;
     }
@@ -246,6 +251,44 @@ public class Query implements Serializable {
 
     public void setPriority(int priority) {
         this.priority = priority;
+    }
+
+    @NotNull
+    public Map<String, Class<?>> getValueTypes() {
+        return valueTypes != null ? valueTypes : new HashMap<>();
+    }
+
+    public void setValueTypes(Map<String, Class<?>> valueTypes) {
+        if (valueTypes == null) {
+            return;
+        }
+
+        for (Map.Entry<String, Class<?>> entry : valueTypes.entrySet()) {
+            String name = entry.getKey();
+            Class<?> valueType = entry.getValue();
+            setValueType(name, valueType);
+        }
+    }
+
+    public void setValueType(String name, Class<?> valueType) {
+        if (name == null) {
+            return;
+        }
+
+        String trimmedName = name.trim();
+        if (trimmedName.isEmpty()) {
+            return;
+        }
+
+        if (valueTypes == null) {
+            valueTypes = new HashMap<>();
+        }
+
+        if (valueType != null) {
+            valueTypes.put(trimmedName, valueType);
+        } else {
+            valueTypes.remove(trimmedName);
+        }
     }
 
 }
