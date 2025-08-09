@@ -1,7 +1,6 @@
 package io.github.winter.database.query;
 
 import io.github.winter.boot.filter.RangeFilter;
-import jakarta.validation.constraints.NotNull;
 
 /**
  * 范围

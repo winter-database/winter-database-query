@@ -254,6 +254,7 @@ public class Query implements Serializable {
                 .orElse(Collections.emptyMap())
                 .entrySet()
                 .stream()
+                .filter(Objects::nonNull)
                 .filter(x -> x.getKey() != null)
                 .filter(x -> x.getValue() != null)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
