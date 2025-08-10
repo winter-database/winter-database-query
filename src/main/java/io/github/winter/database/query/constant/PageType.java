@@ -14,6 +14,6 @@ public interface PageType {
     /**
      * id SCROLL LIMIT limit
      */
-    int ID_SCROLL = 2;
+    int SCROLL = 2;
 
 }

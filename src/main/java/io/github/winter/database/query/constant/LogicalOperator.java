@@ -5,16 +5,16 @@ package io.github.winter.database.query.constant;
  *
  * @author changebooks@qq.com
  */
-public interface LogicalOperator {
+public final class LogicalOperator {
     /**
      * 与
      */
-    int AND = 1;
+    public static final int AND = 1;
 
     /**
      * 或
      */
-    int OR = 2;
+    public static final int OR = 2;
 
     /**
      * 逻辑或？
@@ -22,7 +22,7 @@ public interface LogicalOperator {
      * @param op 逻辑与或
      * @return True|OR, False|AND, Null|UNDEFINED
      */
-    default Boolean isOr(int op) {
+    public static Boolean isOr(int op) {
         return switch (op) {
             case AND -> false;
             case OR -> true;

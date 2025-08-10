@@ -5,16 +5,16 @@ package io.github.winter.database.query.constant;
  *
  * @author changebooks@qq.com
  */
-public interface OrderType {
+public final class OrderType {
     /**
      * 升序
      */
-    int ASC = 1;
+    public static final int ASC = 1;
 
     /**
      * 降序
      */
-    int DESC = 2;
+    public static final int DESC = 2;
 
     /**
      * 降序？
@@ -22,7 +22,7 @@ public interface OrderType {
      * @param type 排序方式
      * @return True|DESC, False|ASC, Null|UNDEFINED
      */
-    default Boolean isDesc(int type) {
+    public static Boolean isDesc(int type) {
         return switch (type) {
             case ASC -> false;
             case DESC -> true;
