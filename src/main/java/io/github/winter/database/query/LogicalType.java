@@ -1,11 +1,11 @@
-package io.github.winter.database.query.constant;
+package io.github.winter.database.query;
 
 /**
  * 逻辑与或
  *
  * @author changebooks@qq.com
  */
-public final class LogicalOperator {
+public final class LogicalType {
     /**
      * 与
      */
