@@ -1,7 +1,7 @@
 package io.github.winter.database.query.parser;
 
 import io.github.winter.database.query.FuncParser;
-import io.github.winter.database.query.constant.FuncType;
+import io.github.winter.database.query.FuncType;
 
 /**
  * @author changebooks@qq.com
