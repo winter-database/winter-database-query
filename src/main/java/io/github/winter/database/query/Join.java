@@ -20,16 +20,6 @@ public class Join implements Serializable {
     private String tableName;
 
     /**
-     * 子查询
-     */
-    private String subQuery;
-
-    /**
-     * 子查询名
-     */
-    private String subQueryName;
-
-    /**
      * 连表方式
      */
     private int type;
@@ -46,24 +36,6 @@ public class Join implements Serializable {
 
     public void setTableName(String tableName) {
         this.tableName = tableName != null ? tableName.trim() : "";
-    }
-
-    @NotNull
-    public String getSubQuery() {
-        return subQuery != null ? subQuery : "";
-    }
-
-    public void setSubQuery(String subQuery) {
-        this.subQuery = subQuery != null ? subQuery.trim() : "";
-    }
-
-    @NotNull
-    public String getSubQueryName() {
-        return subQueryName != null ? subQueryName : "";
-    }
-
-    public void setSubQueryName(String subQueryName) {
-        this.subQueryName = subQueryName != null ? subQueryName.trim() : "";
     }
 
     public int getType() {

@@ -19,11 +19,11 @@ public final class LogicalType {
     /**
      * 逻辑或？
      *
-     * @param op 逻辑与或
+     * @param type 逻辑与或
      * @return True|OR, False|AND, Null|UNDEFINED
      */
-    public static Boolean isOr(int op) {
-        return switch (op) {
+    public static Boolean isOr(int type) {
+        return switch (type) {
             case AND -> false;
             case OR -> true;
             default -> null;
