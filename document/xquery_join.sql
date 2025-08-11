@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS query_join;
-CREATE TABLE query_join
+DROP TABLE IF EXISTS xquery_join;
+CREATE TABLE xquery_join
 (
     id               int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
     query_id         int(10) unsigned NOT NULL DEFAULT '0' COMMENT '查询主键',
@@ -20,8 +20,8 @@ CREATE TABLE query_join
   AUTO_INCREMENT = 10000
   CHARACTER SET = utf8mb4 COMMENT = '连表';
 
-DROP TABLE IF EXISTS query_join_on;
-CREATE TABLE query_join_on
+DROP TABLE IF EXISTS xquery_join_on;
+CREATE TABLE xquery_join_on
 (
     id               int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
     query_id         int(10) unsigned NOT NULL DEFAULT '0' COMMENT '查询主键',

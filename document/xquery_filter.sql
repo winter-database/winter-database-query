@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS query_filter;
-CREATE TABLE query_filter
+DROP TABLE IF EXISTS xquery_filter;
+CREATE TABLE xquery_filter
 (
     id               int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
     query_id         int(10) unsigned NOT NULL DEFAULT '0' COMMENT '查询主键',
@@ -25,8 +25,8 @@ CREATE TABLE query_filter
   AUTO_INCREMENT = 10000
   CHARACTER SET = utf8mb4 COMMENT = '条件';
 
-DROP TABLE IF EXISTS query_filter_expression;
-CREATE TABLE query_filter_expression
+DROP TABLE IF EXISTS xquery_filter_expression;
+CREATE TABLE xquery_filter_expression
 (
     id                int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
     query_id          int(10) unsigned NOT NULL DEFAULT '0' COMMENT '查询主键',
@@ -51,8 +51,8 @@ CREATE TABLE query_filter_expression
   AUTO_INCREMENT = 10000
   CHARACTER SET = utf8mb4 COMMENT = '表达式';
 
-DROP TABLE IF EXISTS query_filter_in;
-CREATE TABLE query_filter_in
+DROP TABLE IF EXISTS xquery_filter_in;
+CREATE TABLE xquery_filter_in
 (
     id               int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
     query_id         int(10) unsigned NOT NULL DEFAULT '0' COMMENT '查询主键',
@@ -72,8 +72,8 @@ CREATE TABLE query_filter_in
   AUTO_INCREMENT = 10000
   CHARACTER SET = utf8mb4 COMMENT = '在列表中';
 
-DROP TABLE IF EXISTS query_filter_in_value;
-CREATE TABLE query_filter_in_value
+DROP TABLE IF EXISTS xquery_filter_in_value;
+CREATE TABLE xquery_filter_in_value
 (
     id                int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
     query_id          int(10) unsigned NOT NULL DEFAULT '0' COMMENT '查询主键',
@@ -99,8 +99,8 @@ CREATE TABLE query_filter_in_value
   AUTO_INCREMENT = 10000
   CHARACTER SET = utf8mb4 COMMENT = '列表值';
 
-DROP TABLE IF EXISTS query_filter_null;
-CREATE TABLE query_filter_null
+DROP TABLE IF EXISTS xquery_filter_null;
+CREATE TABLE xquery_filter_null
 (
     id               int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
     query_id         int(10) unsigned NOT NULL DEFAULT '0' COMMENT '查询主键',
@@ -120,8 +120,8 @@ CREATE TABLE query_filter_null
   AUTO_INCREMENT = 10000
   CHARACTER SET = utf8mb4 COMMENT = '空';
 
-DROP TABLE IF EXISTS query_filter_range;
-CREATE TABLE query_filter_range
+DROP TABLE IF EXISTS xquery_filter_range;
+CREATE TABLE xquery_filter_range
 (
     id                     int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
     query_id               int(10) unsigned NOT NULL DEFAULT '0' COMMENT '查询主键',
@@ -152,8 +152,8 @@ CREATE TABLE query_filter_range
   AUTO_INCREMENT = 10000
   CHARACTER SET = utf8mb4 COMMENT = '范围';
 
-DROP TABLE IF EXISTS query_filter_wildcard;
-CREATE TABLE query_filter_wildcard
+DROP TABLE IF EXISTS xquery_filter_wildcard;
+CREATE TABLE xquery_filter_wildcard
 (
     id                int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
     query_id          int(10) unsigned NOT NULL DEFAULT '0' COMMENT '查询主键',

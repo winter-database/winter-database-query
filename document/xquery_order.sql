@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS query_order;
-CREATE TABLE query_order
+DROP TABLE IF EXISTS xquery_order;
+CREATE TABLE xquery_order
 (
     id               int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
     query_id         int(10) unsigned NOT NULL DEFAULT '0' COMMENT '查询主键',

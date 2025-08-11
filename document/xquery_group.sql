@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS query_column;
-CREATE TABLE query_column
+DROP TABLE IF EXISTS xquery_group;
+CREATE TABLE xquery_group
 (
     id               int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
     query_id         int(10) unsigned NOT NULL DEFAULT '0' COMMENT '查询主键',
@@ -19,4 +19,4 @@ CREATE TABLE query_column
     PRIMARY KEY (id)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 10000
-  CHARACTER SET = utf8mb4 COMMENT = '字段';
+  CHARACTER SET = utf8mb4 COMMENT = '分组';

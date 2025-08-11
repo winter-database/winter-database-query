@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS query;
-CREATE TABLE query
+DROP TABLE IF EXISTS xquery;
+CREATE TABLE xquery
 (
     id                int(10) unsigned    NOT NULL AUTO_INCREMENT COMMENT '主键',
     query_name        varchar(64)         NOT NULL DEFAULT '' COMMENT '名称',
