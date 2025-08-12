@@ -1,6 +1,7 @@
 package io.github.winter.database.query.parser;
 
 import io.github.winter.boot.sql.LogicalOperator;
+import io.github.winter.boot.sql.Preconditions;
 import io.github.winter.database.query.Join;
 import io.github.winter.database.query.JoinParser;
 import io.github.winter.database.query.JoinType;
@@ -34,25 +35,17 @@ public class JoinParserImpl implements JoinParser {
         }
 
         String tableName = join.getTableName();
-        if (tableName.isEmpty()) {
-            return "";
-        }
+        Preconditions.requireNonEmpty(tableName, "tableName must not be empty");
 
         List<Join.On> filters = join.getFilters();
-        if (filters == null) {
-            return "";
-        }
+        Preconditions.requireNonNull(filters, "filters must not be null, tableName: " + tableName);
 
         int type = join.getType();
         String joinTable = parse(type, tableName);
-        if (joinTable == null || joinTable.isEmpty()) {
-            return "";
-        }
 
         String joinOn = parseFilter(filters);
-        if (joinOn == null || joinOn.isEmpty()) {
-            return "";
-        }
+        Preconditions.requireNonNull(joinOn, "joinOn must not be null, tableName: " + tableName);
+        Preconditions.requireNonEmpty(joinOn, "joinOn must not be empty, tableName: " + tableName);
 
         return joinTable + " " + joinOn;
     }
