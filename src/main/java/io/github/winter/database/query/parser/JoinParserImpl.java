@@ -5,6 +5,7 @@ import io.github.winter.boot.sql.Preconditions;
 import io.github.winter.database.query.Join;
 import io.github.winter.database.query.JoinParser;
 import io.github.winter.database.query.JoinType;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
 import java.util.Objects;
@@ -50,13 +51,14 @@ public class JoinParserImpl implements JoinParser {
         return joinTable + " " + joinOn;
     }
 
+    @NotEmpty
     @Override
-    public String parse(int type, String tableName) {
+    public String parse(int type, @NotEmpty String tableName) {
         return switch (type) {
             case JoinType.INNER -> "JOIN " + tableName;
             case JoinType.LEFT -> "LEFT JOIN " + tableName;
             case JoinType.RIGHT -> "RIGHT JOIN " + tableName;
-            default -> throw new RuntimeException("unsupported join type");
+            default -> throw new RuntimeException("unsupported join type, tableName: " + tableName);
         };
     }
 

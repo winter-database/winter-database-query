@@ -1,5 +1,7 @@
 package io.github.winter.database.query;
 
+import jakarta.validation.constraints.NotEmpty;
+
 import java.util.List;
 
 /**
@@ -31,7 +33,8 @@ public interface JoinParser {
      * @param tableName 表名
      * @return JOIN name, LEFT JOIN name, RIGHT JOIN name
      */
-    String parse(int type, String tableName);
+    @NotEmpty
+    String parse(int type, @NotEmpty String tableName);
 
     /**
      * 解析条件列表
