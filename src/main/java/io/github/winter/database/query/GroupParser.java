@@ -1,7 +1,6 @@
 package io.github.winter.database.query;
 
 import io.github.winter.boot.sql.Statement;
-import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -25,7 +24,6 @@ public interface GroupParser {
      * @param names [ name ]
      * @return GROUP BY name, name
      */
-    @NotNull
     String parse(List<String> names);
 
     /**
@@ -34,7 +32,6 @@ public interface GroupParser {
      * @param sql name, name
      * @return GROUP BY name, name
      */
-    @NotNull
     String prefixed(String sql);
 
 }

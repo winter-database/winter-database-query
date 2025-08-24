@@ -1,6 +1,7 @@
 package io.github.winter.database.query;
 
 import io.github.winter.boot.sql.Statement;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * 解析查询
@@ -11,16 +12,104 @@ public interface QueryParser {
     /**
      * 解析
      *
-     * @param group the {@link Group} instance
-     * @return GROUP BY name, name HAVING column = ? AND column = 0
-     */
-
-    /**
-     *
-     *
-     * @param query
-     * @return
+     * @param query the {@link Query} instance
+     * @return the {@link Statement} instance
      */
     Statement parse(Query query);
+
+    /**
+     * 连表
+     *
+     * @param statement the {@link Statement} instance
+     * @param query     the {@link Query} instance
+     */
+    default void joinTable(@NotNull Statement statement, @NotNull Query query) {
+        String sql = parseJoin(query);
+        statement.joinSql(sql);
+    }
+
+    /**
+     * 解析连表
+     *
+     * @param query the {@link Query} instance
+     * @return LEFT JOIN table2 ON table1.column1 = table2.column2 LEFT JOIN table3 ON table1.column2 = table3.column3
+     */
+    String parseJoin(@NotNull Query query);
+
+    /**
+     * 连接条件
+     *
+     * @param statement the {@link Statement} instance
+     * @param query     the {@link Query} instance
+     */
+    default void joinWhere(@NotNull Statement statement, @NotNull Query query) {
+        Statement parsedWhere = parseWhere(query);
+        statement.join(parsedWhere);
+    }
+
+    /**
+     * 解析条件
+     *
+     * @param query the {@link Query} instance
+     * @return the {@link Statement} instance
+     */
+    Statement parseWhere(@NotNull Query query);
+
+    /**
+     * 连接分组
+     *
+     * @param statement the {@link Statement} instance
+     * @param query     the {@link Query} instance
+     */
+    default void joinGroup(@NotNull Statement statement, @NotNull Query query) {
+        Statement parsedGroup = parseGroup(query);
+        statement.join(parsedGroup);
+    }
+
+    /**
+     * 解析分组
+     *
+     * @param query the {@link Query} instance
+     * @return the {@link Statement} instance
+     */
+    Statement parseGroup(@NotNull Query query);
+
+    /**
+     * 连接排序
+     *
+     * @param statement the {@link Statement} instance
+     * @param query     the {@link Query} instance
+     */
+    default void joinOrder(@NotNull Statement statement, @NotNull Query query) {
+        String sql = parseOrder(query);
+        statement.joinSql(sql);
+    }
+
+    /**
+     * 解析排序
+     *
+     * @param query the {@link Query} instance
+     * @return ORDER BY name, name ASC, name DESC
+     */
+    String parseOrder(@NotNull Query query);
+
+    /**
+     * 连接分页
+     *
+     * @param statement the {@link Statement} instance
+     * @param query     the {@link Query} instance
+     */
+    default void joinPage(@NotNull Statement statement, @NotNull Query query) {
+        String sql = parsePage(query);
+        statement.joinSql(sql);
+    }
+
+    /**
+     * 解析分页
+     *
+     * @param query the {@link Query} instance
+     * @return LIMIT offset, limit
+     */
+    String parsePage(@NotNull Query query);
 
 }

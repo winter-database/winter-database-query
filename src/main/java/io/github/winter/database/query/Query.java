@@ -2,6 +2,7 @@ package io.github.winter.database.query;
 
 import io.github.winter.boot.filter.BaseFilter;
 import io.github.winter.boot.filter.Order;
+import io.github.winter.boot.filter.Page;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
@@ -60,14 +61,9 @@ public final class Query implements Serializable {
     private List<Order> orders;
 
     /**
-     * 开始行数
+     * 分页
      */
-    private long pageOffset;
-
-    /**
-     * 每页行数
-     */
-    private int pageLimit;
+    private Page page;
 
     /**
      * 描述
@@ -177,20 +173,12 @@ public final class Query implements Serializable {
                 .toList();
     }
 
-    public long getPageOffset() {
-        return pageOffset;
+    public Page getPage() {
+        return page;
     }
 
-    public void setPageOffset(long pageOffset) {
-        this.pageOffset = pageOffset;
-    }
-
-    public int getPageLimit() {
-        return pageLimit;
-    }
-
-    public void setPageLimit(int pageLimit) {
-        this.pageLimit = pageLimit;
+    public void setPage(Page page) {
+        this.page = page;
     }
 
     public String getDescription() {
