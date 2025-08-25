@@ -1,5 +1,6 @@
 package io.github.winter.database.query;
 
+import io.github.winter.boot.sql.SqlParameter;
 import io.github.winter.boot.sql.Statement;
 import jakarta.validation.constraints.NotNull;
 
@@ -13,9 +14,17 @@ public interface QueryParser {
      * 解析
      *
      * @param query the {@link Query} instance
-     * @return the {@link Statement} instance
+     * @return the {@link SqlParameter} instance
      */
-    Statement parse(Query query);
+    SqlParameter parse(Query query);
+
+    /**
+     * 连接字段
+     *
+     * @param query the {@link Query} instance
+     * @return name, COUNT(1), SUM(name), MAX(name), MIN(name), AVG(name)
+     */
+    String joinColumns(@NotNull Query query);
 
     /**
      * 连表

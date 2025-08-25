@@ -1,13 +1,16 @@
 package io.github.winter.database.query.parser;
 
-import io.github.winter.boot.sql.OrderParser;
-import io.github.winter.boot.sql.PageParser;
-import io.github.winter.boot.sql.WhereParser;
-import io.github.winter.database.query.GroupParser;
-import io.github.winter.database.query.JoinParser;
-import io.github.winter.database.query.Query;
-import io.github.winter.database.query.QueryParser;
+import io.github.winter.boot.filter.BaseFilter;
+import io.github.winter.boot.filter.Order;
+import io.github.winter.boot.filter.Page;
+import io.github.winter.boot.sql.*;
+import io.github.winter.boot.sql.parser.OrderParserImpl;
+import io.github.winter.boot.sql.parser.PageParserImpl;
+import io.github.winter.boot.sql.parser.WhereParserImpl;
+import io.github.winter.database.query.*;
 import jakarta.validation.constraints.NotNull;
+
+import java.util.List;
 
 /**
  * @author changebooks@qq.com
@@ -38,12 +41,81 @@ public class QueryParserImpl implements QueryParser {
      */
     private final PageParser pageParser;
 
-    /**
-     * 连接字段
-     *
-     * @param query the {@link Query} instance
-     * @return name, COUNT(1), SUM(name), MAX(name), MIN(name), AVG(name)
-     */
-    String joinColumns(@NotNull Query query);
+    public QueryParserImpl() {
+        this.joinParser = new JoinParserImpl();
+        this.whereParser = new WhereParserImpl();
+        this.groupParser = new GroupParserImpl();
+        this.orderParser = new OrderParserImpl();
+        this.pageParser = new PageParserImpl();
+    }
+
+    @Override
+    public SqlParameter parse(Query query) {
+        if (query == null) {
+            return null;
+        }
+
+        boolean distinct = query.isDistinct();
+        String columns = joinColumns(query);
+        String table = query.getTableName();
+
+        String sql = String.format
+                (
+                        "SELECT %s%s FROM %s",
+                        distinct ? "DISTINCT " : "",
+                        columns,
+                        table
+                );
+
+        Statement statement = new Statement(sql);
+
+        joinTable(statement, query);
+        joinWhere(statement, query);
+        joinGroup(statement, query);
+        joinOrder(statement, query);
+        joinPage(statement, query);
+
+        return SqlParameterParser.parse(statement);
+    }
+
+    @Override
+    public String joinColumns(@NotNull Query query) {
+        List<String> columns = query.getColumns();
+        if (columns != null) {
+            return String.join(", ", columns);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public String parseJoin(@NotNull Query query) {
+        List<Join> joins = query.getJoins();
+        return joinParser.parse(joins);
+    }
+
+    @Override
+    public Statement parseWhere(@NotNull Query query) {
+        List<BaseFilter> filters = query.getFilters();
+        return whereParser.parse(filters);
+    }
+
+    @Override
+    public Statement parseGroup(@NotNull Query query) {
+        Group group = query.getGroup();
+        return groupParser.parse(group);
+    }
+
+    @Override
+    public String parseOrder(@NotNull Query query) {
+        List<Order> orders = query.getOrders();
+        return orderParser.parse(orders);
+    }
+
+    @Override
+    public String parsePage(@NotNull Query query) {
+        Page page = query.getPage();
+        return pageParser.parse(page);
+    }
 
 }
