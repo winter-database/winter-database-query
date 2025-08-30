@@ -1,5 +1,8 @@
 package io.github.winter.database.query.dto;
 
+import io.github.winter.boot.tuple.Value;
+import io.github.winter.database.query.BooleanCast;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -78,12 +81,22 @@ public final class Query implements Serializable {
         return id;
     }
 
+    public void setId(Value value) {
+        Integer id = value != null ? value.getInteger() : null;
+        setId(id);
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
 
     public String getQueryName() {
         return queryName;
+    }
+
+    public void setQueryName(Value value) {
+        String queryName = value != null ? value.getString() : null;
+        setQueryName(queryName);
     }
 
     public void setQueryName(String queryName) {
@@ -94,12 +107,24 @@ public final class Query implements Serializable {
         return isDistinct;
     }
 
+    public void setDistinct(Value value) {
+        Integer distinct = value != null ? value.getInteger() : null;
+        Boolean isDistinct = BooleanCast.fromInt(distinct);
+        setDistinct(isDistinct);
+    }
+
     public void setDistinct(Boolean distinct) {
         isDistinct = distinct;
     }
 
     public Boolean getAsterisk() {
         return isAsterisk;
+    }
+
+    public void setAsterisk(Value value) {
+        Integer asterisk = value != null ? value.getInteger() : null;
+        Boolean isAsterisk = BooleanCast.fromInt(asterisk);
+        setAsterisk(isAsterisk);
     }
 
     public void setAsterisk(Boolean asterisk) {
@@ -110,12 +135,22 @@ public final class Query implements Serializable {
         return fromTable;
     }
 
+    public void setFromTable(Value value) {
+        String fromTable = value != null ? value.getString() : null;
+        setFromTable(fromTable);
+    }
+
     public void setFromTable(String fromTable) {
         this.fromTable = fromTable;
     }
 
     public Long getPageOffset() {
         return pageOffset;
+    }
+
+    public void setPageOffset(Value value) {
+        Long pageOffset = value != null ? value.getLong() : null;
+        setPageOffset(pageOffset);
     }
 
     public void setPageOffset(Long pageOffset) {
@@ -126,12 +161,22 @@ public final class Query implements Serializable {
         return pageLimit;
     }
 
+    public void setPageLimit(Value value) {
+        Integer pageLimit = value != null ? value.getInteger() : null;
+        setPageLimit(pageLimit);
+    }
+
     public void setPageLimit(Integer pageLimit) {
         this.pageLimit = pageLimit;
     }
 
     public String getQueryDescription() {
         return queryDescription;
+    }
+
+    public void setQueryDescription(Value value) {
+        String queryDescription = value != null ? value.getString() : null;
+        setQueryDescription(queryDescription);
     }
 
     public void setQueryDescription(String queryDescription) {
@@ -142,12 +187,22 @@ public final class Query implements Serializable {
         return queryRemark;
     }
 
+    public void setQueryRemark(Value value) {
+        String queryRemark = value != null ? value.getString() : null;
+        setQueryRemark(queryRemark);
+    }
+
     public void setQueryRemark(String queryRemark) {
         this.queryRemark = queryRemark;
     }
 
     public Integer getShowPriority() {
         return showPriority;
+    }
+
+    public void setShowPriority(Value value) {
+        Integer showPriority = value != null ? value.getInteger() : null;
+        setShowPriority(showPriority);
     }
 
     public void setShowPriority(Integer showPriority) {
@@ -158,6 +213,11 @@ public final class Query implements Serializable {
         return updateVersion;
     }
 
+    public void setUpdateVersion(Value value) {
+        Integer updateVersion = value != null ? value.getInteger() : null;
+        setUpdateVersion(updateVersion);
+    }
+
     public void setUpdateVersion(Integer updateVersion) {
         this.updateVersion = updateVersion;
     }
@@ -166,12 +226,22 @@ public final class Query implements Serializable {
         return createDate;
     }
 
+    public void setCreateDate(Value value) {
+        Date createDate = value != null ? value.getDate() : null;
+        setCreateDate(createDate);
+    }
+
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
     public Date getLastUpdate() {
         return lastUpdate;
+    }
+
+    public void setLastUpdate(Value value) {
+        Date lastUpdate = value != null ? value.getDate() : null;
+        setLastUpdate(lastUpdate);
     }
 
     public void setLastUpdate(Date lastUpdate) {
