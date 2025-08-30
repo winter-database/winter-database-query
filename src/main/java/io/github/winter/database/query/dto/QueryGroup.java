@@ -1,5 +1,7 @@
 package io.github.winter.database.query.dto;
 
+import io.github.winter.boot.tuple.Value;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -53,12 +55,22 @@ public final class QueryGroup implements Serializable {
         return id;
     }
 
+    public void setId(Value value) {
+        Integer id = value != null ? value.getInteger() : null;
+        setId(id);
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
 
     public Integer getQueryId() {
         return queryId;
+    }
+
+    public void setQueryId(Value value) {
+        Integer queryId = value != null ? value.getInteger() : null;
+        setQueryId(queryId);
     }
 
     public void setQueryId(Integer queryId) {
@@ -69,12 +81,22 @@ public final class QueryGroup implements Serializable {
         return tableName;
     }
 
+    public void setTableName(Value value) {
+        String tableName = value != null ? value.getString() : null;
+        setTableName(tableName);
+    }
+
     public void setTableName(String tableName) {
         this.tableName = tableName;
     }
 
     public String getColumnName() {
         return columnName;
+    }
+
+    public void setColumnName(Value value) {
+        String columnName = value != null ? value.getString() : null;
+        setColumnName(columnName);
     }
 
     public void setColumnName(String columnName) {
@@ -85,12 +107,22 @@ public final class QueryGroup implements Serializable {
         return showPriority;
     }
 
+    public void setShowPriority(Value value) {
+        Integer showPriority = value != null ? value.getInteger() : null;
+        setShowPriority(showPriority);
+    }
+
     public void setShowPriority(Integer showPriority) {
         this.showPriority = showPriority;
     }
 
     public Integer getUpdateVersion() {
         return updateVersion;
+    }
+
+    public void setUpdateVersion(Value value) {
+        Integer updateVersion = value != null ? value.getInteger() : null;
+        setUpdateVersion(updateVersion);
     }
 
     public void setUpdateVersion(Integer updateVersion) {
@@ -101,12 +133,22 @@ public final class QueryGroup implements Serializable {
         return createDate;
     }
 
+    public void setCreateDate(Value value) {
+        Date createDate = value != null ? value.getDate() : null;
+        setCreateDate(createDate);
+    }
+
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
     public Date getLastUpdate() {
         return lastUpdate;
+    }
+
+    public void setLastUpdate(Value value) {
+        Date lastUpdate = value != null ? value.getDate() : null;
+        setLastUpdate(lastUpdate);
     }
 
     public void setLastUpdate(Date lastUpdate) {

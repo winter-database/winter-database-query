@@ -8,7 +8,7 @@ import java.util.Date;
  *
  * @author changebooks@qq.com
  */
-public final class QueryDto implements Serializable {
+public final class Query implements Serializable {
     /**
      * 主键
      */

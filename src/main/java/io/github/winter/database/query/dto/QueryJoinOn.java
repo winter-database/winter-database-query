@@ -1,5 +1,7 @@
 package io.github.winter.database.query.dto;
 
+import io.github.winter.boot.tuple.Value;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -68,12 +70,22 @@ public final class QueryJoinOn implements Serializable {
         return id;
     }
 
+    public void setId(Value value) {
+        Integer id = value != null ? value.getInteger() : null;
+        setId(id);
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
 
     public Integer getQueryId() {
         return queryId;
+    }
+
+    public void setQueryId(Value value) {
+        Integer queryId = value != null ? value.getInteger() : null;
+        setQueryId(queryId);
     }
 
     public void setQueryId(Integer queryId) {
@@ -84,12 +96,22 @@ public final class QueryJoinOn implements Serializable {
         return joinId;
     }
 
+    public void setJoinId(Value value) {
+        Integer joinId = value != null ? value.getInteger() : null;
+        setJoinId(joinId);
+    }
+
     public void setJoinId(Integer joinId) {
         this.joinId = joinId;
     }
 
     public String getLeftTable() {
         return leftTable;
+    }
+
+    public void setLeftTable(Value value) {
+        String leftTable = value != null ? value.getString() : null;
+        setLeftTable(leftTable);
     }
 
     public void setLeftTable(String leftTable) {
@@ -100,12 +122,22 @@ public final class QueryJoinOn implements Serializable {
         return leftColumn;
     }
 
+    public void setLeftColumn(Value value) {
+        String leftColumn = value != null ? value.getString() : null;
+        setLeftColumn(leftColumn);
+    }
+
     public void setLeftColumn(String leftColumn) {
         this.leftColumn = leftColumn;
     }
 
     public String getRightTable() {
         return rightTable;
+    }
+
+    public void setRightTable(Value value) {
+        String rightTable = value != null ? value.getString() : null;
+        setRightTable(rightTable);
     }
 
     public void setRightTable(String rightTable) {
@@ -116,12 +148,22 @@ public final class QueryJoinOn implements Serializable {
         return rightColumn;
     }
 
+    public void setRightColumn(Value value) {
+        String rightColumn = value != null ? value.getString() : null;
+        setRightColumn(rightColumn);
+    }
+
     public void setRightColumn(String rightColumn) {
         this.rightColumn = rightColumn;
     }
 
     public Integer getShowPriority() {
         return showPriority;
+    }
+
+    public void setShowPriority(Value value) {
+        Integer showPriority = value != null ? value.getInteger() : null;
+        setShowPriority(showPriority);
     }
 
     public void setShowPriority(Integer showPriority) {
@@ -132,6 +174,11 @@ public final class QueryJoinOn implements Serializable {
         return updateVersion;
     }
 
+    public void setUpdateVersion(Value value) {
+        Integer updateVersion = value != null ? value.getInteger() : null;
+        setUpdateVersion(updateVersion);
+    }
+
     public void setUpdateVersion(Integer updateVersion) {
         this.updateVersion = updateVersion;
     }
@@ -140,12 +187,22 @@ public final class QueryJoinOn implements Serializable {
         return createDate;
     }
 
+    public void setCreateDate(Value value) {
+        Date createDate = value != null ? value.getDate() : null;
+        setCreateDate(createDate);
+    }
+
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
     public Date getLastUpdate() {
         return lastUpdate;
+    }
+
+    public void setLastUpdate(Value value) {
+        Date lastUpdate = value != null ? value.getDate() : null;
+        setLastUpdate(lastUpdate);
     }
 
     public void setLastUpdate(Date lastUpdate) {

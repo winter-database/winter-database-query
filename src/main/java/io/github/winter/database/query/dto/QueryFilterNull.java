@@ -1,5 +1,8 @@
 package io.github.winter.database.query.dto;
 
+import io.github.winter.boot.tuple.Value;
+import io.github.winter.database.query.BooleanCast;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -48,12 +51,22 @@ public final class QueryFilterNull implements Serializable {
         return id;
     }
 
+    public void setId(Value value) {
+        Integer id = value != null ? value.getInteger() : null;
+        setId(id);
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
 
     public Integer getQueryId() {
         return queryId;
+    }
+
+    public void setQueryId(Value value) {
+        Integer queryId = value != null ? value.getInteger() : null;
+        setQueryId(queryId);
     }
 
     public void setQueryId(Integer queryId) {
@@ -64,12 +77,23 @@ public final class QueryFilterNull implements Serializable {
         return filterId;
     }
 
+    public void setFilterId(Value value) {
+        Integer filterId = value != null ? value.getInteger() : null;
+        setFilterId(filterId);
+    }
+
     public void setFilterId(Integer filterId) {
         this.filterId = filterId;
     }
 
     public Boolean getNot() {
         return isNot;
+    }
+
+    public void setNot(Value value) {
+        Integer not = value != null ? value.getInteger() : null;
+        Boolean isNot = BooleanCast.fromInt(not);
+        setNot(isNot);
     }
 
     public void setNot(Boolean not) {
@@ -80,6 +104,11 @@ public final class QueryFilterNull implements Serializable {
         return updateVersion;
     }
 
+    public void setUpdateVersion(Value value) {
+        Integer updateVersion = value != null ? value.getInteger() : null;
+        setUpdateVersion(updateVersion);
+    }
+
     public void setUpdateVersion(Integer updateVersion) {
         this.updateVersion = updateVersion;
     }
@@ -88,12 +117,22 @@ public final class QueryFilterNull implements Serializable {
         return createDate;
     }
 
+    public void setCreateDate(Value value) {
+        Date createDate = value != null ? value.getDate() : null;
+        setCreateDate(createDate);
+    }
+
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
     public Date getLastUpdate() {
         return lastUpdate;
+    }
+
+    public void setLastUpdate(Value value) {
+        Date lastUpdate = value != null ? value.getDate() : null;
+        setLastUpdate(lastUpdate);
     }
 
     public void setLastUpdate(Date lastUpdate) {
