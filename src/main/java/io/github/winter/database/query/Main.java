@@ -3,11 +3,8 @@ package io.github.winter.database.query;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.winter.boot.filter.BaseFilter;
-import io.github.winter.boot.filter.Order;
-import io.github.winter.boot.filter.Page;
-import io.github.winter.boot.tuple.Value;
 import io.github.winter.database.executor.Executor;
+import io.github.winter.database.query.entity.WhereReader;
 import io.github.winter.database.template.Template;
 import io.github.winter.database.template.refresh.RefreshTableSchemaListener;
 import jakarta.annotation.Resource;
@@ -20,9 +17,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class Main implements CommandLineRunner {
@@ -35,7 +31,7 @@ public class Main implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) {
+    public void run(String... args) throws SQLException {
         JdbcTemplate jdbcTemplate = jdbcTemplate();
 
         RefreshTableSchemaListener refreshTableSchemaListener = new RefreshTableSchemaListener(publisher, jdbcTemplate);
@@ -44,12 +40,9 @@ public class Main implements CommandLineRunner {
         Executor executor = new Executor(jdbcTemplate);
         Template template = new Template(executor);
 
-        String tableName = "xquery";
-        List<BaseFilter> filters = new ArrayList<>();
-        List<Order> orders = new ArrayList<>();
-        Page page = new Page();
+        WhereReader whereReader = new WhereReader();
+        List<Entity.Filter> list = whereReader.read(template, 1, 0);
 
-        List<Map<String, Value>> list = template.selectList(tableName, filters, orders, page, null);
         String json = writeJson(list);
         System.out.println(json);
     }

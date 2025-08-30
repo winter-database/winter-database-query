@@ -1,0 +1,181 @@
+package io.github.winter.database.query.dto;
+
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * 查询
+ *
+ * @author changebooks@qq.com
+ */
+public final class QueryDto implements Serializable {
+    /**
+     * 主键
+     */
+    private Integer id;
+
+    /**
+     * 名称
+     */
+    private String queryName;
+
+    /**
+     * 去重？
+     */
+    private Boolean isDistinct;
+
+    /**
+     * 全字段？
+     */
+    private Boolean isAsterisk;
+
+    /**
+     * 表名
+     */
+    private String fromTable;
+
+    /**
+     * 开始行数
+     */
+    private Long pageOffset;
+
+    /**
+     * 每页行数
+     */
+    private Integer pageLimit;
+
+    /**
+     * 描述
+     */
+    private String queryDescription;
+
+    /**
+     * 备注
+     */
+    private String queryRemark;
+
+    /**
+     * 排序
+     */
+    private Integer showPriority;
+
+    /**
+     * 更新版本
+     */
+    private Integer updateVersion;
+
+    /**
+     * 创建时间
+     */
+    private Date createDate;
+
+    /**
+     * 更新时间
+     */
+    private Date lastUpdate;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getQueryName() {
+        return queryName;
+    }
+
+    public void setQueryName(String queryName) {
+        this.queryName = queryName;
+    }
+
+    public Boolean getDistinct() {
+        return isDistinct;
+    }
+
+    public void setDistinct(Boolean distinct) {
+        isDistinct = distinct;
+    }
+
+    public Boolean getAsterisk() {
+        return isAsterisk;
+    }
+
+    public void setAsterisk(Boolean asterisk) {
+        isAsterisk = asterisk;
+    }
+
+    public String getFromTable() {
+        return fromTable;
+    }
+
+    public void setFromTable(String fromTable) {
+        this.fromTable = fromTable;
+    }
+
+    public Long getPageOffset() {
+        return pageOffset;
+    }
+
+    public void setPageOffset(Long pageOffset) {
+        this.pageOffset = pageOffset;
+    }
+
+    public Integer getPageLimit() {
+        return pageLimit;
+    }
+
+    public void setPageLimit(Integer pageLimit) {
+        this.pageLimit = pageLimit;
+    }
+
+    public String getQueryDescription() {
+        return queryDescription;
+    }
+
+    public void setQueryDescription(String queryDescription) {
+        this.queryDescription = queryDescription;
+    }
+
+    public String getQueryRemark() {
+        return queryRemark;
+    }
+
+    public void setQueryRemark(String queryRemark) {
+        this.queryRemark = queryRemark;
+    }
+
+    public Integer getShowPriority() {
+        return showPriority;
+    }
+
+    public void setShowPriority(Integer showPriority) {
+        this.showPriority = showPriority;
+    }
+
+    public Integer getUpdateVersion() {
+        return updateVersion;
+    }
+
+    public void setUpdateVersion(Integer updateVersion) {
+        this.updateVersion = updateVersion;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+}
