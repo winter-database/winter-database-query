@@ -1,4 +1,4 @@
-package io.github.winter.database.query.dto;
+package io.github.winter.database.query.reader;
 
 import io.github.winter.boot.tuple.Value;
 

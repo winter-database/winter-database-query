@@ -1,21 +1,19 @@
-package io.github.winter.database.query.dto;
+package io.github.winter.database.query.reader;
 
 import io.github.winter.boot.tuple.Value;
-import io.github.winter.database.query.BooleanCast;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 /**
- * 模糊匹配
+ * 空
  *
  * @author changebooks@qq.com
  */
-public final class QueryFilterWildcard implements Serializable {
+public final class QueryFilterNull implements Serializable {
     /**
      * 主键
      */
@@ -37,36 +35,6 @@ public final class QueryFilterWildcard implements Serializable {
     private Boolean isNot;
 
     /**
-     * 编码
-     */
-    private Integer wildcardCode;
-
-    /**
-     * 字符串
-     */
-    private String valueString;
-
-    /**
-     * 整数
-     */
-    private Integer valueInteger;
-
-    /**
-     * 长整数
-     */
-    private Long valueLong;
-
-    /**
-     * 小数
-     */
-    private BigDecimal valueBigDecimal;
-
-    /**
-     * 日期时间
-     */
-    private Date valueDate;
-
-    /**
      * 更新版本
      */
     private Integer updateVersion;
@@ -85,13 +53,13 @@ public final class QueryFilterWildcard implements Serializable {
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryFilterWildcard} instance ]
+     * @return [ the {@link QueryFilterNull} instance ]
      */
-    public static List<QueryFilterWildcard> newInstances(List<Map<String, Value>> list) {
+    public static List<QueryFilterNull> newInstances(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryFilterWildcard::newInstance)
+                    .map(QueryFilterNull::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -103,9 +71,9 @@ public final class QueryFilterWildcard implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryFilterWildcard} instance
+     * @return the {@link QueryFilterNull} instance
      */
-    public static QueryFilterWildcard newInstance(Map<String, Value> record) {
+    public static QueryFilterNull newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
@@ -114,28 +82,16 @@ public final class QueryFilterWildcard implements Serializable {
         Value queryId = record.get("query_id");
         Value filterId = record.get("filter_id");
         Value isNot = record.get("is_not");
-        Value wildcardCode = record.get("wildcard_code");
-        Value valueString = record.get("value_string");
-        Value valueInteger = record.get("value_integer");
-        Value valueLong = record.get("value_long");
-        Value valueBigDecimal = record.get("value_big_decimal");
-        Value valueDate = record.get("value_date");
         Value updateVersion = record.get("update_version");
         Value createDate = record.get("create_date");
         Value lastUpdate = record.get("last_update");
 
-        QueryFilterWildcard result = new QueryFilterWildcard();
+        QueryFilterNull result = new QueryFilterNull();
 
         result.setId(id);
         result.setQueryId(queryId);
         result.setFilterId(filterId);
         result.setNot(isNot);
-        result.setWildcardCode(wildcardCode);
-        result.setValueString(valueString);
-        result.setValueInteger(valueInteger);
-        result.setValueLong(valueLong);
-        result.setValueBigDecimal(valueBigDecimal);
-        result.setValueDate(valueDate);
         result.setUpdateVersion(updateVersion);
         result.setCreateDate(createDate);
         result.setLastUpdate(lastUpdate);
@@ -188,90 +144,12 @@ public final class QueryFilterWildcard implements Serializable {
 
     public void setNot(Value value) {
         Integer not = value != null ? value.getInteger() : null;
-        Boolean isNot = BooleanCast.fromInt(not);
+        Boolean isNot = ReaderUtils.toBoolean(not);
         setNot(isNot);
     }
 
     public void setNot(Boolean not) {
         isNot = not;
-    }
-
-    public Integer getWildcardCode() {
-        return wildcardCode;
-    }
-
-    public void setWildcardCode(Value value) {
-        Integer wildcardCode = value != null ? value.getInteger() : null;
-        setWildcardCode(wildcardCode);
-    }
-
-    public void setWildcardCode(Integer wildcardCode) {
-        this.wildcardCode = wildcardCode;
-    }
-
-    public String getValueString() {
-        return valueString;
-    }
-
-    public void setValueString(Value value) {
-        String valueString = value != null ? value.getString() : null;
-        setValueString(valueString);
-    }
-
-    public void setValueString(String valueString) {
-        this.valueString = valueString;
-    }
-
-    public Integer getValueInteger() {
-        return valueInteger;
-    }
-
-    public void setValueInteger(Value value) {
-        Integer valueInteger = value != null ? value.getInteger() : null;
-        setValueInteger(valueInteger);
-    }
-
-    public void setValueInteger(Integer valueInteger) {
-        this.valueInteger = valueInteger;
-    }
-
-    public Long getValueLong() {
-        return valueLong;
-    }
-
-    public void setValueLong(Value value) {
-        Long valueLong = value != null ? value.getLong() : null;
-        setValueLong(valueLong);
-    }
-
-    public void setValueLong(Long valueLong) {
-        this.valueLong = valueLong;
-    }
-
-    public BigDecimal getValueBigDecimal() {
-        return valueBigDecimal;
-    }
-
-    public void setValueBigDecimal(Value value) {
-        BigDecimal valueBigDecimal = value != null ? value.getBigDecimal() : null;
-        setValueBigDecimal(valueBigDecimal);
-    }
-
-    public void setValueBigDecimal(BigDecimal valueBigDecimal) {
-        this.valueBigDecimal = valueBigDecimal;
-    }
-
-    public Date getValueDate() {
-        return valueDate;
-    }
-
-    public void setValueDate(Value value) {
-        Date valueDate = value != null ? value.getDate() : null;
-        setValueDate(valueDate);
-    }
-
-    public void setValueDate(Date valueDate) {
-        this.valueDate = valueDate;
     }
 
     public Integer getUpdateVersion() {

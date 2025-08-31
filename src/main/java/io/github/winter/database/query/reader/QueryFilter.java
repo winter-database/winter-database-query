@@ -1,4 +1,4 @@
-package io.github.winter.database.query.dto;
+package io.github.winter.database.query.reader;
 
 import io.github.winter.boot.tuple.Value;
 
@@ -9,11 +9,11 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 排序
+ * 条件
  *
  * @author changebooks@qq.com
  */
-public final class QueryOrder implements Serializable {
+public final class QueryFilter implements Serializable {
     /**
      * 主键
      */
@@ -23,6 +23,11 @@ public final class QueryOrder implements Serializable {
      * 查询主键
      */
     private Integer queryId;
+
+    /**
+     * 父条件主键
+     */
+    private Integer parentId;
 
     /**
      * 表名
@@ -40,9 +45,19 @@ public final class QueryOrder implements Serializable {
     private Integer funcType;
 
     /**
-     * 排序方式
+     * 条件类型
      */
-    private Integer orderType;
+    private Integer filterType;
+
+    /**
+     * 逻辑与或
+     */
+    private Integer logicalOperator;
+
+    /**
+     * 分组条件？
+     */
+    private Boolean isHaving;
 
     /**
      * 排序
@@ -68,13 +83,13 @@ public final class QueryOrder implements Serializable {
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryOrder} instance ]
+     * @return [ the {@link QueryFilter} instance ]
      */
-    public static List<QueryOrder> newInstances(List<Map<String, Value>> list) {
+    public static List<QueryFilter> newInstances(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryOrder::newInstance)
+                    .map(QueryFilter::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -86,32 +101,38 @@ public final class QueryOrder implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryOrder} instance
+     * @return the {@link QueryFilter} instance
      */
-    public static QueryOrder newInstance(Map<String, Value> record) {
+    public static QueryFilter newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
 
         Value id = record.get("id");
         Value queryId = record.get("query_id");
+        Value parentId = record.get("parent_id");
         Value tableName = record.get("table_name");
         Value columnName = record.get("column_name");
         Value funcType = record.get("func_type");
-        Value orderType = record.get("order_type");
+        Value filterType = record.get("filter_type");
+        Value logicalOperator = record.get("logical_operator");
+        Value isHaving = record.get("is_having");
         Value showPriority = record.get("show_priority");
         Value updateVersion = record.get("update_version");
         Value createDate = record.get("create_date");
         Value lastUpdate = record.get("last_update");
 
-        QueryOrder result = new QueryOrder();
+        QueryFilter result = new QueryFilter();
 
         result.setId(id);
         result.setQueryId(queryId);
+        result.setParentId(parentId);
         result.setTableName(tableName);
         result.setColumnName(columnName);
         result.setFuncType(funcType);
-        result.setOrderType(orderType);
+        result.setFilterType(filterType);
+        result.setLogicalOperator(logicalOperator);
+        result.setHaving(isHaving);
         result.setShowPriority(showPriority);
         result.setUpdateVersion(updateVersion);
         result.setCreateDate(createDate);
@@ -144,6 +165,19 @@ public final class QueryOrder implements Serializable {
 
     public void setQueryId(Integer queryId) {
         this.queryId = queryId;
+    }
+
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Value value) {
+        Integer parentId = value != null ? value.getInteger() : null;
+        setParentId(parentId);
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
     public String getTableName() {
@@ -185,17 +219,44 @@ public final class QueryOrder implements Serializable {
         this.funcType = funcType;
     }
 
-    public Integer getOrderType() {
-        return orderType;
+    public Integer getFilterType() {
+        return filterType;
     }
 
-    public void setOrderType(Value value) {
-        Integer orderType = value != null ? value.getInteger() : null;
-        setOrderType(orderType);
+    public void setFilterType(Value value) {
+        Integer filterType = value != null ? value.getInteger() : null;
+        setFilterType(filterType);
     }
 
-    public void setOrderType(Integer orderType) {
-        this.orderType = orderType;
+    public void setFilterType(Integer filterType) {
+        this.filterType = filterType;
+    }
+
+    public Integer getLogicalOperator() {
+        return logicalOperator;
+    }
+
+    public void setLogicalOperator(Value value) {
+        Integer logicalOperator = value != null ? value.getInteger() : null;
+        setLogicalOperator(logicalOperator);
+    }
+
+    public void setLogicalOperator(Integer logicalOperator) {
+        this.logicalOperator = logicalOperator;
+    }
+
+    public Boolean getHaving() {
+        return isHaving;
+    }
+
+    public void setHaving(Value value) {
+        Integer having = value != null ? value.getInteger() : null;
+        Boolean isHaving = ReaderUtils.toBoolean(having);
+        setHaving(isHaving);
+    }
+
+    public void setHaving(Boolean having) {
+        isHaving = having;
     }
 
     public Integer getShowPriority() {

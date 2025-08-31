@@ -1,4 +1,4 @@
-package io.github.winter.database.query.dto;
+package io.github.winter.database.query.reader;
 
 import io.github.winter.boot.tuple.Value;
 
@@ -10,11 +10,11 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 列表值
+ * 模糊匹配
  *
  * @author changebooks@qq.com
  */
-public final class QueryFilterInValue implements Serializable {
+public final class QueryFilterWildcard implements Serializable {
     /**
      * 主键
      */
@@ -29,6 +29,16 @@ public final class QueryFilterInValue implements Serializable {
      * 条件主键
      */
     private Integer filterId;
+
+    /**
+     * 取反？
+     */
+    private Boolean isNot;
+
+    /**
+     * 编码
+     */
+    private Integer wildcardCode;
 
     /**
      * 字符串
@@ -56,11 +66,6 @@ public final class QueryFilterInValue implements Serializable {
     private Date valueDate;
 
     /**
-     * 排序
-     */
-    private Integer showPriority;
-
-    /**
      * 更新版本
      */
     private Integer updateVersion;
@@ -79,13 +84,13 @@ public final class QueryFilterInValue implements Serializable {
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryFilterInValue} instance ]
+     * @return [ the {@link QueryFilterWildcard} instance ]
      */
-    public static List<QueryFilterInValue> newInstances(List<Map<String, Value>> list) {
+    public static List<QueryFilterWildcard> newInstances(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryFilterInValue::newInstance)
+                    .map(QueryFilterWildcard::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -97,9 +102,9 @@ public final class QueryFilterInValue implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryFilterInValue} instance
+     * @return the {@link QueryFilterWildcard} instance
      */
-    public static QueryFilterInValue newInstance(Map<String, Value> record) {
+    public static QueryFilterWildcard newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
@@ -107,27 +112,29 @@ public final class QueryFilterInValue implements Serializable {
         Value id = record.get("id");
         Value queryId = record.get("query_id");
         Value filterId = record.get("filter_id");
+        Value isNot = record.get("is_not");
+        Value wildcardCode = record.get("wildcard_code");
         Value valueString = record.get("value_string");
         Value valueInteger = record.get("value_integer");
         Value valueLong = record.get("value_long");
         Value valueBigDecimal = record.get("value_big_decimal");
         Value valueDate = record.get("value_date");
-        Value showPriority = record.get("show_priority");
         Value updateVersion = record.get("update_version");
         Value createDate = record.get("create_date");
         Value lastUpdate = record.get("last_update");
 
-        QueryFilterInValue result = new QueryFilterInValue();
+        QueryFilterWildcard result = new QueryFilterWildcard();
 
         result.setId(id);
         result.setQueryId(queryId);
         result.setFilterId(filterId);
+        result.setNot(isNot);
+        result.setWildcardCode(wildcardCode);
         result.setValueString(valueString);
         result.setValueInteger(valueInteger);
         result.setValueLong(valueLong);
         result.setValueBigDecimal(valueBigDecimal);
         result.setValueDate(valueDate);
-        result.setShowPriority(showPriority);
         result.setUpdateVersion(updateVersion);
         result.setCreateDate(createDate);
         result.setLastUpdate(lastUpdate);
@@ -172,6 +179,33 @@ public final class QueryFilterInValue implements Serializable {
 
     public void setFilterId(Integer filterId) {
         this.filterId = filterId;
+    }
+
+    public Boolean getNot() {
+        return isNot;
+    }
+
+    public void setNot(Value value) {
+        Integer not = value != null ? value.getInteger() : null;
+        Boolean isNot = ReaderUtils.toBoolean(not);
+        setNot(isNot);
+    }
+
+    public void setNot(Boolean not) {
+        isNot = not;
+    }
+
+    public Integer getWildcardCode() {
+        return wildcardCode;
+    }
+
+    public void setWildcardCode(Value value) {
+        Integer wildcardCode = value != null ? value.getInteger() : null;
+        setWildcardCode(wildcardCode);
+    }
+
+    public void setWildcardCode(Integer wildcardCode) {
+        this.wildcardCode = wildcardCode;
     }
 
     public String getValueString() {
@@ -237,19 +271,6 @@ public final class QueryFilterInValue implements Serializable {
 
     public void setValueDate(Date valueDate) {
         this.valueDate = valueDate;
-    }
-
-    public Integer getShowPriority() {
-        return showPriority;
-    }
-
-    public void setShowPriority(Value value) {
-        Integer showPriority = value != null ? value.getInteger() : null;
-        setShowPriority(showPriority);
-    }
-
-    public void setShowPriority(Integer showPriority) {
-        this.showPriority = showPriority;
     }
 
     public Integer getUpdateVersion() {

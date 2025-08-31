@@ -1,4 +1,4 @@
-package io.github.winter.database.query.dto;
+package io.github.winter.database.query.reader;
 
 import io.github.winter.boot.tuple.Value;
 
@@ -9,11 +9,11 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 字段
+ * 连表条件
  *
  * @author changebooks@qq.com
  */
-public final class QueryColumn implements Serializable {
+public final class QueryJoinOn implements Serializable {
     /**
      * 主键
      */
@@ -25,19 +25,29 @@ public final class QueryColumn implements Serializable {
     private Integer queryId;
 
     /**
-     * 表名
+     * 连表主键
      */
-    private String tableName;
+    private Integer joinId;
 
     /**
-     * 字段名
+     * 左表名
      */
-    private String columnName;
+    private String leftTable;
 
     /**
-     * 函数类型
+     * 左表字段名
      */
-    private Integer funcType;
+    private String leftColumn;
+
+    /**
+     * 右表名
+     */
+    private String rightTable;
+
+    /**
+     * 右表字段名
+     */
+    private String rightColumn;
 
     /**
      * 排序
@@ -63,13 +73,13 @@ public final class QueryColumn implements Serializable {
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryColumn} instance ]
+     * @return [ the {@link QueryJoinOn} instance ]
      */
-    public static List<QueryColumn> newInstances(List<Map<String, Value>> list) {
+    public static List<QueryJoinOn> newInstances(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryColumn::newInstance)
+                    .map(QueryJoinOn::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -81,30 +91,34 @@ public final class QueryColumn implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryColumn} instance
+     * @return the {@link QueryJoinOn} instance
      */
-    public static QueryColumn newInstance(Map<String, Value> record) {
+    public static QueryJoinOn newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
 
         Value id = record.get("id");
         Value queryId = record.get("query_id");
-        Value tableName = record.get("table_name");
-        Value columnName = record.get("column_name");
-        Value funcType = record.get("func_type");
+        Value joinId = record.get("join_id");
+        Value leftTable = record.get("left_table");
+        Value leftColumn = record.get("left_column");
+        Value rightTable = record.get("right_table");
+        Value rightColumn = record.get("right_column");
         Value showPriority = record.get("show_priority");
         Value updateVersion = record.get("update_version");
         Value createDate = record.get("create_date");
         Value lastUpdate = record.get("last_update");
 
-        QueryColumn result = new QueryColumn();
+        QueryJoinOn result = new QueryJoinOn();
 
         result.setId(id);
         result.setQueryId(queryId);
-        result.setTableName(tableName);
-        result.setColumnName(columnName);
-        result.setFuncType(funcType);
+        result.setJoinId(joinId);
+        result.setLeftTable(leftTable);
+        result.setLeftColumn(leftColumn);
+        result.setRightTable(rightTable);
+        result.setRightColumn(rightColumn);
         result.setShowPriority(showPriority);
         result.setUpdateVersion(updateVersion);
         result.setCreateDate(createDate);
@@ -139,43 +153,69 @@ public final class QueryColumn implements Serializable {
         this.queryId = queryId;
     }
 
-    public String getTableName() {
-        return tableName;
+    public Integer getJoinId() {
+        return joinId;
     }
 
-    public void setTableName(Value value) {
-        String tableName = value != null ? value.getString() : null;
-        setTableName(tableName);
+    public void setJoinId(Value value) {
+        Integer joinId = value != null ? value.getInteger() : null;
+        setJoinId(joinId);
     }
 
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
+    public void setJoinId(Integer joinId) {
+        this.joinId = joinId;
     }
 
-    public String getColumnName() {
-        return columnName;
+    public String getLeftTable() {
+        return leftTable;
     }
 
-    public void setColumnName(Value value) {
-        String columnName = value != null ? value.getString() : null;
-        setColumnName(columnName);
+    public void setLeftTable(Value value) {
+        String leftTable = value != null ? value.getString() : null;
+        setLeftTable(leftTable);
     }
 
-    public void setColumnName(String columnName) {
-        this.columnName = columnName;
+    public void setLeftTable(String leftTable) {
+        this.leftTable = leftTable;
     }
 
-    public Integer getFuncType() {
-        return funcType;
+    public String getLeftColumn() {
+        return leftColumn;
     }
 
-    public void setFuncType(Value value) {
-        Integer funcType = value != null ? value.getInteger() : null;
-        setFuncType(funcType);
+    public void setLeftColumn(Value value) {
+        String leftColumn = value != null ? value.getString() : null;
+        setLeftColumn(leftColumn);
     }
 
-    public void setFuncType(Integer funcType) {
-        this.funcType = funcType;
+    public void setLeftColumn(String leftColumn) {
+        this.leftColumn = leftColumn;
+    }
+
+    public String getRightTable() {
+        return rightTable;
+    }
+
+    public void setRightTable(Value value) {
+        String rightTable = value != null ? value.getString() : null;
+        setRightTable(rightTable);
+    }
+
+    public void setRightTable(String rightTable) {
+        this.rightTable = rightTable;
+    }
+
+    public String getRightColumn() {
+        return rightColumn;
+    }
+
+    public void setRightColumn(Value value) {
+        String rightColumn = value != null ? value.getString() : null;
+        setRightColumn(rightColumn);
+    }
+
+    public void setRightColumn(String rightColumn) {
+        this.rightColumn = rightColumn;
     }
 
     public Integer getShowPriority() {

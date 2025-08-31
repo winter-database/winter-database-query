@@ -1,19 +1,20 @@
-package io.github.winter.database.query.dto;
+package io.github.winter.database.query.reader;
 
 import io.github.winter.boot.tuple.Value;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 /**
- * 连表条件
+ * 列表值
  *
  * @author changebooks@qq.com
  */
-public final class QueryJoinOn implements Serializable {
+public final class QueryFilterInValue implements Serializable {
     /**
      * 主键
      */
@@ -25,29 +26,34 @@ public final class QueryJoinOn implements Serializable {
     private Integer queryId;
 
     /**
-     * 连表主键
+     * 条件主键
      */
-    private Integer joinId;
+    private Integer filterId;
 
     /**
-     * 左表名
+     * 字符串
      */
-    private String leftTable;
+    private String valueString;
 
     /**
-     * 左表字段名
+     * 整数
      */
-    private String leftColumn;
+    private Integer valueInteger;
 
     /**
-     * 右表名
+     * 长整数
      */
-    private String rightTable;
+    private Long valueLong;
 
     /**
-     * 右表字段名
+     * 小数
      */
-    private String rightColumn;
+    private BigDecimal valueBigDecimal;
+
+    /**
+     * 日期时间
+     */
+    private Date valueDate;
 
     /**
      * 排序
@@ -73,13 +79,13 @@ public final class QueryJoinOn implements Serializable {
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryJoinOn} instance ]
+     * @return [ the {@link QueryFilterInValue} instance ]
      */
-    public static List<QueryJoinOn> newInstances(List<Map<String, Value>> list) {
+    public static List<QueryFilterInValue> newInstances(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryJoinOn::newInstance)
+                    .map(QueryFilterInValue::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -91,34 +97,36 @@ public final class QueryJoinOn implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryJoinOn} instance
+     * @return the {@link QueryFilterInValue} instance
      */
-    public static QueryJoinOn newInstance(Map<String, Value> record) {
+    public static QueryFilterInValue newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
 
         Value id = record.get("id");
         Value queryId = record.get("query_id");
-        Value joinId = record.get("join_id");
-        Value leftTable = record.get("left_table");
-        Value leftColumn = record.get("left_column");
-        Value rightTable = record.get("right_table");
-        Value rightColumn = record.get("right_column");
+        Value filterId = record.get("filter_id");
+        Value valueString = record.get("value_string");
+        Value valueInteger = record.get("value_integer");
+        Value valueLong = record.get("value_long");
+        Value valueBigDecimal = record.get("value_big_decimal");
+        Value valueDate = record.get("value_date");
         Value showPriority = record.get("show_priority");
         Value updateVersion = record.get("update_version");
         Value createDate = record.get("create_date");
         Value lastUpdate = record.get("last_update");
 
-        QueryJoinOn result = new QueryJoinOn();
+        QueryFilterInValue result = new QueryFilterInValue();
 
         result.setId(id);
         result.setQueryId(queryId);
-        result.setJoinId(joinId);
-        result.setLeftTable(leftTable);
-        result.setLeftColumn(leftColumn);
-        result.setRightTable(rightTable);
-        result.setRightColumn(rightColumn);
+        result.setFilterId(filterId);
+        result.setValueString(valueString);
+        result.setValueInteger(valueInteger);
+        result.setValueLong(valueLong);
+        result.setValueBigDecimal(valueBigDecimal);
+        result.setValueDate(valueDate);
         result.setShowPriority(showPriority);
         result.setUpdateVersion(updateVersion);
         result.setCreateDate(createDate);
@@ -153,69 +161,82 @@ public final class QueryJoinOn implements Serializable {
         this.queryId = queryId;
     }
 
-    public Integer getJoinId() {
-        return joinId;
+    public Integer getFilterId() {
+        return filterId;
     }
 
-    public void setJoinId(Value value) {
-        Integer joinId = value != null ? value.getInteger() : null;
-        setJoinId(joinId);
+    public void setFilterId(Value value) {
+        Integer filterId = value != null ? value.getInteger() : null;
+        setFilterId(filterId);
     }
 
-    public void setJoinId(Integer joinId) {
-        this.joinId = joinId;
+    public void setFilterId(Integer filterId) {
+        this.filterId = filterId;
     }
 
-    public String getLeftTable() {
-        return leftTable;
+    public String getValueString() {
+        return valueString;
     }
 
-    public void setLeftTable(Value value) {
-        String leftTable = value != null ? value.getString() : null;
-        setLeftTable(leftTable);
+    public void setValueString(Value value) {
+        String valueString = value != null ? value.getString() : null;
+        setValueString(valueString);
     }
 
-    public void setLeftTable(String leftTable) {
-        this.leftTable = leftTable;
+    public void setValueString(String valueString) {
+        this.valueString = valueString;
     }
 
-    public String getLeftColumn() {
-        return leftColumn;
+    public Integer getValueInteger() {
+        return valueInteger;
     }
 
-    public void setLeftColumn(Value value) {
-        String leftColumn = value != null ? value.getString() : null;
-        setLeftColumn(leftColumn);
+    public void setValueInteger(Value value) {
+        Integer valueInteger = value != null ? value.getInteger() : null;
+        setValueInteger(valueInteger);
     }
 
-    public void setLeftColumn(String leftColumn) {
-        this.leftColumn = leftColumn;
+    public void setValueInteger(Integer valueInteger) {
+        this.valueInteger = valueInteger;
     }
 
-    public String getRightTable() {
-        return rightTable;
+    public Long getValueLong() {
+        return valueLong;
     }
 
-    public void setRightTable(Value value) {
-        String rightTable = value != null ? value.getString() : null;
-        setRightTable(rightTable);
+    public void setValueLong(Value value) {
+        Long valueLong = value != null ? value.getLong() : null;
+        setValueLong(valueLong);
     }
 
-    public void setRightTable(String rightTable) {
-        this.rightTable = rightTable;
+    public void setValueLong(Long valueLong) {
+        this.valueLong = valueLong;
     }
 
-    public String getRightColumn() {
-        return rightColumn;
+    public BigDecimal getValueBigDecimal() {
+        return valueBigDecimal;
     }
 
-    public void setRightColumn(Value value) {
-        String rightColumn = value != null ? value.getString() : null;
-        setRightColumn(rightColumn);
+    public void setValueBigDecimal(Value value) {
+        BigDecimal valueBigDecimal = value != null ? value.getBigDecimal() : null;
+        setValueBigDecimal(valueBigDecimal);
     }
 
-    public void setRightColumn(String rightColumn) {
-        this.rightColumn = rightColumn;
+    public void setValueBigDecimal(BigDecimal valueBigDecimal) {
+        this.valueBigDecimal = valueBigDecimal;
+    }
+
+    public Date getValueDate() {
+        return valueDate;
+    }
+
+    public void setValueDate(Value value) {
+        Date valueDate = value != null ? value.getDate() : null;
+        setValueDate(valueDate);
+    }
+
+    public void setValueDate(Date valueDate) {
+        this.valueDate = valueDate;
     }
 
     public Integer getShowPriority() {

@@ -1,7 +1,6 @@
-package io.github.winter.database.query.dto;
+package io.github.winter.database.query.reader;
 
 import io.github.winter.boot.tuple.Value;
-import io.github.winter.database.query.BooleanCast;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -174,7 +173,7 @@ public final class Query implements Serializable {
 
     public void setDistinct(Value value) {
         Integer distinct = value != null ? value.getInteger() : null;
-        Boolean isDistinct = BooleanCast.fromInt(distinct);
+        Boolean isDistinct = ReaderUtils.toBoolean(distinct);
         setDistinct(isDistinct);
     }
 
@@ -188,7 +187,7 @@ public final class Query implements Serializable {
 
     public void setAsterisk(Value value) {
         Integer asterisk = value != null ? value.getInteger() : null;
-        Boolean isAsterisk = BooleanCast.fromInt(asterisk);
+        Boolean isAsterisk = ReaderUtils.toBoolean(asterisk);
         setAsterisk(isAsterisk);
     }
 

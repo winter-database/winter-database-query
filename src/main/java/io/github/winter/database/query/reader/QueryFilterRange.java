@@ -1,7 +1,6 @@
-package io.github.winter.database.query.dto;
+package io.github.winter.database.query.reader;
 
 import io.github.winter.boot.tuple.Value;
-import io.github.winter.database.query.BooleanCast;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -223,7 +222,7 @@ public final class QueryFilterRange implements Serializable {
 
     public void setIncludeLower(Value value) {
         Integer includeLower = value != null ? value.getInteger() : null;
-        Boolean isIncludeLower = BooleanCast.fromInt(includeLower);
+        Boolean isIncludeLower = ReaderUtils.toBoolean(includeLower);
         setIncludeLower(isIncludeLower);
     }
 
@@ -237,7 +236,7 @@ public final class QueryFilterRange implements Serializable {
 
     public void setIncludeUpper(Value value) {
         Integer includeUpper = value != null ? value.getInteger() : null;
-        Boolean isIncludeUpper = BooleanCast.fromInt(includeUpper);
+        Boolean isIncludeUpper = ReaderUtils.toBoolean(includeUpper);
         setIncludeUpper(isIncludeUpper);
     }
 
