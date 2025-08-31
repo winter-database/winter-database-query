@@ -1,6 +1,8 @@
-package io.github.winter.database.query.reader;
+package io.github.winter.database.query.dto;
 
 import io.github.winter.boot.tuple.Value;
+import io.github.winter.database.template.Template;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -13,7 +15,12 @@ import java.util.Objects;
  *
  * @author changebooks@qq.com
  */
-public final class Query implements Serializable {
+public final class QueryDto implements Serializable {
+    /**
+     * 表名
+     */
+    public static final String TABLE_NAME = "xquery";
+
     /**
      * 主键
      */
@@ -80,16 +87,28 @@ public final class Query implements Serializable {
     private Date lastUpdate;
 
     /**
+     * Read Instance
+     *
+     * @param template the {@link Template} instance
+     * @param id       主键
+     * @return the {@link QueryDto} instance
+     */
+    public static QueryDto readInstance(@NotNull Template template, int id) {
+        Map<String, Value> record = DtoUtils.selectOne(template, TABLE_NAME, id);
+        return newInstance(record);
+    }
+
+    /**
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link Query} instance ]
+     * @return [ the {@link QueryDto} instance ]
      */
-    public static List<Query> newInstances(List<Map<String, Value>> list) {
+    public static List<QueryDto> newInstances(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(Query::newInstance)
+                    .map(QueryDto::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -101,9 +120,9 @@ public final class Query implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link Query} instance
+     * @return the {@link QueryDto} instance
      */
-    public static Query newInstance(Map<String, Value> record) {
+    public static QueryDto newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
@@ -122,7 +141,7 @@ public final class Query implements Serializable {
         Value createDate = record.get("create_date");
         Value lastUpdate = record.get("last_update");
 
-        Query result = new Query();
+        QueryDto result = new QueryDto();
 
         result.setId(id);
         result.setQueryName(queryName);
@@ -173,7 +192,7 @@ public final class Query implements Serializable {
 
     public void setDistinct(Value value) {
         Integer distinct = value != null ? value.getInteger() : null;
-        Boolean isDistinct = ReaderUtils.toBoolean(distinct);
+        Boolean isDistinct = DtoUtils.toBoolean(distinct);
         setDistinct(isDistinct);
     }
 
@@ -187,7 +206,7 @@ public final class Query implements Serializable {
 
     public void setAsterisk(Value value) {
         Integer asterisk = value != null ? value.getInteger() : null;
-        Boolean isAsterisk = ReaderUtils.toBoolean(asterisk);
+        Boolean isAsterisk = DtoUtils.toBoolean(asterisk);
         setAsterisk(isAsterisk);
     }
 

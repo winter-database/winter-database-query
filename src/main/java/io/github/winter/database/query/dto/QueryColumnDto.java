@@ -1,6 +1,8 @@
-package io.github.winter.database.query.reader;
+package io.github.winter.database.query.dto;
 
 import io.github.winter.boot.tuple.Value;
+import io.github.winter.database.template.Template;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,11 +11,16 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 分组
+ * 字段
  *
  * @author changebooks@qq.com
  */
-public final class QueryGroup implements Serializable {
+public final class QueryColumnDto implements Serializable {
+    /**
+     * 表名
+     */
+    public static final String TABLE_NAME = "xquery_column";
+
     /**
      * 主键
      */
@@ -33,6 +40,11 @@ public final class QueryGroup implements Serializable {
      * 字段名
      */
     private String columnName;
+
+    /**
+     * 函数类型
+     */
+    private Integer funcType;
 
     /**
      * 排序
@@ -55,16 +67,28 @@ public final class QueryGroup implements Serializable {
     private Date lastUpdate;
 
     /**
+     * Read Instance List
+     *
+     * @param template the {@link Template} instance
+     * @param queryId  查询主键
+     * @return [ the {@link QueryColumnDto} instance ]
+     */
+    public static List<QueryColumnDto> readInstances(@NotNull Template template, int queryId) {
+        List<Map<String, Value>> list = DtoUtils.selectList(template, TABLE_NAME, queryId);
+        return newInstances(list);
+    }
+
+    /**
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryGroup} instance ]
+     * @return [ the {@link QueryColumnDto} instance ]
      */
-    public static List<QueryGroup> newInstances(List<Map<String, Value>> list) {
+    public static List<QueryColumnDto> newInstances(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryGroup::newInstance)
+                    .map(QueryColumnDto::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -76,9 +100,9 @@ public final class QueryGroup implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryGroup} instance
+     * @return the {@link QueryColumnDto} instance
      */
-    public static QueryGroup newInstance(Map<String, Value> record) {
+    public static QueryColumnDto newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
@@ -87,17 +111,19 @@ public final class QueryGroup implements Serializable {
         Value queryId = record.get("query_id");
         Value tableName = record.get("table_name");
         Value columnName = record.get("column_name");
+        Value funcType = record.get("func_type");
         Value showPriority = record.get("show_priority");
         Value updateVersion = record.get("update_version");
         Value createDate = record.get("create_date");
         Value lastUpdate = record.get("last_update");
 
-        QueryGroup result = new QueryGroup();
+        QueryColumnDto result = new QueryColumnDto();
 
         result.setId(id);
         result.setQueryId(queryId);
         result.setTableName(tableName);
         result.setColumnName(columnName);
+        result.setFuncType(funcType);
         result.setShowPriority(showPriority);
         result.setUpdateVersion(updateVersion);
         result.setCreateDate(createDate);
@@ -156,6 +182,19 @@ public final class QueryGroup implements Serializable {
 
     public void setColumnName(String columnName) {
         this.columnName = columnName;
+    }
+
+    public Integer getFuncType() {
+        return funcType;
+    }
+
+    public void setFuncType(Value value) {
+        Integer funcType = value != null ? value.getInteger() : null;
+        setFuncType(funcType);
+    }
+
+    public void setFuncType(Integer funcType) {
+        this.funcType = funcType;
     }
 
     public Integer getShowPriority() {

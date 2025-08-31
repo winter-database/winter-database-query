@@ -1,6 +1,8 @@
-package io.github.winter.database.query.reader;
+package io.github.winter.database.query.dto;
 
 import io.github.winter.boot.tuple.Value;
+import io.github.winter.database.template.Template;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -10,11 +12,16 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 模糊匹配
+ * 表达式
  *
  * @author changebooks@qq.com
  */
-public final class QueryFilterWildcard implements Serializable {
+public final class QueryFilterExpressionDto implements Serializable {
+    /**
+     * 表名
+     */
+    public static final String TABLE_NAME = "xquery_filter_expression";
+
     /**
      * 主键
      */
@@ -31,14 +38,9 @@ public final class QueryFilterWildcard implements Serializable {
     private Integer filterId;
 
     /**
-     * 取反？
-     */
-    private Boolean isNot;
-
-    /**
      * 编码
      */
-    private Integer wildcardCode;
+    private Integer expressionCode;
 
     /**
      * 字符串
@@ -81,16 +83,29 @@ public final class QueryFilterWildcard implements Serializable {
     private Date lastUpdate;
 
     /**
+     * Read Instance List
+     *
+     * @param template the {@link Template} instance
+     * @param queryId  查询主键
+     * @param filterId 条件主键
+     * @return [ the {@link QueryFilterExpressionDto} instance ]
+     */
+    public static List<QueryFilterExpressionDto> readInstances(@NotNull Template template, int queryId, int filterId) {
+        List<Map<String, Value>> list = DtoUtils.selectList(template, TABLE_NAME, queryId, filterId);
+        return newInstances(list);
+    }
+
+    /**
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryFilterWildcard} instance ]
+     * @return [ the {@link QueryFilterExpressionDto} instance ]
      */
-    public static List<QueryFilterWildcard> newInstances(List<Map<String, Value>> list) {
+    public static List<QueryFilterExpressionDto> newInstances(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryFilterWildcard::newInstance)
+                    .map(QueryFilterExpressionDto::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -102,9 +117,9 @@ public final class QueryFilterWildcard implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryFilterWildcard} instance
+     * @return the {@link QueryFilterExpressionDto} instance
      */
-    public static QueryFilterWildcard newInstance(Map<String, Value> record) {
+    public static QueryFilterExpressionDto newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
@@ -112,8 +127,7 @@ public final class QueryFilterWildcard implements Serializable {
         Value id = record.get("id");
         Value queryId = record.get("query_id");
         Value filterId = record.get("filter_id");
-        Value isNot = record.get("is_not");
-        Value wildcardCode = record.get("wildcard_code");
+        Value expressionCode = record.get("expression_code");
         Value valueString = record.get("value_string");
         Value valueInteger = record.get("value_integer");
         Value valueLong = record.get("value_long");
@@ -123,13 +137,12 @@ public final class QueryFilterWildcard implements Serializable {
         Value createDate = record.get("create_date");
         Value lastUpdate = record.get("last_update");
 
-        QueryFilterWildcard result = new QueryFilterWildcard();
+        QueryFilterExpressionDto result = new QueryFilterExpressionDto();
 
         result.setId(id);
         result.setQueryId(queryId);
         result.setFilterId(filterId);
-        result.setNot(isNot);
-        result.setWildcardCode(wildcardCode);
+        result.setExpressionCode(expressionCode);
         result.setValueString(valueString);
         result.setValueInteger(valueInteger);
         result.setValueLong(valueLong);
@@ -181,31 +194,17 @@ public final class QueryFilterWildcard implements Serializable {
         this.filterId = filterId;
     }
 
-    public Boolean getNot() {
-        return isNot;
+    public Integer getExpressionCode() {
+        return expressionCode;
     }
 
-    public void setNot(Value value) {
-        Integer not = value != null ? value.getInteger() : null;
-        Boolean isNot = ReaderUtils.toBoolean(not);
-        setNot(isNot);
+    public void setExpressionCode(Value value) {
+        Integer expressionCode = value != null ? value.getInteger() : null;
+        setExpressionCode(expressionCode);
     }
 
-    public void setNot(Boolean not) {
-        isNot = not;
-    }
-
-    public Integer getWildcardCode() {
-        return wildcardCode;
-    }
-
-    public void setWildcardCode(Value value) {
-        Integer wildcardCode = value != null ? value.getInteger() : null;
-        setWildcardCode(wildcardCode);
-    }
-
-    public void setWildcardCode(Integer wildcardCode) {
-        this.wildcardCode = wildcardCode;
+    public void setExpressionCode(Integer expressionCode) {
+        this.expressionCode = expressionCode;
     }
 
     public String getValueString() {

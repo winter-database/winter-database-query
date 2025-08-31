@@ -1,6 +1,8 @@
-package io.github.winter.database.query.reader;
+package io.github.winter.database.query.dto;
 
 import io.github.winter.boot.tuple.Value;
+import io.github.winter.database.template.Template;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,11 +11,16 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 连表条件
+ * 连表
  *
  * @author changebooks@qq.com
  */
-public final class QueryJoinOn implements Serializable {
+public final class QueryJoinDto implements Serializable {
+    /**
+     * 表名
+     */
+    public static final String TABLE_NAME = "xquery_join";
+
     /**
      * 主键
      */
@@ -25,29 +32,14 @@ public final class QueryJoinOn implements Serializable {
     private Integer queryId;
 
     /**
-     * 连表主键
+     * 表名
      */
-    private Integer joinId;
+    private String joinTable;
 
     /**
-     * 左表名
+     * 连表方式
      */
-    private String leftTable;
-
-    /**
-     * 左表字段名
-     */
-    private String leftColumn;
-
-    /**
-     * 右表名
-     */
-    private String rightTable;
-
-    /**
-     * 右表字段名
-     */
-    private String rightColumn;
+    private Integer joinType;
 
     /**
      * 排序
@@ -70,16 +62,28 @@ public final class QueryJoinOn implements Serializable {
     private Date lastUpdate;
 
     /**
+     * Read Instance List
+     *
+     * @param template the {@link Template} instance
+     * @param queryId  查询主键
+     * @return [ the {@link QueryJoinDto} instance ]
+     */
+    public static List<QueryJoinDto> readInstances(@NotNull Template template, int queryId) {
+        List<Map<String, Value>> list = DtoUtils.selectList(template, TABLE_NAME, queryId);
+        return newInstances(list);
+    }
+
+    /**
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryJoinOn} instance ]
+     * @return [ the {@link QueryJoinDto} instance ]
      */
-    public static List<QueryJoinOn> newInstances(List<Map<String, Value>> list) {
+    public static List<QueryJoinDto> newInstances(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryJoinOn::newInstance)
+                    .map(QueryJoinDto::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -91,34 +95,28 @@ public final class QueryJoinOn implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryJoinOn} instance
+     * @return the {@link QueryJoinDto} instance
      */
-    public static QueryJoinOn newInstance(Map<String, Value> record) {
+    public static QueryJoinDto newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
 
         Value id = record.get("id");
         Value queryId = record.get("query_id");
-        Value joinId = record.get("join_id");
-        Value leftTable = record.get("left_table");
-        Value leftColumn = record.get("left_column");
-        Value rightTable = record.get("right_table");
-        Value rightColumn = record.get("right_column");
+        Value joinTable = record.get("join_table");
+        Value joinType = record.get("join_type");
         Value showPriority = record.get("show_priority");
         Value updateVersion = record.get("update_version");
         Value createDate = record.get("create_date");
         Value lastUpdate = record.get("last_update");
 
-        QueryJoinOn result = new QueryJoinOn();
+        QueryJoinDto result = new QueryJoinDto();
 
         result.setId(id);
         result.setQueryId(queryId);
-        result.setJoinId(joinId);
-        result.setLeftTable(leftTable);
-        result.setLeftColumn(leftColumn);
-        result.setRightTable(rightTable);
-        result.setRightColumn(rightColumn);
+        result.setJoinTable(joinTable);
+        result.setJoinType(joinType);
         result.setShowPriority(showPriority);
         result.setUpdateVersion(updateVersion);
         result.setCreateDate(createDate);
@@ -153,69 +151,30 @@ public final class QueryJoinOn implements Serializable {
         this.queryId = queryId;
     }
 
-    public Integer getJoinId() {
-        return joinId;
+    public String getJoinTable() {
+        return joinTable;
     }
 
-    public void setJoinId(Value value) {
-        Integer joinId = value != null ? value.getInteger() : null;
-        setJoinId(joinId);
+    public void setJoinTable(Value value) {
+        String joinTable = value != null ? value.getString() : null;
+        setJoinTable(joinTable);
     }
 
-    public void setJoinId(Integer joinId) {
-        this.joinId = joinId;
+    public void setJoinTable(String joinTable) {
+        this.joinTable = joinTable;
     }
 
-    public String getLeftTable() {
-        return leftTable;
+    public Integer getJoinType() {
+        return joinType;
     }
 
-    public void setLeftTable(Value value) {
-        String leftTable = value != null ? value.getString() : null;
-        setLeftTable(leftTable);
+    public void setJoinType(Value value) {
+        Integer joinType = value != null ? value.getInteger() : null;
+        setJoinType(joinType);
     }
 
-    public void setLeftTable(String leftTable) {
-        this.leftTable = leftTable;
-    }
-
-    public String getLeftColumn() {
-        return leftColumn;
-    }
-
-    public void setLeftColumn(Value value) {
-        String leftColumn = value != null ? value.getString() : null;
-        setLeftColumn(leftColumn);
-    }
-
-    public void setLeftColumn(String leftColumn) {
-        this.leftColumn = leftColumn;
-    }
-
-    public String getRightTable() {
-        return rightTable;
-    }
-
-    public void setRightTable(Value value) {
-        String rightTable = value != null ? value.getString() : null;
-        setRightTable(rightTable);
-    }
-
-    public void setRightTable(String rightTable) {
-        this.rightTable = rightTable;
-    }
-
-    public String getRightColumn() {
-        return rightColumn;
-    }
-
-    public void setRightColumn(Value value) {
-        String rightColumn = value != null ? value.getString() : null;
-        setRightColumn(rightColumn);
-    }
-
-    public void setRightColumn(String rightColumn) {
-        this.rightColumn = rightColumn;
+    public void setJoinType(Integer joinType) {
+        this.joinType = joinType;
     }
 
     public Integer getShowPriority() {

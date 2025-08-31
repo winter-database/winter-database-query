@@ -1,20 +1,24 @@
-package io.github.winter.database.query.reader;
+package io.github.winter.database.query.dto;
 
+import io.github.winter.boot.filter.BaseFilter;
 import io.github.winter.boot.tuple.Value;
+import io.github.winter.database.template.Template;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
- * 列表值
+ * 连表条件
  *
  * @author changebooks@qq.com
  */
-public final class QueryFilterInValue implements Serializable {
+public final class QueryJoinOnDto implements Serializable {
+    /**
+     * 表名
+     */
+    public static final String TABLE_NAME = "xquery_join_on";
+
     /**
      * 主键
      */
@@ -26,34 +30,29 @@ public final class QueryFilterInValue implements Serializable {
     private Integer queryId;
 
     /**
-     * 条件主键
+     * 连表主键
      */
-    private Integer filterId;
+    private Integer joinId;
 
     /**
-     * 字符串
+     * 左表名
      */
-    private String valueString;
+    private String leftTable;
 
     /**
-     * 整数
+     * 左表字段名
      */
-    private Integer valueInteger;
+    private String leftColumn;
 
     /**
-     * 长整数
+     * 右表名
      */
-    private Long valueLong;
+    private String rightTable;
 
     /**
-     * 小数
+     * 右表字段名
      */
-    private BigDecimal valueBigDecimal;
-
-    /**
-     * 日期时间
-     */
-    private Date valueDate;
+    private String rightColumn;
 
     /**
      * 排序
@@ -76,16 +75,35 @@ public final class QueryFilterInValue implements Serializable {
     private Date lastUpdate;
 
     /**
+     * Read Instance List
+     *
+     * @param template the {@link Template} instance
+     * @param queryId  查询主键
+     * @param joinId   连表主键
+     * @return [ the {@link QueryJoinOnDto} instance ]
+     */
+    public static List<QueryJoinOnDto> readInstances(@NotNull Template template, int queryId, int joinId) {
+        List<BaseFilter> filters = new ArrayList<>();
+
+        filters.add(DtoUtils.newFilter("internal_recycle", 0));
+        filters.add(DtoUtils.newFilter("query_id", queryId));
+        filters.add(DtoUtils.newFilter("join_id", joinId));
+
+        List<Map<String, Value>> list = DtoUtils.selectList(template, TABLE_NAME, filters);
+        return newInstances(list);
+    }
+
+    /**
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryFilterInValue} instance ]
+     * @return [ the {@link QueryJoinOnDto} instance ]
      */
-    public static List<QueryFilterInValue> newInstances(List<Map<String, Value>> list) {
+    public static List<QueryJoinOnDto> newInstances(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryFilterInValue::newInstance)
+                    .map(QueryJoinOnDto::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -97,36 +115,34 @@ public final class QueryFilterInValue implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryFilterInValue} instance
+     * @return the {@link QueryJoinOnDto} instance
      */
-    public static QueryFilterInValue newInstance(Map<String, Value> record) {
+    public static QueryJoinOnDto newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
 
         Value id = record.get("id");
         Value queryId = record.get("query_id");
-        Value filterId = record.get("filter_id");
-        Value valueString = record.get("value_string");
-        Value valueInteger = record.get("value_integer");
-        Value valueLong = record.get("value_long");
-        Value valueBigDecimal = record.get("value_big_decimal");
-        Value valueDate = record.get("value_date");
+        Value joinId = record.get("join_id");
+        Value leftTable = record.get("left_table");
+        Value leftColumn = record.get("left_column");
+        Value rightTable = record.get("right_table");
+        Value rightColumn = record.get("right_column");
         Value showPriority = record.get("show_priority");
         Value updateVersion = record.get("update_version");
         Value createDate = record.get("create_date");
         Value lastUpdate = record.get("last_update");
 
-        QueryFilterInValue result = new QueryFilterInValue();
+        QueryJoinOnDto result = new QueryJoinOnDto();
 
         result.setId(id);
         result.setQueryId(queryId);
-        result.setFilterId(filterId);
-        result.setValueString(valueString);
-        result.setValueInteger(valueInteger);
-        result.setValueLong(valueLong);
-        result.setValueBigDecimal(valueBigDecimal);
-        result.setValueDate(valueDate);
+        result.setJoinId(joinId);
+        result.setLeftTable(leftTable);
+        result.setLeftColumn(leftColumn);
+        result.setRightTable(rightTable);
+        result.setRightColumn(rightColumn);
         result.setShowPriority(showPriority);
         result.setUpdateVersion(updateVersion);
         result.setCreateDate(createDate);
@@ -161,82 +177,69 @@ public final class QueryFilterInValue implements Serializable {
         this.queryId = queryId;
     }
 
-    public Integer getFilterId() {
-        return filterId;
+    public Integer getJoinId() {
+        return joinId;
     }
 
-    public void setFilterId(Value value) {
-        Integer filterId = value != null ? value.getInteger() : null;
-        setFilterId(filterId);
+    public void setJoinId(Value value) {
+        Integer joinId = value != null ? value.getInteger() : null;
+        setJoinId(joinId);
     }
 
-    public void setFilterId(Integer filterId) {
-        this.filterId = filterId;
+    public void setJoinId(Integer joinId) {
+        this.joinId = joinId;
     }
 
-    public String getValueString() {
-        return valueString;
+    public String getLeftTable() {
+        return leftTable;
     }
 
-    public void setValueString(Value value) {
-        String valueString = value != null ? value.getString() : null;
-        setValueString(valueString);
+    public void setLeftTable(Value value) {
+        String leftTable = value != null ? value.getString() : null;
+        setLeftTable(leftTable);
     }
 
-    public void setValueString(String valueString) {
-        this.valueString = valueString;
+    public void setLeftTable(String leftTable) {
+        this.leftTable = leftTable;
     }
 
-    public Integer getValueInteger() {
-        return valueInteger;
+    public String getLeftColumn() {
+        return leftColumn;
     }
 
-    public void setValueInteger(Value value) {
-        Integer valueInteger = value != null ? value.getInteger() : null;
-        setValueInteger(valueInteger);
+    public void setLeftColumn(Value value) {
+        String leftColumn = value != null ? value.getString() : null;
+        setLeftColumn(leftColumn);
     }
 
-    public void setValueInteger(Integer valueInteger) {
-        this.valueInteger = valueInteger;
+    public void setLeftColumn(String leftColumn) {
+        this.leftColumn = leftColumn;
     }
 
-    public Long getValueLong() {
-        return valueLong;
+    public String getRightTable() {
+        return rightTable;
     }
 
-    public void setValueLong(Value value) {
-        Long valueLong = value != null ? value.getLong() : null;
-        setValueLong(valueLong);
+    public void setRightTable(Value value) {
+        String rightTable = value != null ? value.getString() : null;
+        setRightTable(rightTable);
     }
 
-    public void setValueLong(Long valueLong) {
-        this.valueLong = valueLong;
+    public void setRightTable(String rightTable) {
+        this.rightTable = rightTable;
     }
 
-    public BigDecimal getValueBigDecimal() {
-        return valueBigDecimal;
+    public String getRightColumn() {
+        return rightColumn;
     }
 
-    public void setValueBigDecimal(Value value) {
-        BigDecimal valueBigDecimal = value != null ? value.getBigDecimal() : null;
-        setValueBigDecimal(valueBigDecimal);
+    public void setRightColumn(Value value) {
+        String rightColumn = value != null ? value.getString() : null;
+        setRightColumn(rightColumn);
     }
 
-    public void setValueBigDecimal(BigDecimal valueBigDecimal) {
-        this.valueBigDecimal = valueBigDecimal;
-    }
-
-    public Date getValueDate() {
-        return valueDate;
-    }
-
-    public void setValueDate(Value value) {
-        Date valueDate = value != null ? value.getDate() : null;
-        setValueDate(valueDate);
-    }
-
-    public void setValueDate(Date valueDate) {
-        this.valueDate = valueDate;
+    public void setRightColumn(String rightColumn) {
+        this.rightColumn = rightColumn;
     }
 
     public Integer getShowPriority() {

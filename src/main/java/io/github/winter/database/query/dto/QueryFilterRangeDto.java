@@ -1,6 +1,8 @@
-package io.github.winter.database.query.reader;
+package io.github.winter.database.query.dto;
 
 import io.github.winter.boot.tuple.Value;
+import io.github.winter.database.template.Template;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -14,7 +16,12 @@ import java.util.Objects;
  *
  * @author changebooks@qq.com
  */
-public final class QueryFilterRange implements Serializable {
+public final class QueryFilterRangeDto implements Serializable {
+    /**
+     * 表名
+     */
+    public static final String TABLE_NAME = "xquery_filter_range";
+
     /**
      * 主键
      */
@@ -106,16 +113,29 @@ public final class QueryFilterRange implements Serializable {
     private Date lastUpdate;
 
     /**
+     * Read Instance List
+     *
+     * @param template the {@link Template} instance
+     * @param queryId  查询主键
+     * @param filterId 条件主键
+     * @return [ the {@link QueryFilterRangeDto} instance ]
+     */
+    public static List<QueryFilterRangeDto> readInstances(@NotNull Template template, int queryId, int filterId) {
+        List<Map<String, Value>> list = DtoUtils.selectList(template, TABLE_NAME, queryId, filterId);
+        return newInstances(list);
+    }
+
+    /**
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryFilterRange} instance ]
+     * @return [ the {@link QueryFilterRangeDto} instance ]
      */
-    public static List<QueryFilterRange> newInstances(List<Map<String, Value>> list) {
+    public static List<QueryFilterRangeDto> newInstances(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryFilterRange::newInstance)
+                    .map(QueryFilterRangeDto::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -127,9 +147,9 @@ public final class QueryFilterRange implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryFilterRange} instance
+     * @return the {@link QueryFilterRangeDto} instance
      */
-    public static QueryFilterRange newInstance(Map<String, Value> record) {
+    public static QueryFilterRangeDto newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
@@ -153,7 +173,7 @@ public final class QueryFilterRange implements Serializable {
         Value createDate = record.get("create_date");
         Value lastUpdate = record.get("last_update");
 
-        QueryFilterRange result = new QueryFilterRange();
+        QueryFilterRangeDto result = new QueryFilterRangeDto();
 
         result.setId(id);
         result.setQueryId(queryId);
@@ -222,7 +242,7 @@ public final class QueryFilterRange implements Serializable {
 
     public void setIncludeLower(Value value) {
         Integer includeLower = value != null ? value.getInteger() : null;
-        Boolean isIncludeLower = ReaderUtils.toBoolean(includeLower);
+        Boolean isIncludeLower = DtoUtils.toBoolean(includeLower);
         setIncludeLower(isIncludeLower);
     }
 
@@ -236,7 +256,7 @@ public final class QueryFilterRange implements Serializable {
 
     public void setIncludeUpper(Value value) {
         Integer includeUpper = value != null ? value.getInteger() : null;
-        Boolean isIncludeUpper = ReaderUtils.toBoolean(includeUpper);
+        Boolean isIncludeUpper = DtoUtils.toBoolean(includeUpper);
         setIncludeUpper(isIncludeUpper);
     }
 

@@ -1,6 +1,8 @@
-package io.github.winter.database.query.reader;
+package io.github.winter.database.query.dto;
 
 import io.github.winter.boot.tuple.Value;
+import io.github.winter.database.template.Template;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,11 +11,16 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 在列表中
+ * 空
  *
  * @author changebooks@qq.com
  */
-public final class QueryFilterIn implements Serializable {
+public final class QueryFilterNullDto implements Serializable {
+    /**
+     * 表名
+     */
+    public static final String TABLE_NAME = "xquery_filter_null";
+
     /**
      * 主键
      */
@@ -50,16 +57,29 @@ public final class QueryFilterIn implements Serializable {
     private Date lastUpdate;
 
     /**
+     * Read Instance List
+     *
+     * @param template the {@link Template} instance
+     * @param queryId  查询主键
+     * @param filterId 条件主键
+     * @return [ the {@link QueryFilterNullDto} instance ]
+     */
+    public static List<QueryFilterNullDto> readInstances(@NotNull Template template, int queryId, int filterId) {
+        List<Map<String, Value>> list = DtoUtils.selectList(template, TABLE_NAME, queryId, filterId);
+        return newInstances(list);
+    }
+
+    /**
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryFilterIn} instance ]
+     * @return [ the {@link QueryFilterNullDto} instance ]
      */
-    public static List<QueryFilterIn> newInstances(List<Map<String, Value>> list) {
+    public static List<QueryFilterNullDto> newInstances(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryFilterIn::newInstance)
+                    .map(QueryFilterNullDto::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -71,9 +91,9 @@ public final class QueryFilterIn implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryFilterIn} instance
+     * @return the {@link QueryFilterNullDto} instance
      */
-    public static QueryFilterIn newInstance(Map<String, Value> record) {
+    public static QueryFilterNullDto newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
@@ -86,7 +106,7 @@ public final class QueryFilterIn implements Serializable {
         Value createDate = record.get("create_date");
         Value lastUpdate = record.get("last_update");
 
-        QueryFilterIn result = new QueryFilterIn();
+        QueryFilterNullDto result = new QueryFilterNullDto();
 
         result.setId(id);
         result.setQueryId(queryId);
@@ -144,7 +164,7 @@ public final class QueryFilterIn implements Serializable {
 
     public void setNot(Value value) {
         Integer not = value != null ? value.getInteger() : null;
-        Boolean isNot = ReaderUtils.toBoolean(not);
+        Boolean isNot = DtoUtils.toBoolean(not);
         setNot(isNot);
     }
 

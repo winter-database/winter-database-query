@@ -1,6 +1,8 @@
-package io.github.winter.database.query.reader;
+package io.github.winter.database.query.dto;
 
 import io.github.winter.boot.tuple.Value;
+import io.github.winter.database.template.Template;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -10,11 +12,16 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 表达式
+ * 列表值
  *
  * @author changebooks@qq.com
  */
-public final class QueryFilterExpression implements Serializable {
+public final class QueryFilterInValueDto implements Serializable {
+    /**
+     * 表名
+     */
+    public static final String TABLE_NAME = "xquery_filter_in_value";
+
     /**
      * 主键
      */
@@ -29,11 +36,6 @@ public final class QueryFilterExpression implements Serializable {
      * 条件主键
      */
     private Integer filterId;
-
-    /**
-     * 编码
-     */
-    private Integer expressionCode;
 
     /**
      * 字符串
@@ -61,6 +63,11 @@ public final class QueryFilterExpression implements Serializable {
     private Date valueDate;
 
     /**
+     * 排序
+     */
+    private Integer showPriority;
+
+    /**
      * 更新版本
      */
     private Integer updateVersion;
@@ -76,16 +83,29 @@ public final class QueryFilterExpression implements Serializable {
     private Date lastUpdate;
 
     /**
+     * Read Instance List
+     *
+     * @param template the {@link Template} instance
+     * @param queryId  查询主键
+     * @param filterId 条件主键
+     * @return [ the {@link QueryFilterInValueDto} instance ]
+     */
+    public static List<QueryFilterInValueDto> readInstances(@NotNull Template template, int queryId, int filterId) {
+        List<Map<String, Value>> list = DtoUtils.selectList(template, TABLE_NAME, queryId, filterId);
+        return newInstances(list);
+    }
+
+    /**
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryFilterExpression} instance ]
+     * @return [ the {@link QueryFilterInValueDto} instance ]
      */
-    public static List<QueryFilterExpression> newInstances(List<Map<String, Value>> list) {
+    public static List<QueryFilterInValueDto> newInstances(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryFilterExpression::newInstance)
+                    .map(QueryFilterInValueDto::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -97,9 +117,9 @@ public final class QueryFilterExpression implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryFilterExpression} instance
+     * @return the {@link QueryFilterInValueDto} instance
      */
-    public static QueryFilterExpression newInstance(Map<String, Value> record) {
+    public static QueryFilterInValueDto newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
@@ -107,27 +127,27 @@ public final class QueryFilterExpression implements Serializable {
         Value id = record.get("id");
         Value queryId = record.get("query_id");
         Value filterId = record.get("filter_id");
-        Value expressionCode = record.get("expression_code");
         Value valueString = record.get("value_string");
         Value valueInteger = record.get("value_integer");
         Value valueLong = record.get("value_long");
         Value valueBigDecimal = record.get("value_big_decimal");
         Value valueDate = record.get("value_date");
+        Value showPriority = record.get("show_priority");
         Value updateVersion = record.get("update_version");
         Value createDate = record.get("create_date");
         Value lastUpdate = record.get("last_update");
 
-        QueryFilterExpression result = new QueryFilterExpression();
+        QueryFilterInValueDto result = new QueryFilterInValueDto();
 
         result.setId(id);
         result.setQueryId(queryId);
         result.setFilterId(filterId);
-        result.setExpressionCode(expressionCode);
         result.setValueString(valueString);
         result.setValueInteger(valueInteger);
         result.setValueLong(valueLong);
         result.setValueBigDecimal(valueBigDecimal);
         result.setValueDate(valueDate);
+        result.setShowPriority(showPriority);
         result.setUpdateVersion(updateVersion);
         result.setCreateDate(createDate);
         result.setLastUpdate(lastUpdate);
@@ -172,19 +192,6 @@ public final class QueryFilterExpression implements Serializable {
 
     public void setFilterId(Integer filterId) {
         this.filterId = filterId;
-    }
-
-    public Integer getExpressionCode() {
-        return expressionCode;
-    }
-
-    public void setExpressionCode(Value value) {
-        Integer expressionCode = value != null ? value.getInteger() : null;
-        setExpressionCode(expressionCode);
-    }
-
-    public void setExpressionCode(Integer expressionCode) {
-        this.expressionCode = expressionCode;
     }
 
     public String getValueString() {
@@ -250,6 +257,19 @@ public final class QueryFilterExpression implements Serializable {
 
     public void setValueDate(Date valueDate) {
         this.valueDate = valueDate;
+    }
+
+    public Integer getShowPriority() {
+        return showPriority;
+    }
+
+    public void setShowPriority(Value value) {
+        Integer showPriority = value != null ? value.getInteger() : null;
+        setShowPriority(showPriority);
+    }
+
+    public void setShowPriority(Integer showPriority) {
+        this.showPriority = showPriority;
     }
 
     public Integer getUpdateVersion() {

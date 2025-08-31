@@ -1,6 +1,8 @@
-package io.github.winter.database.query.reader;
+package io.github.winter.database.query.dto;
 
 import io.github.winter.boot.tuple.Value;
+import io.github.winter.database.template.Template;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,11 +11,16 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 字段
+ * 在列表中
  *
  * @author changebooks@qq.com
  */
-public final class QueryColumn implements Serializable {
+public final class QueryFilterInDto implements Serializable {
+    /**
+     * 表名
+     */
+    public static final String TABLE_NAME = "xquery_filter_in";
+
     /**
      * 主键
      */
@@ -25,24 +32,14 @@ public final class QueryColumn implements Serializable {
     private Integer queryId;
 
     /**
-     * 表名
+     * 条件主键
      */
-    private String tableName;
+    private Integer filterId;
 
     /**
-     * 字段名
+     * 取反？
      */
-    private String columnName;
-
-    /**
-     * 函数类型
-     */
-    private Integer funcType;
-
-    /**
-     * 排序
-     */
-    private Integer showPriority;
+    private Boolean isNot;
 
     /**
      * 更新版本
@@ -60,16 +57,29 @@ public final class QueryColumn implements Serializable {
     private Date lastUpdate;
 
     /**
+     * Read Instance List
+     *
+     * @param template the {@link Template} instance
+     * @param queryId  查询主键
+     * @param filterId 条件主键
+     * @return [ the {@link QueryFilterInDto} instance ]
+     */
+    public static List<QueryFilterInDto> readInstances(@NotNull Template template, int queryId, int filterId) {
+        List<Map<String, Value>> list = DtoUtils.selectList(template, TABLE_NAME, queryId, filterId);
+        return newInstances(list);
+    }
+
+    /**
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryColumn} instance ]
+     * @return [ the {@link QueryFilterInDto} instance ]
      */
-    public static List<QueryColumn> newInstances(List<Map<String, Value>> list) {
+    public static List<QueryFilterInDto> newInstances(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryColumn::newInstance)
+                    .map(QueryFilterInDto::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -81,31 +91,27 @@ public final class QueryColumn implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryColumn} instance
+     * @return the {@link QueryFilterInDto} instance
      */
-    public static QueryColumn newInstance(Map<String, Value> record) {
+    public static QueryFilterInDto newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
 
         Value id = record.get("id");
         Value queryId = record.get("query_id");
-        Value tableName = record.get("table_name");
-        Value columnName = record.get("column_name");
-        Value funcType = record.get("func_type");
-        Value showPriority = record.get("show_priority");
+        Value filterId = record.get("filter_id");
+        Value isNot = record.get("is_not");
         Value updateVersion = record.get("update_version");
         Value createDate = record.get("create_date");
         Value lastUpdate = record.get("last_update");
 
-        QueryColumn result = new QueryColumn();
+        QueryFilterInDto result = new QueryFilterInDto();
 
         result.setId(id);
         result.setQueryId(queryId);
-        result.setTableName(tableName);
-        result.setColumnName(columnName);
-        result.setFuncType(funcType);
-        result.setShowPriority(showPriority);
+        result.setFilterId(filterId);
+        result.setNot(isNot);
         result.setUpdateVersion(updateVersion);
         result.setCreateDate(createDate);
         result.setLastUpdate(lastUpdate);
@@ -139,56 +145,31 @@ public final class QueryColumn implements Serializable {
         this.queryId = queryId;
     }
 
-    public String getTableName() {
-        return tableName;
+    public Integer getFilterId() {
+        return filterId;
     }
 
-    public void setTableName(Value value) {
-        String tableName = value != null ? value.getString() : null;
-        setTableName(tableName);
+    public void setFilterId(Value value) {
+        Integer filterId = value != null ? value.getInteger() : null;
+        setFilterId(filterId);
     }
 
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
+    public void setFilterId(Integer filterId) {
+        this.filterId = filterId;
     }
 
-    public String getColumnName() {
-        return columnName;
+    public Boolean getNot() {
+        return isNot;
     }
 
-    public void setColumnName(Value value) {
-        String columnName = value != null ? value.getString() : null;
-        setColumnName(columnName);
+    public void setNot(Value value) {
+        Integer not = value != null ? value.getInteger() : null;
+        Boolean isNot = DtoUtils.toBoolean(not);
+        setNot(isNot);
     }
 
-    public void setColumnName(String columnName) {
-        this.columnName = columnName;
-    }
-
-    public Integer getFuncType() {
-        return funcType;
-    }
-
-    public void setFuncType(Value value) {
-        Integer funcType = value != null ? value.getInteger() : null;
-        setFuncType(funcType);
-    }
-
-    public void setFuncType(Integer funcType) {
-        this.funcType = funcType;
-    }
-
-    public Integer getShowPriority() {
-        return showPriority;
-    }
-
-    public void setShowPriority(Value value) {
-        Integer showPriority = value != null ? value.getInteger() : null;
-        setShowPriority(showPriority);
-    }
-
-    public void setShowPriority(Integer showPriority) {
-        this.showPriority = showPriority;
+    public void setNot(Boolean not) {
+        isNot = not;
     }
 
     public Integer getUpdateVersion() {

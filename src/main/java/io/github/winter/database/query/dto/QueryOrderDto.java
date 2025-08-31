@@ -1,6 +1,8 @@
-package io.github.winter.database.query.reader;
+package io.github.winter.database.query.dto;
 
 import io.github.winter.boot.tuple.Value;
+import io.github.winter.database.template.Template;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,11 +11,16 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 连表
+ * 排序
  *
  * @author changebooks@qq.com
  */
-public final class QueryJoin implements Serializable {
+public final class QueryOrderDto implements Serializable {
+    /**
+     * 表名
+     */
+    public static final String TABLE_NAME = "xquery_order";
+
     /**
      * 主键
      */
@@ -27,12 +34,22 @@ public final class QueryJoin implements Serializable {
     /**
      * 表名
      */
-    private String joinTable;
+    private String tableName;
 
     /**
-     * 连表方式
+     * 字段名
      */
-    private Integer joinType;
+    private String columnName;
+
+    /**
+     * 函数类型
+     */
+    private Integer funcType;
+
+    /**
+     * 排序方式
+     */
+    private Integer orderType;
 
     /**
      * 排序
@@ -55,16 +72,28 @@ public final class QueryJoin implements Serializable {
     private Date lastUpdate;
 
     /**
+     * Read Instance List
+     *
+     * @param template the {@link Template} instance
+     * @param queryId  查询主键
+     * @return [ the {@link QueryOrderDto} instance ]
+     */
+    public static List<QueryOrderDto> readInstances(@NotNull Template template, int queryId) {
+        List<Map<String, Value>> list = DtoUtils.selectList(template, TABLE_NAME, queryId);
+        return newInstances(list);
+    }
+
+    /**
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryJoin} instance ]
+     * @return [ the {@link QueryOrderDto} instance ]
      */
-    public static List<QueryJoin> newInstances(List<Map<String, Value>> list) {
+    public static List<QueryOrderDto> newInstances(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryJoin::newInstance)
+                    .map(QueryOrderDto::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -76,28 +105,32 @@ public final class QueryJoin implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryJoin} instance
+     * @return the {@link QueryOrderDto} instance
      */
-    public static QueryJoin newInstance(Map<String, Value> record) {
+    public static QueryOrderDto newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
 
         Value id = record.get("id");
         Value queryId = record.get("query_id");
-        Value joinTable = record.get("join_table");
-        Value joinType = record.get("join_type");
+        Value tableName = record.get("table_name");
+        Value columnName = record.get("column_name");
+        Value funcType = record.get("func_type");
+        Value orderType = record.get("order_type");
         Value showPriority = record.get("show_priority");
         Value updateVersion = record.get("update_version");
         Value createDate = record.get("create_date");
         Value lastUpdate = record.get("last_update");
 
-        QueryJoin result = new QueryJoin();
+        QueryOrderDto result = new QueryOrderDto();
 
         result.setId(id);
         result.setQueryId(queryId);
-        result.setJoinTable(joinTable);
-        result.setJoinType(joinType);
+        result.setTableName(tableName);
+        result.setColumnName(columnName);
+        result.setFuncType(funcType);
+        result.setOrderType(orderType);
         result.setShowPriority(showPriority);
         result.setUpdateVersion(updateVersion);
         result.setCreateDate(createDate);
@@ -132,30 +165,56 @@ public final class QueryJoin implements Serializable {
         this.queryId = queryId;
     }
 
-    public String getJoinTable() {
-        return joinTable;
+    public String getTableName() {
+        return tableName;
     }
 
-    public void setJoinTable(Value value) {
-        String joinTable = value != null ? value.getString() : null;
-        setJoinTable(joinTable);
+    public void setTableName(Value value) {
+        String tableName = value != null ? value.getString() : null;
+        setTableName(tableName);
     }
 
-    public void setJoinTable(String joinTable) {
-        this.joinTable = joinTable;
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 
-    public Integer getJoinType() {
-        return joinType;
+    public String getColumnName() {
+        return columnName;
     }
 
-    public void setJoinType(Value value) {
-        Integer joinType = value != null ? value.getInteger() : null;
-        setJoinType(joinType);
+    public void setColumnName(Value value) {
+        String columnName = value != null ? value.getString() : null;
+        setColumnName(columnName);
     }
 
-    public void setJoinType(Integer joinType) {
-        this.joinType = joinType;
+    public void setColumnName(String columnName) {
+        this.columnName = columnName;
+    }
+
+    public Integer getFuncType() {
+        return funcType;
+    }
+
+    public void setFuncType(Value value) {
+        Integer funcType = value != null ? value.getInteger() : null;
+        setFuncType(funcType);
+    }
+
+    public void setFuncType(Integer funcType) {
+        this.funcType = funcType;
+    }
+
+    public Integer getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(Value value) {
+        Integer orderType = value != null ? value.getInteger() : null;
+        setOrderType(orderType);
+    }
+
+    public void setOrderType(Integer orderType) {
+        this.orderType = orderType;
     }
 
     public Integer getShowPriority() {

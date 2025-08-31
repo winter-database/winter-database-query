@@ -1,6 +1,8 @@
-package io.github.winter.database.query.reader;
+package io.github.winter.database.query.dto;
 
 import io.github.winter.boot.tuple.Value;
+import io.github.winter.database.template.Template;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,11 +11,16 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 空
+ * 分组
  *
  * @author changebooks@qq.com
  */
-public final class QueryFilterNull implements Serializable {
+public final class QueryGroupDto implements Serializable {
+    /**
+     * 表名
+     */
+    public static final String TABLE_NAME = "xquery_group";
+
     /**
      * 主键
      */
@@ -25,14 +32,19 @@ public final class QueryFilterNull implements Serializable {
     private Integer queryId;
 
     /**
-     * 条件主键
+     * 表名
      */
-    private Integer filterId;
+    private String tableName;
 
     /**
-     * 取反？
+     * 字段名
      */
-    private Boolean isNot;
+    private String columnName;
+
+    /**
+     * 排序
+     */
+    private Integer showPriority;
 
     /**
      * 更新版本
@@ -50,16 +62,28 @@ public final class QueryFilterNull implements Serializable {
     private Date lastUpdate;
 
     /**
+     * Read Instance List
+     *
+     * @param template the {@link Template} instance
+     * @param queryId  查询主键
+     * @return [ the {@link QueryGroupDto} instance ]
+     */
+    public static List<QueryGroupDto> readInstances(@NotNull Template template, int queryId) {
+        List<Map<String, Value>> list = DtoUtils.selectList(template, TABLE_NAME, queryId);
+        return newInstances(list);
+    }
+
+    /**
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryFilterNull} instance ]
+     * @return [ the {@link QueryGroupDto} instance ]
      */
-    public static List<QueryFilterNull> newInstances(List<Map<String, Value>> list) {
+    public static List<QueryGroupDto> newInstances(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryFilterNull::newInstance)
+                    .map(QueryGroupDto::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -71,27 +95,29 @@ public final class QueryFilterNull implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryFilterNull} instance
+     * @return the {@link QueryGroupDto} instance
      */
-    public static QueryFilterNull newInstance(Map<String, Value> record) {
+    public static QueryGroupDto newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
 
         Value id = record.get("id");
         Value queryId = record.get("query_id");
-        Value filterId = record.get("filter_id");
-        Value isNot = record.get("is_not");
+        Value tableName = record.get("table_name");
+        Value columnName = record.get("column_name");
+        Value showPriority = record.get("show_priority");
         Value updateVersion = record.get("update_version");
         Value createDate = record.get("create_date");
         Value lastUpdate = record.get("last_update");
 
-        QueryFilterNull result = new QueryFilterNull();
+        QueryGroupDto result = new QueryGroupDto();
 
         result.setId(id);
         result.setQueryId(queryId);
-        result.setFilterId(filterId);
-        result.setNot(isNot);
+        result.setTableName(tableName);
+        result.setColumnName(columnName);
+        result.setShowPriority(showPriority);
         result.setUpdateVersion(updateVersion);
         result.setCreateDate(createDate);
         result.setLastUpdate(lastUpdate);
@@ -125,31 +151,43 @@ public final class QueryFilterNull implements Serializable {
         this.queryId = queryId;
     }
 
-    public Integer getFilterId() {
-        return filterId;
+    public String getTableName() {
+        return tableName;
     }
 
-    public void setFilterId(Value value) {
-        Integer filterId = value != null ? value.getInteger() : null;
-        setFilterId(filterId);
+    public void setTableName(Value value) {
+        String tableName = value != null ? value.getString() : null;
+        setTableName(tableName);
     }
 
-    public void setFilterId(Integer filterId) {
-        this.filterId = filterId;
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 
-    public Boolean getNot() {
-        return isNot;
+    public String getColumnName() {
+        return columnName;
     }
 
-    public void setNot(Value value) {
-        Integer not = value != null ? value.getInteger() : null;
-        Boolean isNot = ReaderUtils.toBoolean(not);
-        setNot(isNot);
+    public void setColumnName(Value value) {
+        String columnName = value != null ? value.getString() : null;
+        setColumnName(columnName);
     }
 
-    public void setNot(Boolean not) {
-        isNot = not;
+    public void setColumnName(String columnName) {
+        this.columnName = columnName;
+    }
+
+    public Integer getShowPriority() {
+        return showPriority;
+    }
+
+    public void setShowPriority(Value value) {
+        Integer showPriority = value != null ? value.getInteger() : null;
+        setShowPriority(showPriority);
+    }
+
+    public void setShowPriority(Integer showPriority) {
+        this.showPriority = showPriority;
     }
 
     public Integer getUpdateVersion() {
