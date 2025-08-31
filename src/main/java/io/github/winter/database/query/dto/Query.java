@@ -5,6 +5,9 @@ import io.github.winter.database.query.BooleanCast;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * 查询
@@ -76,6 +79,68 @@ public final class Query implements Serializable {
      * 更新时间
      */
     private Date lastUpdate;
+
+    /**
+     * Build Instance List
+     *
+     * @param list [ [ Column Name : Column Value ] ]
+     * @return [ the {@link Query} instance ]
+     */
+    public static List<Query> newInstances(List<Map<String, Value>> list) {
+        if (list != null) {
+            return list.stream()
+                    .filter(Objects::nonNull)
+                    .map(Query::newInstance)
+                    .filter(Objects::nonNull)
+                    .toList();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Build Instance
+     *
+     * @param record [ Column Name : Column Value ]
+     * @return the {@link Query} instance
+     */
+    public static Query newInstance(Map<String, Value> record) {
+        if (record == null) {
+            return null;
+        }
+
+        Value id = record.get("id");
+        Value queryName = record.get("query_name");
+        Value isDistinct = record.get("is_distinct");
+        Value isAsterisk = record.get("is_asterisk");
+        Value fromTable = record.get("from_table");
+        Value pageOffset = record.get("page_offset");
+        Value pageLimit = record.get("page_limit");
+        Value queryDescription = record.get("query_description");
+        Value queryRemark = record.get("query_remark");
+        Value showPriority = record.get("show_priority");
+        Value updateVersion = record.get("update_version");
+        Value createDate = record.get("create_date");
+        Value lastUpdate = record.get("last_update");
+
+        Query result = new Query();
+
+        result.setId(id);
+        result.setQueryName(queryName);
+        result.setDistinct(isDistinct);
+        result.setAsterisk(isAsterisk);
+        result.setFromTable(fromTable);
+        result.setPageOffset(pageOffset);
+        result.setPageLimit(pageLimit);
+        result.setQueryDescription(queryDescription);
+        result.setQueryRemark(queryRemark);
+        result.setShowPriority(showPriority);
+        result.setUpdateVersion(updateVersion);
+        result.setCreateDate(createDate);
+        result.setLastUpdate(lastUpdate);
+
+        return result;
+    }
 
     public Integer getId() {
         return id;
