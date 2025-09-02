@@ -1,14 +1,9 @@
 package io.github.winter.database.query.dto;
 
-import io.github.winter.boot.tuple.Value;
-import io.github.winter.database.template.Template;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * 连表
@@ -16,11 +11,6 @@ import java.util.Objects;
  * @author changebooks@qq.com
  */
 public final class QueryJoinDto implements Serializable {
-    /**
-     * 表名
-     */
-    public static final String TABLE_NAME = "xquery_join";
-
     /**
      * 主键
      */
@@ -61,116 +51,33 @@ public final class QueryJoinDto implements Serializable {
      */
     private Date lastUpdate;
 
-    /**
-     * Read Instance List
-     *
-     * @param template the {@link Template} instance
-     * @param queryId  查询主键
-     * @return [ the {@link QueryJoinDto} instance ]
-     */
-    public static List<QueryJoinDto> readInstances(@NotNull Template template, int queryId) {
-        List<Map<String, Value>> list = DtoUtils.selectList(template, TABLE_NAME, queryId);
-        return newInstances(list);
-    }
-
-    /**
-     * Build Instance List
-     *
-     * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryJoinDto} instance ]
-     */
-    public static List<QueryJoinDto> newInstances(List<Map<String, Value>> list) {
-        if (list != null) {
-            return list.stream()
-                    .filter(Objects::nonNull)
-                    .map(QueryJoinDto::newInstance)
-                    .filter(Objects::nonNull)
-                    .toList();
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Build Instance
-     *
-     * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryJoinDto} instance
-     */
-    public static QueryJoinDto newInstance(Map<String, Value> record) {
-        if (record == null) {
-            return null;
-        }
-
-        Value id = record.get("id");
-        Value queryId = record.get("query_id");
-        Value joinTable = record.get("join_table");
-        Value joinType = record.get("join_type");
-        Value showPriority = record.get("show_priority");
-        Value updateVersion = record.get("update_version");
-        Value createDate = record.get("create_date");
-        Value lastUpdate = record.get("last_update");
-
-        QueryJoinDto result = new QueryJoinDto();
-
-        result.setId(id);
-        result.setQueryId(queryId);
-        result.setJoinTable(joinTable);
-        result.setJoinType(joinType);
-        result.setShowPriority(showPriority);
-        result.setUpdateVersion(updateVersion);
-        result.setCreateDate(createDate);
-        result.setLastUpdate(lastUpdate);
-
-        return result;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Value value) {
-        Integer id = value != null ? value.getInteger() : null;
-        setId(id);
+    public int getId() {
+        return id != null ? id : 0;
     }
 
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public Integer getQueryId() {
-        return queryId;
-    }
-
-    public void setQueryId(Value value) {
-        Integer queryId = value != null ? value.getInteger() : null;
-        setQueryId(queryId);
+    public int getQueryId() {
+        return queryId != null ? queryId : 0;
     }
 
     public void setQueryId(Integer queryId) {
         this.queryId = queryId;
     }
 
+    @NotNull
     public String getJoinTable() {
-        return joinTable;
-    }
-
-    public void setJoinTable(Value value) {
-        String joinTable = value != null ? value.getString() : null;
-        setJoinTable(joinTable);
+        return joinTable != null ? joinTable : "";
     }
 
     public void setJoinTable(String joinTable) {
-        this.joinTable = joinTable;
+        this.joinTable = joinTable != null ? joinTable.trim() : "";
     }
 
-    public Integer getJoinType() {
-        return joinType;
-    }
-
-    public void setJoinType(Value value) {
-        Integer joinType = value != null ? value.getInteger() : null;
-        setJoinType(joinType);
+    public int getJoinType() {
+        return joinType != null ? joinType : 0;
     }
 
     public void setJoinType(Integer joinType) {
@@ -181,22 +88,12 @@ public final class QueryJoinDto implements Serializable {
         return showPriority;
     }
 
-    public void setShowPriority(Value value) {
-        Integer showPriority = value != null ? value.getInteger() : null;
-        setShowPriority(showPriority);
-    }
-
     public void setShowPriority(Integer showPriority) {
         this.showPriority = showPriority;
     }
 
     public Integer getUpdateVersion() {
         return updateVersion;
-    }
-
-    public void setUpdateVersion(Value value) {
-        Integer updateVersion = value != null ? value.getInteger() : null;
-        setUpdateVersion(updateVersion);
     }
 
     public void setUpdateVersion(Integer updateVersion) {
@@ -207,22 +104,12 @@ public final class QueryJoinDto implements Serializable {
         return createDate;
     }
 
-    public void setCreateDate(Value value) {
-        Date createDate = value != null ? value.getDate() : null;
-        setCreateDate(createDate);
-    }
-
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
     public Date getLastUpdate() {
         return lastUpdate;
-    }
-
-    public void setLastUpdate(Value value) {
-        Date lastUpdate = value != null ? value.getDate() : null;
-        setLastUpdate(lastUpdate);
     }
 
     public void setLastUpdate(Date lastUpdate) {

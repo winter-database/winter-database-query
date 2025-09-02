@@ -1,14 +1,7 @@
 package io.github.winter.database.query.dto;
 
-import io.github.winter.boot.tuple.Value;
-import io.github.winter.database.template.Template;
-import jakarta.validation.constraints.NotNull;
-
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * 在列表中
@@ -16,11 +9,6 @@ import java.util.Objects;
  * @author changebooks@qq.com
  */
 public final class QueryFilterInDto implements Serializable {
-    /**
-     * 表名
-     */
-    public static final String TABLE_NAME = "xquery_filter_in";
-
     /**
      * 主键
      */
@@ -56,102 +44,24 @@ public final class QueryFilterInDto implements Serializable {
      */
     private Date lastUpdate;
 
-    /**
-     * Read Instance List
-     *
-     * @param template the {@link Template} instance
-     * @param queryId  查询主键
-     * @param filterId 条件主键
-     * @return [ the {@link QueryFilterInDto} instance ]
-     */
-    public static List<QueryFilterInDto> readInstances(@NotNull Template template, int queryId, int filterId) {
-        List<Map<String, Value>> list = DtoUtils.selectList(template, TABLE_NAME, queryId, filterId);
-        return newInstances(list);
-    }
-
-    /**
-     * Build Instance List
-     *
-     * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryFilterInDto} instance ]
-     */
-    public static List<QueryFilterInDto> newInstances(List<Map<String, Value>> list) {
-        if (list != null) {
-            return list.stream()
-                    .filter(Objects::nonNull)
-                    .map(QueryFilterInDto::newInstance)
-                    .filter(Objects::nonNull)
-                    .toList();
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Build Instance
-     *
-     * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryFilterInDto} instance
-     */
-    public static QueryFilterInDto newInstance(Map<String, Value> record) {
-        if (record == null) {
-            return null;
-        }
-
-        Value id = record.get("id");
-        Value queryId = record.get("query_id");
-        Value filterId = record.get("filter_id");
-        Value isNot = record.get("is_not");
-        Value updateVersion = record.get("update_version");
-        Value createDate = record.get("create_date");
-        Value lastUpdate = record.get("last_update");
-
-        QueryFilterInDto result = new QueryFilterInDto();
-
-        result.setId(id);
-        result.setQueryId(queryId);
-        result.setFilterId(filterId);
-        result.setNot(isNot);
-        result.setUpdateVersion(updateVersion);
-        result.setCreateDate(createDate);
-        result.setLastUpdate(lastUpdate);
-
-        return result;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Value value) {
-        Integer id = value != null ? value.getInteger() : null;
-        setId(id);
+    public int getId() {
+        return id != null ? id : 0;
     }
 
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public Integer getQueryId() {
-        return queryId;
-    }
-
-    public void setQueryId(Value value) {
-        Integer queryId = value != null ? value.getInteger() : null;
-        setQueryId(queryId);
+    public int getQueryId() {
+        return queryId != null ? queryId : 0;
     }
 
     public void setQueryId(Integer queryId) {
         this.queryId = queryId;
     }
 
-    public Integer getFilterId() {
-        return filterId;
-    }
-
-    public void setFilterId(Value value) {
-        Integer filterId = value != null ? value.getInteger() : null;
-        setFilterId(filterId);
+    public int getFilterId() {
+        return filterId != null ? filterId : 0;
     }
 
     public void setFilterId(Integer filterId) {
@@ -162,23 +72,12 @@ public final class QueryFilterInDto implements Serializable {
         return isNot;
     }
 
-    public void setNot(Value value) {
-        Integer not = value != null ? value.getInteger() : null;
-        Boolean isNot = DtoUtils.toBoolean(not);
-        setNot(isNot);
-    }
-
     public void setNot(Boolean not) {
         isNot = not;
     }
 
     public Integer getUpdateVersion() {
         return updateVersion;
-    }
-
-    public void setUpdateVersion(Value value) {
-        Integer updateVersion = value != null ? value.getInteger() : null;
-        setUpdateVersion(updateVersion);
     }
 
     public void setUpdateVersion(Integer updateVersion) {
@@ -189,22 +88,12 @@ public final class QueryFilterInDto implements Serializable {
         return createDate;
     }
 
-    public void setCreateDate(Value value) {
-        Date createDate = value != null ? value.getDate() : null;
-        setCreateDate(createDate);
-    }
-
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
     public Date getLastUpdate() {
         return lastUpdate;
-    }
-
-    public void setLastUpdate(Value value) {
-        Date lastUpdate = value != null ? value.getDate() : null;
-        setLastUpdate(lastUpdate);
     }
 
     public void setLastUpdate(Date lastUpdate) {

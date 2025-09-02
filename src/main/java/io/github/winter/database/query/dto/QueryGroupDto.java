@@ -1,14 +1,9 @@
 package io.github.winter.database.query.dto;
 
-import io.github.winter.boot.tuple.Value;
-import io.github.winter.database.template.Template;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * 分组
@@ -16,11 +11,6 @@ import java.util.Objects;
  * @author changebooks@qq.com
  */
 public final class QueryGroupDto implements Serializable {
-    /**
-     * 表名
-     */
-    public static final String TABLE_NAME = "xquery_group";
-
     /**
      * 主键
      */
@@ -61,129 +51,42 @@ public final class QueryGroupDto implements Serializable {
      */
     private Date lastUpdate;
 
-    /**
-     * Read Instance List
-     *
-     * @param template the {@link Template} instance
-     * @param queryId  查询主键
-     * @return [ the {@link QueryGroupDto} instance ]
-     */
-    public static List<QueryGroupDto> readInstances(@NotNull Template template, int queryId) {
-        List<Map<String, Value>> list = DtoUtils.selectList(template, TABLE_NAME, queryId);
-        return newInstances(list);
-    }
-
-    /**
-     * Build Instance List
-     *
-     * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryGroupDto} instance ]
-     */
-    public static List<QueryGroupDto> newInstances(List<Map<String, Value>> list) {
-        if (list != null) {
-            return list.stream()
-                    .filter(Objects::nonNull)
-                    .map(QueryGroupDto::newInstance)
-                    .filter(Objects::nonNull)
-                    .toList();
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Build Instance
-     *
-     * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryGroupDto} instance
-     */
-    public static QueryGroupDto newInstance(Map<String, Value> record) {
-        if (record == null) {
-            return null;
-        }
-
-        Value id = record.get("id");
-        Value queryId = record.get("query_id");
-        Value tableName = record.get("table_name");
-        Value columnName = record.get("column_name");
-        Value showPriority = record.get("show_priority");
-        Value updateVersion = record.get("update_version");
-        Value createDate = record.get("create_date");
-        Value lastUpdate = record.get("last_update");
-
-        QueryGroupDto result = new QueryGroupDto();
-
-        result.setId(id);
-        result.setQueryId(queryId);
-        result.setTableName(tableName);
-        result.setColumnName(columnName);
-        result.setShowPriority(showPriority);
-        result.setUpdateVersion(updateVersion);
-        result.setCreateDate(createDate);
-        result.setLastUpdate(lastUpdate);
-
-        return result;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Value value) {
-        Integer id = value != null ? value.getInteger() : null;
-        setId(id);
+    public int getId() {
+        return id != null ? id : 0;
     }
 
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public Integer getQueryId() {
-        return queryId;
-    }
-
-    public void setQueryId(Value value) {
-        Integer queryId = value != null ? value.getInteger() : null;
-        setQueryId(queryId);
+    public int getQueryId() {
+        return queryId != null ? queryId : 0;
     }
 
     public void setQueryId(Integer queryId) {
         this.queryId = queryId;
     }
 
+    @NotNull
     public String getTableName() {
-        return tableName;
-    }
-
-    public void setTableName(Value value) {
-        String tableName = value != null ? value.getString() : null;
-        setTableName(tableName);
+        return tableName != null ? tableName : "";
     }
 
     public void setTableName(String tableName) {
-        this.tableName = tableName;
+        this.tableName = tableName != null ? tableName.trim() : "";
     }
 
+    @NotNull
     public String getColumnName() {
-        return columnName;
-    }
-
-    public void setColumnName(Value value) {
-        String columnName = value != null ? value.getString() : null;
-        setColumnName(columnName);
+        return columnName != null ? columnName : "";
     }
 
     public void setColumnName(String columnName) {
-        this.columnName = columnName;
+        this.columnName = columnName != null ? columnName.trim() : "";
     }
 
     public Integer getShowPriority() {
         return showPriority;
-    }
-
-    public void setShowPriority(Value value) {
-        Integer showPriority = value != null ? value.getInteger() : null;
-        setShowPriority(showPriority);
     }
 
     public void setShowPriority(Integer showPriority) {
@@ -194,11 +97,6 @@ public final class QueryGroupDto implements Serializable {
         return updateVersion;
     }
 
-    public void setUpdateVersion(Value value) {
-        Integer updateVersion = value != null ? value.getInteger() : null;
-        setUpdateVersion(updateVersion);
-    }
-
     public void setUpdateVersion(Integer updateVersion) {
         this.updateVersion = updateVersion;
     }
@@ -207,22 +105,12 @@ public final class QueryGroupDto implements Serializable {
         return createDate;
     }
 
-    public void setCreateDate(Value value) {
-        Date createDate = value != null ? value.getDate() : null;
-        setCreateDate(createDate);
-    }
-
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
     public Date getLastUpdate() {
         return lastUpdate;
-    }
-
-    public void setLastUpdate(Value value) {
-        Date lastUpdate = value != null ? value.getDate() : null;
-        setLastUpdate(lastUpdate);
     }
 
     public void setLastUpdate(Date lastUpdate) {

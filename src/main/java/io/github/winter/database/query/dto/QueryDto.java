@@ -1,14 +1,9 @@
 package io.github.winter.database.query.dto;
 
-import io.github.winter.boot.tuple.Value;
-import io.github.winter.database.template.Template;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * 查询
@@ -16,11 +11,6 @@ import java.util.Objects;
  * @author changebooks@qq.com
  */
 public final class QueryDto implements Serializable {
-    /**
-     * 表名
-     */
-    public static final String TABLE_NAME = "xquery";
-
     /**
      * 主键
      */
@@ -86,87 +76,8 @@ public final class QueryDto implements Serializable {
      */
     private Date lastUpdate;
 
-    /**
-     * Read Instance
-     *
-     * @param template the {@link Template} instance
-     * @param id       主键
-     * @return the {@link QueryDto} instance
-     */
-    public static QueryDto readInstance(@NotNull Template template, int id) {
-        Map<String, Value> record = DtoUtils.selectOne(template, TABLE_NAME, id);
-        return newInstance(record);
-    }
-
-    /**
-     * Build Instance List
-     *
-     * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryDto} instance ]
-     */
-    public static List<QueryDto> newInstances(List<Map<String, Value>> list) {
-        if (list != null) {
-            return list.stream()
-                    .filter(Objects::nonNull)
-                    .map(QueryDto::newInstance)
-                    .filter(Objects::nonNull)
-                    .toList();
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Build Instance
-     *
-     * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryDto} instance
-     */
-    public static QueryDto newInstance(Map<String, Value> record) {
-        if (record == null) {
-            return null;
-        }
-
-        Value id = record.get("id");
-        Value queryName = record.get("query_name");
-        Value isDistinct = record.get("is_distinct");
-        Value isAsterisk = record.get("is_asterisk");
-        Value fromTable = record.get("from_table");
-        Value pageOffset = record.get("page_offset");
-        Value pageLimit = record.get("page_limit");
-        Value queryDescription = record.get("query_description");
-        Value queryRemark = record.get("query_remark");
-        Value showPriority = record.get("show_priority");
-        Value updateVersion = record.get("update_version");
-        Value createDate = record.get("create_date");
-        Value lastUpdate = record.get("last_update");
-
-        QueryDto result = new QueryDto();
-
-        result.setId(id);
-        result.setQueryName(queryName);
-        result.setDistinct(isDistinct);
-        result.setAsterisk(isAsterisk);
-        result.setFromTable(fromTable);
-        result.setPageOffset(pageOffset);
-        result.setPageLimit(pageLimit);
-        result.setQueryDescription(queryDescription);
-        result.setQueryRemark(queryRemark);
-        result.setShowPriority(showPriority);
-        result.setUpdateVersion(updateVersion);
-        result.setCreateDate(createDate);
-        result.setLastUpdate(lastUpdate);
-
-        return result;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Value value) {
-        Integer id = value != null ? value.getInteger() : null;
-        setId(id);
+    public int getId() {
+        return id != null ? id : 0;
     }
 
     public void setId(Integer id) {
@@ -177,63 +88,37 @@ public final class QueryDto implements Serializable {
         return queryName;
     }
 
-    public void setQueryName(Value value) {
-        String queryName = value != null ? value.getString() : null;
-        setQueryName(queryName);
-    }
-
     public void setQueryName(String queryName) {
         this.queryName = queryName;
     }
 
-    public Boolean getDistinct() {
-        return isDistinct;
-    }
-
-    public void setDistinct(Value value) {
-        Integer distinct = value != null ? value.getInteger() : null;
-        Boolean isDistinct = DtoUtils.toBoolean(distinct);
-        setDistinct(isDistinct);
+    public boolean getDistinct() {
+        return isDistinct != null ? isDistinct : false;
     }
 
     public void setDistinct(Boolean distinct) {
         isDistinct = distinct;
     }
 
-    public Boolean getAsterisk() {
-        return isAsterisk;
-    }
-
-    public void setAsterisk(Value value) {
-        Integer asterisk = value != null ? value.getInteger() : null;
-        Boolean isAsterisk = DtoUtils.toBoolean(asterisk);
-        setAsterisk(isAsterisk);
+    public boolean getAsterisk() {
+        return isAsterisk != null ? isAsterisk : false;
     }
 
     public void setAsterisk(Boolean asterisk) {
         isAsterisk = asterisk;
     }
 
+    @NotNull
     public String getFromTable() {
-        return fromTable;
-    }
-
-    public void setFromTable(Value value) {
-        String fromTable = value != null ? value.getString() : null;
-        setFromTable(fromTable);
+        return fromTable != null ? fromTable : "";
     }
 
     public void setFromTable(String fromTable) {
-        this.fromTable = fromTable;
+        this.fromTable = fromTable != null ? fromTable.trim() : "";
     }
 
     public Long getPageOffset() {
         return pageOffset;
-    }
-
-    public void setPageOffset(Value value) {
-        Long pageOffset = value != null ? value.getLong() : null;
-        setPageOffset(pageOffset);
     }
 
     public void setPageOffset(Long pageOffset) {
@@ -244,22 +129,12 @@ public final class QueryDto implements Serializable {
         return pageLimit;
     }
 
-    public void setPageLimit(Value value) {
-        Integer pageLimit = value != null ? value.getInteger() : null;
-        setPageLimit(pageLimit);
-    }
-
     public void setPageLimit(Integer pageLimit) {
         this.pageLimit = pageLimit;
     }
 
     public String getQueryDescription() {
         return queryDescription;
-    }
-
-    public void setQueryDescription(Value value) {
-        String queryDescription = value != null ? value.getString() : null;
-        setQueryDescription(queryDescription);
     }
 
     public void setQueryDescription(String queryDescription) {
@@ -270,22 +145,12 @@ public final class QueryDto implements Serializable {
         return queryRemark;
     }
 
-    public void setQueryRemark(Value value) {
-        String queryRemark = value != null ? value.getString() : null;
-        setQueryRemark(queryRemark);
-    }
-
     public void setQueryRemark(String queryRemark) {
         this.queryRemark = queryRemark;
     }
 
     public Integer getShowPriority() {
         return showPriority;
-    }
-
-    public void setShowPriority(Value value) {
-        Integer showPriority = value != null ? value.getInteger() : null;
-        setShowPriority(showPriority);
     }
 
     public void setShowPriority(Integer showPriority) {
@@ -296,11 +161,6 @@ public final class QueryDto implements Serializable {
         return updateVersion;
     }
 
-    public void setUpdateVersion(Value value) {
-        Integer updateVersion = value != null ? value.getInteger() : null;
-        setUpdateVersion(updateVersion);
-    }
-
     public void setUpdateVersion(Integer updateVersion) {
         this.updateVersion = updateVersion;
     }
@@ -309,22 +169,12 @@ public final class QueryDto implements Serializable {
         return createDate;
     }
 
-    public void setCreateDate(Value value) {
-        Date createDate = value != null ? value.getDate() : null;
-        setCreateDate(createDate);
-    }
-
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
     public Date getLastUpdate() {
         return lastUpdate;
-    }
-
-    public void setLastUpdate(Value value) {
-        Date lastUpdate = value != null ? value.getDate() : null;
-        setLastUpdate(lastUpdate);
     }
 
     public void setLastUpdate(Date lastUpdate) {
