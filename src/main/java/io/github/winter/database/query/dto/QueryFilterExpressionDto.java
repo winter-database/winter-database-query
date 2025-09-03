@@ -1,5 +1,7 @@
 package io.github.winter.database.query.dto;
 
+import io.github.winter.boot.tuple.Value;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -74,12 +76,22 @@ public final class QueryFilterExpressionDto implements Serializable {
         return id != null ? id : 0;
     }
 
+    public void setId(Value value) {
+        Integer id = value != null ? value.getInteger() : null;
+        setId(id);
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
 
     public int getQueryId() {
         return queryId != null ? queryId : 0;
+    }
+
+    public void setQueryId(Value value) {
+        Integer queryId = value != null ? value.getInteger() : null;
+        setQueryId(queryId);
     }
 
     public void setQueryId(Integer queryId) {
@@ -90,12 +102,22 @@ public final class QueryFilterExpressionDto implements Serializable {
         return filterId != null ? filterId : 0;
     }
 
+    public void setFilterId(Value value) {
+        Integer filterId = value != null ? value.getInteger() : null;
+        setFilterId(filterId);
+    }
+
     public void setFilterId(Integer filterId) {
         this.filterId = filterId;
     }
 
     public int getExpressionCode() {
         return expressionCode != null ? expressionCode : 0;
+    }
+
+    public void setExpressionCode(Value value) {
+        Integer expressionCode = value != null ? value.getInteger() : null;
+        setExpressionCode(expressionCode);
     }
 
     public void setExpressionCode(Integer expressionCode) {
@@ -106,12 +128,22 @@ public final class QueryFilterExpressionDto implements Serializable {
         return valueString;
     }
 
+    public void setValueString(Value value) {
+        String valueString = value != null ? value.getString() : null;
+        setValueString(valueString);
+    }
+
     public void setValueString(String valueString) {
         this.valueString = valueString;
     }
 
     public Integer getValueInteger() {
         return valueInteger;
+    }
+
+    public void setValueInteger(Value value) {
+        Integer valueInteger = value != null ? value.getInteger() : null;
+        setValueInteger(valueInteger);
     }
 
     public void setValueInteger(Integer valueInteger) {
@@ -122,12 +154,22 @@ public final class QueryFilterExpressionDto implements Serializable {
         return valueLong;
     }
 
+    public void setValueLong(Value value) {
+        Long valueLong = value != null ? value.getLong() : null;
+        setValueLong(valueLong);
+    }
+
     public void setValueLong(Long valueLong) {
         this.valueLong = valueLong;
     }
 
     public BigDecimal getValueBigDecimal() {
         return valueBigDecimal;
+    }
+
+    public void setValueBigDecimal(Value value) {
+        BigDecimal valueBigDecimal = value != null ? value.getBigDecimal() : null;
+        setValueBigDecimal(valueBigDecimal);
     }
 
     public void setValueBigDecimal(BigDecimal valueBigDecimal) {
@@ -138,12 +180,22 @@ public final class QueryFilterExpressionDto implements Serializable {
         return valueDate;
     }
 
+    public void setValueDate(Value value) {
+        Date valueDate = value != null ? value.getDate() : null;
+        setValueDate(valueDate);
+    }
+
     public void setValueDate(Date valueDate) {
         this.valueDate = valueDate;
     }
 
     public int getUpdateVersion() {
         return updateVersion != null ? updateVersion : 0;
+    }
+
+    public void setUpdateVersion(Value value) {
+        Integer updateVersion = value != null ? value.getInteger() : null;
+        setUpdateVersion(updateVersion);
     }
 
     public void setUpdateVersion(Integer updateVersion) {
@@ -154,12 +206,22 @@ public final class QueryFilterExpressionDto implements Serializable {
         return createDate;
     }
 
+    public void setCreateDate(Value value) {
+        Date createDate = value != null ? value.getDate() : null;
+        setCreateDate(createDate);
+    }
+
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
     public Date getLastUpdate() {
         return lastUpdate;
+    }
+
+    public void setLastUpdate(Value value) {
+        Date lastUpdate = value != null ? value.getDate() : null;
+        setLastUpdate(lastUpdate);
     }
 
     public void setLastUpdate(Date lastUpdate) {

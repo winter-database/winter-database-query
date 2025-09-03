@@ -1,5 +1,7 @@
 package io.github.winter.database.query.dto;
 
+import io.github.winter.boot.tuple.Value;
+import io.github.winter.database.query.BooleanCast;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
@@ -80,6 +82,11 @@ public final class QueryFilterDto implements Serializable {
         return id != null ? id : 0;
     }
 
+    public void setId(Value value) {
+        Integer id = value != null ? value.getInteger() : null;
+        setId(id);
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -88,12 +95,22 @@ public final class QueryFilterDto implements Serializable {
         return queryId != null ? queryId : 0;
     }
 
+    public void setQueryId(Value value) {
+        Integer queryId = value != null ? value.getInteger() : null;
+        setQueryId(queryId);
+    }
+
     public void setQueryId(Integer queryId) {
         this.queryId = queryId;
     }
 
     public int getParentId() {
         return parentId != null ? parentId : 0;
+    }
+
+    public void setParentId(Value value) {
+        Integer parentId = value != null ? value.getInteger() : null;
+        setParentId(parentId);
     }
 
     public void setParentId(Integer parentId) {
@@ -105,6 +122,11 @@ public final class QueryFilterDto implements Serializable {
         return tableName != null ? tableName : "";
     }
 
+    public void setTableName(Value value) {
+        String tableName = value != null ? value.getString() : null;
+        setTableName(tableName);
+    }
+
     public void setTableName(String tableName) {
         this.tableName = tableName != null ? tableName.trim() : "";
     }
@@ -112,6 +134,11 @@ public final class QueryFilterDto implements Serializable {
     @NotNull
     public String getColumnName() {
         return columnName != null ? columnName : "";
+    }
+
+    public void setColumnName(Value value) {
+        String columnName = value != null ? value.getString() : null;
+        setColumnName(columnName);
     }
 
     public void setColumnName(String columnName) {
@@ -122,12 +149,22 @@ public final class QueryFilterDto implements Serializable {
         return funcType != null ? funcType : 0;
     }
 
+    public void setFuncType(Value value) {
+        Integer funcType = value != null ? value.getInteger() : null;
+        setFuncType(funcType);
+    }
+
     public void setFuncType(Integer funcType) {
         this.funcType = funcType;
     }
 
     public int getFilterType() {
         return filterType != null ? filterType : 0;
+    }
+
+    public void setFilterType(Value value) {
+        Integer filterType = value != null ? value.getInteger() : null;
+        setFilterType(filterType);
     }
 
     public void setFilterType(Integer filterType) {
@@ -138,12 +175,23 @@ public final class QueryFilterDto implements Serializable {
         return logicalOperator != null ? logicalOperator : 0;
     }
 
+    public void setLogicalOperator(Value value) {
+        Integer logicalOperator = value != null ? value.getInteger() : null;
+        setLogicalOperator(logicalOperator);
+    }
+
     public void setLogicalOperator(Integer logicalOperator) {
         this.logicalOperator = logicalOperator;
     }
 
     public boolean getHaving() {
         return isHaving != null ? isHaving : false;
+    }
+
+    public void setHaving(Value value) {
+        Integer having = value != null ? value.getInteger() : null;
+        Boolean isHaving = BooleanCast.fromInt(having);
+        setHaving(isHaving);
     }
 
     public void setHaving(Boolean having) {
@@ -154,12 +202,22 @@ public final class QueryFilterDto implements Serializable {
         return showPriority != null ? showPriority : 0;
     }
 
+    public void setShowPriority(Value value) {
+        Integer showPriority = value != null ? value.getInteger() : null;
+        setShowPriority(showPriority);
+    }
+
     public void setShowPriority(Integer showPriority) {
         this.showPriority = showPriority;
     }
 
     public int getUpdateVersion() {
         return updateVersion != null ? updateVersion : 0;
+    }
+
+    public void setUpdateVersion(Value value) {
+        Integer updateVersion = value != null ? value.getInteger() : null;
+        setUpdateVersion(updateVersion);
     }
 
     public void setUpdateVersion(Integer updateVersion) {
@@ -170,12 +228,22 @@ public final class QueryFilterDto implements Serializable {
         return createDate;
     }
 
+    public void setCreateDate(Value value) {
+        Date createDate = value != null ? value.getDate() : null;
+        setCreateDate(createDate);
+    }
+
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
     public Date getLastUpdate() {
         return lastUpdate;
+    }
+
+    public void setLastUpdate(Value value) {
+        Date lastUpdate = value != null ? value.getDate() : null;
+        setLastUpdate(lastUpdate);
     }
 
     public void setLastUpdate(Date lastUpdate) {

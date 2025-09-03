@@ -1,5 +1,6 @@
 package io.github.winter.database.query.dto;
 
+import io.github.winter.boot.tuple.Value;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
@@ -60,12 +61,22 @@ public final class QueryColumnDto implements Serializable {
         return id != null ? id : 0;
     }
 
+    public void setId(Value value) {
+        Integer id = value != null ? value.getInteger() : null;
+        setId(id);
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
 
     public int getQueryId() {
         return queryId != null ? queryId : 0;
+    }
+
+    public void setQueryId(Value value) {
+        Integer queryId = value != null ? value.getInteger() : null;
+        setQueryId(queryId);
     }
 
     public void setQueryId(Integer queryId) {
@@ -77,6 +88,11 @@ public final class QueryColumnDto implements Serializable {
         return tableName != null ? tableName : "";
     }
 
+    public void setTableName(Value value) {
+        String tableName = value != null ? value.getString() : null;
+        setTableName(tableName);
+    }
+
     public void setTableName(String tableName) {
         this.tableName = tableName != null ? tableName.trim() : "";
     }
@@ -84,6 +100,11 @@ public final class QueryColumnDto implements Serializable {
     @NotNull
     public String getColumnName() {
         return columnName != null ? columnName : "";
+    }
+
+    public void setColumnName(Value value) {
+        String columnName = value != null ? value.getString() : null;
+        setColumnName(columnName);
     }
 
     public void setColumnName(String columnName) {
@@ -94,12 +115,22 @@ public final class QueryColumnDto implements Serializable {
         return funcType != null ? funcType : 0;
     }
 
+    public void setFuncType(Value value) {
+        Integer funcType = value != null ? value.getInteger() : null;
+        setFuncType(funcType);
+    }
+
     public void setFuncType(Integer funcType) {
         this.funcType = funcType;
     }
 
     public int getShowPriority() {
         return showPriority != null ? showPriority : 0;
+    }
+
+    public void setShowPriority(Value value) {
+        Integer showPriority = value != null ? value.getInteger() : null;
+        setShowPriority(showPriority);
     }
 
     public void setShowPriority(Integer showPriority) {
@@ -110,6 +141,11 @@ public final class QueryColumnDto implements Serializable {
         return updateVersion != null ? updateVersion : 0;
     }
 
+    public void setUpdateVersion(Value value) {
+        Integer updateVersion = value != null ? value.getInteger() : null;
+        setUpdateVersion(updateVersion);
+    }
+
     public void setUpdateVersion(Integer updateVersion) {
         this.updateVersion = updateVersion;
     }
@@ -118,12 +154,22 @@ public final class QueryColumnDto implements Serializable {
         return createDate;
     }
 
+    public void setCreateDate(Value value) {
+        Date createDate = value != null ? value.getDate() : null;
+        setCreateDate(createDate);
+    }
+
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
     public Date getLastUpdate() {
         return lastUpdate;
+    }
+
+    public void setLastUpdate(Value value) {
+        Date lastUpdate = value != null ? value.getDate() : null;
+        setLastUpdate(lastUpdate);
     }
 
     public void setLastUpdate(Date lastUpdate) {

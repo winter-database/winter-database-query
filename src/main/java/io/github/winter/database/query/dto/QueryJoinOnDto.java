@@ -1,5 +1,6 @@
 package io.github.winter.database.query.dto;
 
+import io.github.winter.boot.tuple.Value;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
@@ -70,6 +71,11 @@ public final class QueryJoinOnDto implements Serializable {
         return id != null ? id : 0;
     }
 
+    public void setId(Value value) {
+        Integer id = value != null ? value.getInteger() : null;
+        setId(id);
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -78,12 +84,22 @@ public final class QueryJoinOnDto implements Serializable {
         return queryId != null ? queryId : 0;
     }
 
+    public void setQueryId(Value value) {
+        Integer queryId = value != null ? value.getInteger() : null;
+        setQueryId(queryId);
+    }
+
     public void setQueryId(Integer queryId) {
         this.queryId = queryId;
     }
 
     public int getJoinId() {
         return joinId != null ? joinId : 0;
+    }
+
+    public void setJoinId(Value value) {
+        Integer joinId = value != null ? value.getInteger() : null;
+        setJoinId(joinId);
     }
 
     public void setJoinId(Integer joinId) {
@@ -95,6 +111,11 @@ public final class QueryJoinOnDto implements Serializable {
         return leftTable != null ? leftTable : "";
     }
 
+    public void setLeftTable(Value value) {
+        String leftTable = value != null ? value.getString() : null;
+        setLeftTable(leftTable);
+    }
+
     public void setLeftTable(String leftTable) {
         this.leftTable = leftTable != null ? leftTable.trim() : "";
     }
@@ -102,6 +123,11 @@ public final class QueryJoinOnDto implements Serializable {
     @NotNull
     public String getLeftColumn() {
         return leftColumn != null ? leftColumn : "";
+    }
+
+    public void setLeftColumn(Value value) {
+        String leftColumn = value != null ? value.getString() : null;
+        setLeftColumn(leftColumn);
     }
 
     public void setLeftColumn(String leftColumn) {
@@ -113,6 +139,11 @@ public final class QueryJoinOnDto implements Serializable {
         return rightTable != null ? rightTable : "";
     }
 
+    public void setRightTable(Value value) {
+        String rightTable = value != null ? value.getString() : null;
+        setRightTable(rightTable);
+    }
+
     public void setRightTable(String rightTable) {
         this.rightTable = rightTable != null ? rightTable.trim() : "";
     }
@@ -120,6 +151,11 @@ public final class QueryJoinOnDto implements Serializable {
     @NotNull
     public String getRightColumn() {
         return rightColumn != null ? rightColumn : "";
+    }
+
+    public void setRightColumn(Value value) {
+        String rightColumn = value != null ? value.getString() : null;
+        setRightColumn(rightColumn);
     }
 
     public void setRightColumn(String rightColumn) {
@@ -130,12 +166,22 @@ public final class QueryJoinOnDto implements Serializable {
         return showPriority != null ? showPriority : 0;
     }
 
+    public void setShowPriority(Value value) {
+        Integer showPriority = value != null ? value.getInteger() : null;
+        setShowPriority(showPriority);
+    }
+
     public void setShowPriority(Integer showPriority) {
         this.showPriority = showPriority;
     }
 
     public int getUpdateVersion() {
         return updateVersion != null ? updateVersion : 0;
+    }
+
+    public void setUpdateVersion(Value value) {
+        Integer updateVersion = value != null ? value.getInteger() : null;
+        setUpdateVersion(updateVersion);
     }
 
     public void setUpdateVersion(Integer updateVersion) {
@@ -146,12 +192,22 @@ public final class QueryJoinOnDto implements Serializable {
         return createDate;
     }
 
+    public void setCreateDate(Value value) {
+        Date createDate = value != null ? value.getDate() : null;
+        setCreateDate(createDate);
+    }
+
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
     public Date getLastUpdate() {
         return lastUpdate;
+    }
+
+    public void setLastUpdate(Value value) {
+        Date lastUpdate = value != null ? value.getDate() : null;
+        setLastUpdate(lastUpdate);
     }
 
     public void setLastUpdate(Date lastUpdate) {
