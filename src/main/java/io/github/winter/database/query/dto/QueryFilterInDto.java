@@ -76,8 +76,8 @@ public final class QueryFilterInDto implements Serializable {
         isNot = not;
     }
 
-    public Integer getUpdateVersion() {
-        return updateVersion;
+    public int getUpdateVersion() {
+        return updateVersion != null ? updateVersion : 0;
     }
 
     public void setUpdateVersion(Integer updateVersion) {

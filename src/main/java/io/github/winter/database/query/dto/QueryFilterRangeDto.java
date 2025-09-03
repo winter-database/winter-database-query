@@ -220,8 +220,8 @@ public final class QueryFilterRangeDto implements Serializable {
         this.toValueDate = toValueDate;
     }
 
-    public Integer getUpdateVersion() {
-        return updateVersion;
+    public int getUpdateVersion() {
+        return updateVersion != null ? updateVersion : 0;
     }
 
     public void setUpdateVersion(Integer updateVersion) {

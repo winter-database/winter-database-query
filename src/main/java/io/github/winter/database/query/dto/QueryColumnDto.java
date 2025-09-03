@@ -98,16 +98,16 @@ public final class QueryColumnDto implements Serializable {
         this.funcType = funcType;
     }
 
-    public Integer getShowPriority() {
-        return showPriority;
+    public int getShowPriority() {
+        return showPriority != null ? showPriority : 0;
     }
 
     public void setShowPriority(Integer showPriority) {
         this.showPriority = showPriority;
     }
 
-    public Integer getUpdateVersion() {
-        return updateVersion;
+    public int getUpdateVersion() {
+        return updateVersion != null ? updateVersion : 0;
     }
 
     public void setUpdateVersion(Integer updateVersion) {

@@ -142,8 +142,8 @@ public final class QueryFilterExpressionDto implements Serializable {
         this.valueDate = valueDate;
     }
 
-    public Integer getUpdateVersion() {
-        return updateVersion;
+    public int getUpdateVersion() {
+        return updateVersion != null ? updateVersion : 0;
     }
 
     public void setUpdateVersion(Integer updateVersion) {

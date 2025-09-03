@@ -149,16 +149,16 @@ public final class QueryDto implements Serializable {
         this.queryRemark = queryRemark;
     }
 
-    public Integer getShowPriority() {
-        return showPriority;
+    public int getShowPriority() {
+        return showPriority != null ? showPriority : 0;
     }
 
     public void setShowPriority(Integer showPriority) {
         this.showPriority = showPriority;
     }
 
-    public Integer getUpdateVersion() {
-        return updateVersion;
+    public int getUpdateVersion() {
+        return updateVersion != null ? updateVersion : 0;
     }
 
     public void setUpdateVersion(Integer updateVersion) {
