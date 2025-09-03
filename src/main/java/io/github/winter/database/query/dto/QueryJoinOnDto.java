@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * 连表条件
@@ -66,6 +67,46 @@ public final class QueryJoinOnDto implements Serializable {
      * 更新时间
      */
     private Date lastUpdate;
+
+    /**
+     * Build Instance
+     *
+     * @param record [ Column Name : Column Value ]
+     * @return the {@link QueryJoinOnDto} instance
+     */
+    public static QueryJoinOnDto newInstance(Map<String, Value> record) {
+        if (record == null) {
+            return null;
+        }
+
+        Value id = record.get("id");
+        Value queryId = record.get("query_id");
+        Value joinId = record.get("join_id");
+        Value leftTable = record.get("left_table");
+        Value leftColumn = record.get("left_column");
+        Value rightTable = record.get("right_table");
+        Value rightColumn = record.get("right_column");
+        Value showPriority = record.get("show_priority");
+        Value updateVersion = record.get("update_version");
+        Value createDate = record.get("create_date");
+        Value lastUpdate = record.get("last_update");
+
+        QueryJoinOnDto result = new QueryJoinOnDto();
+
+        result.setId(id);
+        result.setQueryId(queryId);
+        result.setJoinId(joinId);
+        result.setLeftTable(leftTable);
+        result.setLeftColumn(leftColumn);
+        result.setRightTable(rightTable);
+        result.setRightColumn(rightColumn);
+        result.setShowPriority(showPriority);
+        result.setUpdateVersion(updateVersion);
+        result.setCreateDate(createDate);
+        result.setLastUpdate(lastUpdate);
+
+        return result;
+    }
 
     public int getId() {
         return id != null ? id : 0;

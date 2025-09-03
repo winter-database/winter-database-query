@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * 分组
@@ -51,6 +52,40 @@ public final class QueryGroupDto implements Serializable {
      * 更新时间
      */
     private Date lastUpdate;
+
+    /**
+     * Build Instance
+     *
+     * @param record [ Column Name : Column Value ]
+     * @return the {@link QueryGroupDto} instance
+     */
+    public static QueryGroupDto newInstance(Map<String, Value> record) {
+        if (record == null) {
+            return null;
+        }
+
+        Value id = record.get("id");
+        Value queryId = record.get("query_id");
+        Value tableName = record.get("table_name");
+        Value columnName = record.get("column_name");
+        Value showPriority = record.get("show_priority");
+        Value updateVersion = record.get("update_version");
+        Value createDate = record.get("create_date");
+        Value lastUpdate = record.get("last_update");
+
+        QueryGroupDto result = new QueryGroupDto();
+
+        result.setId(id);
+        result.setQueryId(queryId);
+        result.setTableName(tableName);
+        result.setColumnName(columnName);
+        result.setShowPriority(showPriority);
+        result.setUpdateVersion(updateVersion);
+        result.setCreateDate(createDate);
+        result.setLastUpdate(lastUpdate);
+
+        return result;
+    }
 
     public int getId() {
         return id != null ? id : 0;

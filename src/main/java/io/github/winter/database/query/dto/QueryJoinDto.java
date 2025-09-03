@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * 连表
@@ -51,6 +52,40 @@ public final class QueryJoinDto implements Serializable {
      * 更新时间
      */
     private Date lastUpdate;
+
+    /**
+     * Build Instance
+     *
+     * @param record [ Column Name : Column Value ]
+     * @return the {@link QueryJoinDto} instance
+     */
+    public static QueryJoinDto newInstance(Map<String, Value> record) {
+        if (record == null) {
+            return null;
+        }
+
+        Value id = record.get("id");
+        Value queryId = record.get("query_id");
+        Value joinTable = record.get("join_table");
+        Value joinType = record.get("join_type");
+        Value showPriority = record.get("show_priority");
+        Value updateVersion = record.get("update_version");
+        Value createDate = record.get("create_date");
+        Value lastUpdate = record.get("last_update");
+
+        QueryJoinDto result = new QueryJoinDto();
+
+        result.setId(id);
+        result.setQueryId(queryId);
+        result.setJoinTable(joinTable);
+        result.setJoinType(joinType);
+        result.setShowPriority(showPriority);
+        result.setUpdateVersion(updateVersion);
+        result.setCreateDate(createDate);
+        result.setLastUpdate(lastUpdate);
+
+        return result;
+    }
 
     public int getId() {
         return id != null ? id : 0;

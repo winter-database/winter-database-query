@@ -6,6 +6,7 @@ import io.github.winter.database.query.BooleanCast;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * 范围
@@ -102,6 +103,60 @@ public final class QueryFilterRangeDto implements Serializable {
      * 更新时间
      */
     private Date lastUpdate;
+
+    /**
+     * Build Instance
+     *
+     * @param record [ Column Name : Column Value ]
+     * @return the {@link QueryFilterRangeDto} instance
+     */
+    public static QueryFilterRangeDto newInstance(Map<String, Value> record) {
+        if (record == null) {
+            return null;
+        }
+
+        Value id = record.get("id");
+        Value queryId = record.get("query_id");
+        Value filterId = record.get("filter_id");
+        Value isIncludeLower = record.get("is_include_lower");
+        Value isIncludeUpper = record.get("is_include_upper");
+        Value fromValueString = record.get("from_value_string");
+        Value fromValueInteger = record.get("from_value_integer");
+        Value fromValueLong = record.get("from_value_long");
+        Value fromValueBigDecimal = record.get("from_value_big_decimal");
+        Value fromValueDate = record.get("from_value_date");
+        Value toValueString = record.get("to_value_string");
+        Value toValueInteger = record.get("to_value_integer");
+        Value toValueLong = record.get("to_value_long");
+        Value toValueBigDecimal = record.get("to_value_big_decimal");
+        Value toValueDate = record.get("to_value_date");
+        Value updateVersion = record.get("update_version");
+        Value createDate = record.get("create_date");
+        Value lastUpdate = record.get("last_update");
+
+        QueryFilterRangeDto result = new QueryFilterRangeDto();
+
+        result.setId(id);
+        result.setQueryId(queryId);
+        result.setFilterId(filterId);
+        result.setIncludeLower(isIncludeLower);
+        result.setIncludeUpper(isIncludeUpper);
+        result.setFromValueString(fromValueString);
+        result.setFromValueInteger(fromValueInteger);
+        result.setFromValueLong(fromValueLong);
+        result.setFromValueBigDecimal(fromValueBigDecimal);
+        result.setFromValueDate(fromValueDate);
+        result.setToValueString(toValueString);
+        result.setToValueInteger(toValueInteger);
+        result.setToValueLong(toValueLong);
+        result.setToValueBigDecimal(toValueBigDecimal);
+        result.setToValueDate(toValueDate);
+        result.setUpdateVersion(updateVersion);
+        result.setCreateDate(createDate);
+        result.setLastUpdate(lastUpdate);
+
+        return result;
+    }
 
     public int getId() {
         return id != null ? id : 0;

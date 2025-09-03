@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * 条件
@@ -77,6 +78,50 @@ public final class QueryFilterDto implements Serializable {
      * 更新时间
      */
     private Date lastUpdate;
+
+    /**
+     * Build Instance
+     *
+     * @param record [ Column Name : Column Value ]
+     * @return the {@link QueryFilterDto} instance
+     */
+    public static QueryFilterDto newInstance(Map<String, Value> record) {
+        if (record == null) {
+            return null;
+        }
+
+        Value id = record.get("id");
+        Value queryId = record.get("query_id");
+        Value parentId = record.get("parent_id");
+        Value tableName = record.get("table_name");
+        Value columnName = record.get("column_name");
+        Value funcType = record.get("func_type");
+        Value filterType = record.get("filter_type");
+        Value logicalOperator = record.get("logical_operator");
+        Value isHaving = record.get("is_having");
+        Value showPriority = record.get("show_priority");
+        Value updateVersion = record.get("update_version");
+        Value createDate = record.get("create_date");
+        Value lastUpdate = record.get("last_update");
+
+        QueryFilterDto result = new QueryFilterDto();
+
+        result.setId(id);
+        result.setQueryId(queryId);
+        result.setParentId(parentId);
+        result.setTableName(tableName);
+        result.setColumnName(columnName);
+        result.setFuncType(funcType);
+        result.setFilterType(filterType);
+        result.setLogicalOperator(logicalOperator);
+        result.setHaving(isHaving);
+        result.setShowPriority(showPriority);
+        result.setUpdateVersion(updateVersion);
+        result.setCreateDate(createDate);
+        result.setLastUpdate(lastUpdate);
+
+        return result;
+    }
 
     public int getId() {
         return id != null ? id : 0;

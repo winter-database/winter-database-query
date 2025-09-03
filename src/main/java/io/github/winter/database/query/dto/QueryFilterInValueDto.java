@@ -5,6 +5,7 @@ import io.github.winter.boot.tuple.Value;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * 列表值
@@ -71,6 +72,48 @@ public final class QueryFilterInValueDto implements Serializable {
      * 更新时间
      */
     private Date lastUpdate;
+
+    /**
+     * Build Instance
+     *
+     * @param record [ Column Name : Column Value ]
+     * @return the {@link QueryFilterInValueDto} instance
+     */
+    public static QueryFilterInValueDto newInstance(Map<String, Value> record) {
+        if (record == null) {
+            return null;
+        }
+
+        Value id = record.get("id");
+        Value queryId = record.get("query_id");
+        Value filterId = record.get("filter_id");
+        Value valueString = record.get("value_string");
+        Value valueInteger = record.get("value_integer");
+        Value valueLong = record.get("value_long");
+        Value valueBigDecimal = record.get("value_big_decimal");
+        Value valueDate = record.get("value_date");
+        Value showPriority = record.get("show_priority");
+        Value updateVersion = record.get("update_version");
+        Value createDate = record.get("create_date");
+        Value lastUpdate = record.get("last_update");
+
+        QueryFilterInValueDto result = new QueryFilterInValueDto();
+
+        result.setId(id);
+        result.setQueryId(queryId);
+        result.setFilterId(filterId);
+        result.setValueString(valueString);
+        result.setValueInteger(valueInteger);
+        result.setValueLong(valueLong);
+        result.setValueBigDecimal(valueBigDecimal);
+        result.setValueDate(valueDate);
+        result.setShowPriority(showPriority);
+        result.setUpdateVersion(updateVersion);
+        result.setCreateDate(createDate);
+        result.setLastUpdate(lastUpdate);
+
+        return result;
+    }
 
     public int getId() {
         return id != null ? id : 0;
