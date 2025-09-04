@@ -57,6 +57,7 @@ public class SelectTemplate {
      * @param filters [ Column Name : Column Value ]
      * @return [ the {@link BaseFilter} instance ]
      */
+    @NotNull
     public List<BaseFilter> buildFilters(Map<String, Integer> filters) {
         Map<String, Integer> filterMap = defaultFilters();
         if (filters != null) {
