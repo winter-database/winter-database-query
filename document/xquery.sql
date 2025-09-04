@@ -20,7 +20,8 @@ CREATE TABLE xquery
     internal_insert   datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP,
     internal_update   datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     internal_delete   datetime            NULL     DEFAULT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    KEY KEY_SHOW_PRIORITY (internal_recycle, show_priority)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 10000
   CHARACTER SET = utf8mb4 COMMENT = '查询';

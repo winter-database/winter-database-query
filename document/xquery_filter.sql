@@ -20,7 +20,8 @@ CREATE TABLE xquery_filter
     internal_insert  datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP,
     internal_update  datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     internal_delete  datetime         NULL     DEFAULT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    KEY KEY_QUERY_ID_PARENT_ID_SHOW_PRIORITY (internal_recycle, query_id, parent_id, show_priority)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 10000
   CHARACTER SET = utf8mb4 COMMENT = '条件';
@@ -46,7 +47,8 @@ CREATE TABLE xquery_filter_expression
     internal_insert   datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP,
     internal_update   datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     internal_delete   datetime         NULL     DEFAULT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE KEY UNIQUE_KEY_QUERY_ID_FILTER_ID (internal_recycle, query_id, filter_id)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 10000
   CHARACTER SET = utf8mb4 COMMENT = '表达式';
@@ -67,7 +69,8 @@ CREATE TABLE xquery_filter_in
     internal_insert  datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP,
     internal_update  datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     internal_delete  datetime         NULL     DEFAULT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE KEY UNIQUE_KEY_QUERY_ID_FILTER_ID (internal_recycle, query_id, filter_id)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 10000
   CHARACTER SET = utf8mb4 COMMENT = '在列表中';
@@ -93,7 +96,8 @@ CREATE TABLE xquery_filter_in_value
     internal_insert   datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP,
     internal_update   datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     internal_delete   datetime         NULL     DEFAULT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    KEY KEY_QUERY_ID_FILTER_ID_SHOW_PRIORITY (internal_recycle, query_id, filter_id, show_priority)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 10000
   CHARACTER SET = utf8mb4 COMMENT = '列表值';
@@ -114,7 +118,8 @@ CREATE TABLE xquery_filter_null
     internal_insert  datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP,
     internal_update  datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     internal_delete  datetime         NULL     DEFAULT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE KEY UNIQUE_KEY_QUERY_ID_FILTER_ID (internal_recycle, query_id, filter_id)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 10000
   CHARACTER SET = utf8mb4 COMMENT = '空';
@@ -146,7 +151,8 @@ CREATE TABLE xquery_filter_range
     internal_insert        datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP,
     internal_update        datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     internal_delete        datetime         NULL     DEFAULT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE KEY UNIQUE_KEY_QUERY_ID_FILTER_ID (internal_recycle, query_id, filter_id)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 10000
   CHARACTER SET = utf8mb4 COMMENT = '范围';
@@ -173,7 +179,8 @@ CREATE TABLE xquery_filter_wildcard
     internal_insert   datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP,
     internal_update   datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     internal_delete   datetime         NULL     DEFAULT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE KEY UNIQUE_KEY_QUERY_ID_FILTER_ID (internal_recycle, query_id, filter_id)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 10000
   CHARACTER SET = utf8mb4 COMMENT = '模糊匹配';

@@ -15,7 +15,8 @@ CREATE TABLE xquery_join
     internal_insert  datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP,
     internal_update  datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     internal_delete  datetime         NULL     DEFAULT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    KEY KEY_QUERY_ID_SHOW_PRIORITY (internal_recycle, query_id, show_priority)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 10000
   CHARACTER SET = utf8mb4 COMMENT = '连表';
@@ -40,7 +41,8 @@ CREATE TABLE xquery_join_on
     internal_insert  datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP,
     internal_update  datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     internal_delete  datetime         NULL     DEFAULT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    KEY KEY_QUERY_ID_JOIN_ID_SHOW_PRIORITY (internal_recycle, query_id, join_id, show_priority)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 10000
   CHARACTER SET = utf8mb4 COMMENT = '连表条件';
