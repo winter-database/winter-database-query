@@ -6,7 +6,9 @@ import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 条件
@@ -78,6 +80,24 @@ public final class QueryFilterDto implements Serializable {
      * 更新时间
      */
     private Date lastUpdate;
+
+    /**
+     * Build Instance List
+     *
+     * @param list [ [ Column Name : Column Value ] ]
+     * @return [ the {@link QueryFilterDto} instance ]
+     */
+    public static List<QueryFilterDto> newInstance(List<Map<String, Value>> list) {
+        if (list != null) {
+            return list.stream()
+                    .filter(Objects::nonNull)
+                    .map(QueryFilterDto::newInstance)
+                    .filter(Objects::nonNull)
+                    .toList();
+        } else {
+            return null;
+        }
+    }
 
     /**
      * Build Instance

@@ -5,7 +5,9 @@ import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 排序
@@ -62,6 +64,24 @@ public final class QueryOrderDto implements Serializable {
      * 更新时间
      */
     private Date lastUpdate;
+
+    /**
+     * Build Instance List
+     *
+     * @param list [ [ Column Name : Column Value ] ]
+     * @return [ the {@link QueryOrderDto} instance ]
+     */
+    public static List<QueryOrderDto> newInstance(List<Map<String, Value>> list) {
+        if (list != null) {
+            return list.stream()
+                    .filter(Objects::nonNull)
+                    .map(QueryOrderDto::newInstance)
+                    .filter(Objects::nonNull)
+                    .toList();
+        } else {
+            return null;
+        }
+    }
 
     /**
      * Build Instance

@@ -5,7 +5,9 @@ import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 连表
@@ -52,6 +54,24 @@ public final class QueryJoinDto implements Serializable {
      * 更新时间
      */
     private Date lastUpdate;
+
+    /**
+     * Build Instance List
+     *
+     * @param list [ [ Column Name : Column Value ] ]
+     * @return [ the {@link QueryJoinDto} instance ]
+     */
+    public static List<QueryJoinDto> newInstance(List<Map<String, Value>> list) {
+        if (list != null) {
+            return list.stream()
+                    .filter(Objects::nonNull)
+                    .map(QueryJoinDto::newInstance)
+                    .filter(Objects::nonNull)
+                    .toList();
+        } else {
+            return null;
+        }
+    }
 
     /**
      * Build Instance

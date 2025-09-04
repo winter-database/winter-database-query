@@ -5,7 +5,9 @@ import io.github.winter.boot.tuple.Value;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 表达式
@@ -72,6 +74,24 @@ public final class QueryFilterExpressionDto implements Serializable {
      * 更新时间
      */
     private Date lastUpdate;
+
+    /**
+     * Build Instance List
+     *
+     * @param list [ [ Column Name : Column Value ] ]
+     * @return [ the {@link QueryFilterExpressionDto} instance ]
+     */
+    public static List<QueryFilterExpressionDto> newInstance(List<Map<String, Value>> list) {
+        if (list != null) {
+            return list.stream()
+                    .filter(Objects::nonNull)
+                    .map(QueryFilterExpressionDto::newInstance)
+                    .filter(Objects::nonNull)
+                    .toList();
+        } else {
+            return null;
+        }
+    }
 
     /**
      * Build Instance
