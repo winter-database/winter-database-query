@@ -2,7 +2,7 @@ package io.github.winter.database.query.parser;
 
 import io.github.winter.database.query.FuncParser;
 import io.github.winter.database.query.FuncType;
-import io.github.winter.database.query.NameJoiner;
+import io.github.winter.database.query.QueryUtils;
 
 /**
  * @author changebooks@qq.com
@@ -11,7 +11,7 @@ public class FuncParserImpl implements FuncParser {
 
     @Override
     public String parse(int func, String tableName, String columnName) {
-        String name = NameJoiner.join(tableName, columnName);
+        String name = QueryUtils.joinName(tableName, columnName);
         return parse(func, name);
     }
 

@@ -21,7 +21,7 @@ CREATE TABLE xquery_filter
     internal_update  datetime         NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     internal_delete  datetime         NULL     DEFAULT NULL,
     PRIMARY KEY (id),
-    KEY KEY_QUERY_ID_PARENT_ID_SHOW_PRIORITY (internal_recycle, query_id, parent_id, show_priority)
+    KEY KEY_QUERY_ID_PARENT_ID_SHOW_PRIORITY (internal_recycle, is_having, query_id, parent_id, show_priority)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 10000
   CHARACTER SET = utf8mb4 COMMENT = '条件';
