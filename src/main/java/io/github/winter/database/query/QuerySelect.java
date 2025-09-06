@@ -71,7 +71,7 @@ public class QuerySelect {
             String tableName = Optional.of(record.getTableName()).filter(Predicate.not(String::isEmpty)).orElse(fromTable);
             String columnName = record.getColumnName();
             String column = FuncParser.parse(func, tableName, columnName);
-            if (column.isEmpty()) {
+            if (column == null || column.isEmpty()) {
                 continue;
             }
 
