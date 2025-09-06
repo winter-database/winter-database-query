@@ -2,87 +2,98 @@ package io.github.winter.database.query;
 
 import io.github.winter.boot.filter.BaseFilter;
 import io.github.winter.boot.filter.Page;
+import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * 创建查询
+ * Query Builder
  *
  * @author changebooks@qq.com
  */
-public interface QueryBuilder {
+public class QueryBuilder {
     /**
-     * 创建
-     *
-     * @param id 主键
-     * @return the {@link Query} instance
+     * the {@link QuerySelect} instance
      */
-    Query build(int id);
+    private final QuerySelect querySelect;
+
+    public QueryBuilder(JdbcTemplate jdbcTemplate) {
+        this.querySelect = new QuerySelect(jdbcTemplate);
+    }
 
     /**
-     * 字段
-     *
-     * @param query the {@link Query} instance
+     * Build
      */
-    void setColumn(Query query, boolean isAsterisk);
+    public Query build() {
+        return null;
+    }
+
+    /**
+     * 全字段
+     */
+    public void setAsterisk(Query query) {
+        
+    }
 
     /**
      * 字段列表
      */
-    Class<?> getClass();
+    public void setColumns(Query query) {
+
+    }
 
     /**
-     * 连表
-     *
-     * @param query the {@link Query} instance
+     * 连表列表
      */
-    void setJoin(Query query);
+    public void setJoins(Query query) {
 
-    /**
-     * 条件
-     *
-     * @param query the {@link Query} instance
-     */
-    void setFilter(Query query);
-
-    /**
-     * 分组
-     *
-     * @param query the {@link Query} instance
-     */
-    void setGroup(Query query);
-
-    /**
-     * 排序
-     *
-     * @param query the {@link Query} instance
-     */
-    void setOrder(Query query);
-
-    /**
-     * 分页
-     *
-     * @param query the {@link Query} instance
-     */
-    void setPage(Query query);
+    }
 
     /**
      * 条件列表
-     *
-     * @param isHaving 分组条件？
-     * @param queryId  查询主键
-     * @param parentId 父条件主键
-     * @return [ the {@link BaseFilter} instance ]
      */
-    List<BaseFilter> getFilter(int isHaving, int queryId, int parentId);
+    public void setFilters(Query query) {
+
+    }
+
+    /**
+     * 分组
+     */
+    public void setGroup(Query query) {
+
+    }
+
+    /**
+     * 排序列表
+     */
+    public void setOrders(Query query) {
+
+    }
 
     /**
      * 分页
-     *
-     * @param offset 开始行数
-     * @param limit  每页行数
-     * @return the {@link Page} instance
      */
-    Page getPage(Long offset, Integer limit);
+    public Page getPage(Long offset, Integer limit) {
+        Page page = new Page();
+
+        page.setOffset(offset);
+        page.setLimit(limit);
+
+        return page;
+    }
+
+    /**
+     * 条件列表
+     */
+    public List<BaseFilter> getFilters(int isHaving, int queryId, int parentId) {
+
+    }
+
+    public QuerySelect getQuerySelect() {
+        return querySelect;
+    }
 
 }
