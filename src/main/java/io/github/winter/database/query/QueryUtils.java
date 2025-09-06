@@ -38,8 +38,8 @@ public final class QueryUtils {
 
         List<String> columnNames = tableSchema.getColumnNames();
         for (String columnName : columnNames) {
-            String joinedColumn = joinName(tableName, columnName);
-            if (joinedColumn.isEmpty()) {
+            String column = joinName(tableName, columnName);
+            if (column.isEmpty()) {
                 continue;
             }
 
@@ -48,8 +48,8 @@ public final class QueryUtils {
                 continue;
             }
 
-            columns.add(joinedColumn);
-            valueTypes.put(joinedColumn, valueType);
+            columns.add(column);
+            valueTypes.put(column, valueType);
         }
 
         return Pair.of(columns, valueTypes);

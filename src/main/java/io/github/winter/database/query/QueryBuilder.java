@@ -44,7 +44,7 @@ public class QueryBuilder {
      * 字段列表
      */
     public void setColumns(Query query) {
-        
+
     }
 
     /**
