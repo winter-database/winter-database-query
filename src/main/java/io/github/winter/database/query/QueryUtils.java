@@ -26,6 +26,7 @@ public final class QueryUtils {
      * @param tableName 表名
      * @return [ [ 字段名 ] : [ 字段名 : 字段类型 ] ]
      */
+    @NotNull
     public static Pair<List<String>, Map<String, Class<?>>> getAsterisk(String tableName) {
         TableSchema tableSchema = TableSchemaRegistry.get(tableName);
         if (tableSchema == null) {
@@ -37,8 +38,8 @@ public final class QueryUtils {
 
         List<String> columnNames = tableSchema.getColumnNames();
         for (String columnName : columnNames) {
-            String column = joinName(tableName, columnName);
-            if (column.isEmpty()) {
+            String joinedColumn = joinName(tableName, columnName);
+            if (joinedColumn.isEmpty()) {
                 continue;
             }
 
@@ -47,8 +48,8 @@ public final class QueryUtils {
                 continue;
             }
 
-            columns.add(column);
-            valueTypes.put(column, valueType);
+            columns.add(joinedColumn);
+            valueTypes.put(joinedColumn, valueType);
         }
 
         return Pair.of(columns, valueTypes);

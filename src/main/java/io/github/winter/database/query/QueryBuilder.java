@@ -2,10 +2,9 @@ package io.github.winter.database.query;
 
 import io.github.winter.boot.filter.BaseFilter;
 import io.github.winter.boot.filter.Page;
+import io.github.winter.boot.tuple.Pair;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,14 +34,17 @@ public class QueryBuilder {
      * 全字段
      */
     public void setAsterisk(Query query) {
-        
+        String tableName = query.getTableName();
+        Pair<List<String>, Map<String, Class<?>>> asteriskPair = QueryUtils.getAsterisk(tableName);
+        query.setColumns(asteriskPair.first);
+        query.setValueTypes(asteriskPair.second);
     }
 
     /**
      * 字段列表
      */
     public void setColumns(Query query) {
-
+        
     }
 
     /**
