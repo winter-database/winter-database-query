@@ -52,6 +52,36 @@ public class QuerySelect {
     }
 
     /**
+     * 连表
+     *
+     * @param queryId 查询主键
+     * @return [ the {@link QueryJoinDto} instance ]
+     */
+    public List<QueryJoinDto> selectQueryJoin(int queryId) {
+        Map<String, Integer> filters = new HashMap<>();
+        filters.put("query_id", queryId);
+
+        List<Map<String, Value>> list = selectTemplate.selectList("xquery_join", filters);
+        return QueryJoinDto.newInstance(list);
+    }
+
+    /**
+     * 连表条件
+     *
+     * @param queryId 查询主键
+     * @param joinId  连表主键
+     * @return [ the {@link QueryJoinOnDto} instance ]
+     */
+    public List<QueryJoinOnDto> selectQueryJoinOn(int queryId, int joinId) {
+        Map<String, Integer> filters = new HashMap<>();
+        filters.put("query_id", queryId);
+        filters.put("join_id", joinId);
+
+        List<Map<String, Value>> list = selectTemplate.selectList("xquery_join_on", filters);
+        return QueryJoinOnDto.newInstance(list);
+    }
+
+    /**
      * 条件
      *
      * @param isHaving 分组条件？
@@ -177,36 +207,6 @@ public class QuerySelect {
 
         List<Map<String, Value>> list = selectTemplate.selectList("xquery_group", filters);
         return QueryGroupDto.newInstance(list);
-    }
-
-    /**
-     * 连表
-     *
-     * @param queryId 查询主键
-     * @return [ the {@link QueryJoinDto} instance ]
-     */
-    public List<QueryJoinDto> selectQueryJoin(int queryId) {
-        Map<String, Integer> filters = new HashMap<>();
-        filters.put("query_id", queryId);
-
-        List<Map<String, Value>> list = selectTemplate.selectList("xquery_join", filters);
-        return QueryJoinDto.newInstance(list);
-    }
-
-    /**
-     * 连表条件
-     *
-     * @param queryId 查询主键
-     * @param joinId  连表主键
-     * @return [ the {@link QueryJoinOnDto} instance ]
-     */
-    public List<QueryJoinOnDto> selectQueryJoinOn(int queryId, int joinId) {
-        Map<String, Integer> filters = new HashMap<>();
-        filters.put("query_id", queryId);
-        filters.put("join_id", joinId);
-
-        List<Map<String, Value>> list = selectTemplate.selectList("xquery_join_on", filters);
-        return QueryJoinOnDto.newInstance(list);
     }
 
     /**
