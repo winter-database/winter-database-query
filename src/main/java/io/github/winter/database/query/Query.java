@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -115,7 +116,7 @@ public final class Query implements Serializable {
                 .stream()
                 .filter(Objects::nonNull)
                 .map(String::trim)
-                .filter(x -> !x.isEmpty())
+                .filter(Predicate.not(String::isEmpty))
                 .distinct()
                 .toList();
     }

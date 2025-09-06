@@ -3,10 +3,13 @@ package io.github.winter.database.query;
 import io.github.winter.boot.filter.BaseFilter;
 import io.github.winter.boot.filter.Page;
 import io.github.winter.boot.tuple.Pair;
+import io.github.winter.database.query.dto.QueryColumnDto;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * Query Builder
@@ -44,7 +47,23 @@ public class QueryBuilder {
      * 字段列表
      */
     public void setColumns(Query query) {
+        List<QueryColumnDto> list = querySelect.selectQueryColumn(query.getId());
+        if (list == null) {
+            return;
+        }
 
+
+    }
+
+    /**
+     * 获取字段列表
+     *
+     * @param queryId 查询主键
+     * @return [ [ 字段名 ] : [ 字段名 : 字段类型 ] ]
+     */
+    @NotNull
+    public Pair<List<String>, Map<String, Class<?>>> getColumns(int queryId, @NotEmpty String fromTable) {
+        return null;
     }
 
     /**

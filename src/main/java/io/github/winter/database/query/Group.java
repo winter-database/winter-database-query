@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 /**
  * 分组
@@ -34,7 +35,7 @@ public class Group implements Serializable {
                 .stream()
                 .filter(Objects::nonNull)
                 .map(String::trim)
-                .filter(x -> !x.isEmpty())
+                .filter(Predicate.not(String::isEmpty))
                 .distinct()
                 .toList();
     }

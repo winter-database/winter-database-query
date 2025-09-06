@@ -1,12 +1,14 @@
 package io.github.winter.database.query;
 
+import io.github.winter.boot.tuple.Pair;
 import io.github.winter.boot.tuple.Value;
 import io.github.winter.database.query.dto.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * Query Select
@@ -35,6 +37,54 @@ public class QuerySelect {
 
         Map<String, Value> record = selectTemplate.selectOne("xquery", filters);
         return QueryDto.newInstance(record);
+    }
+
+    /**
+     * 字段
+     *
+     * @param queryId   查询主键
+     * @param fromTable 表名
+     * @return [ [ 字段名 ] : [ 字段名 : 字段类型 ] ]
+     */
+    @NotNull
+    public Pair<List<String>, Map<String, Class<?>>> selectColumn(int queryId, @NotEmpty String fromTable) {
+        List<QueryColumnDto> list = selectQueryColumn(queryId);
+        if (list == null) {
+            return Pair.of(null, null);
+        }
+
+        List<String> columns = new ArrayList<>();
+        Map<String, Class<?>> valueTypes = new HashMap<>();
+
+        for (QueryColumnDto record : list) {
+            if (record == null) {
+                continue;
+            }
+
+            int func = record.getFuncType();
+            if (func == FuncType.COUNT) {
+                columns.add(FuncParser.COUNT);
+                valueTypes.put(FuncParser.COUNT, Long.class);
+                continue;
+            }
+
+            String tableName = Optional.of(record.getTableName()).filter(Predicate.not(String::isEmpty)).orElse(fromTable);
+            String columnName = record.getColumnName();
+            String column = FuncParser.parse(func, tableName, columnName);
+            if (column.isEmpty()) {
+                continue;
+            }
+
+            Class<?> valueType = QueryUtils.getValueType(tableName, columnName);
+            if (valueType == null) {
+                continue;
+            }
+
+            columns.add(column);
+            valueTypes.put(column, valueType);
+        }
+
+        return Pair.of(columns, valueTypes);
     }
 
     /**

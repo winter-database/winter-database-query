@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -22,7 +23,7 @@ public class JoinParserImpl implements JoinParser {
             return joins.stream()
                     .map(this::parse)
                     .filter(Objects::nonNull)
-                    .filter(x -> !x.isEmpty())
+                    .filter(Predicate.not(String::isEmpty))
                     .collect(Collectors.joining(" "));
         } else {
             return null;
@@ -68,7 +69,7 @@ public class JoinParserImpl implements JoinParser {
             return filters.stream()
                     .map(this::parseFilter)
                     .filter(Objects::nonNull)
-                    .filter(x -> !x.isEmpty())
+                    .filter(Predicate.not(String::isEmpty))
                     .collect(Collectors.joining(LogicalOperator.AND_WITH_WHITESPACE));
         } else {
             return null;
