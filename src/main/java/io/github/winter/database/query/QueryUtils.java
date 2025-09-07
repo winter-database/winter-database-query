@@ -1,14 +1,13 @@
 package io.github.winter.database.query;
 
 import io.github.winter.boot.tuple.Pair;
+import io.github.winter.boot.tuple.Value;
 import io.github.winter.database.table.TableSchema;
 import io.github.winter.database.template.TableSchemaRegistry;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * Query Utils
@@ -73,6 +72,46 @@ public final class QueryUtils {
         } else {
             return tableName + '.' + columnName;
         }
+    }
+
+    /**
+     * 获取值
+     *
+     * @param valueType       类型
+     * @param valueString     字符串
+     * @param valueInteger    整数
+     * @param valueLong       长整数
+     * @param valueBigDecimal 小数
+     * @param valueDate       日期时间
+     * @return the {@link Value} instance
+     */
+    public static Value getValue(Class<?> valueType,
+                                 String valueString, Integer valueInteger, Long valueLong, BigDecimal valueBigDecimal, Date valueDate) {
+        if (valueType == null) {
+            return null;
+        }
+
+        if (String.class == valueType) {
+            return new Value(valueString);
+        }
+
+        if (Integer.class == valueType) {
+            return new Value(valueInteger);
+        }
+
+        if (Long.class == valueType) {
+            return new Value(valueLong);
+        }
+
+        if (BigDecimal.class == valueType) {
+            return new Value(valueBigDecimal);
+        }
+
+        if (Date.class == valueType) {
+            return new Value(valueDate);
+        }
+
+        return null;
     }
 
     /**

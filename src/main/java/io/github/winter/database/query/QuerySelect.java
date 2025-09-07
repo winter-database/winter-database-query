@@ -105,6 +105,43 @@ public class QuerySelect {
      * 连表
      *
      * @param queryId 查询主键
+     * @return [ the {@link Join} instance ]
+     */
+    public List<Join> selectJoin(int queryId) {
+        List<QueryJoinDto> list = selectQueryJoin(queryId);
+        if (list == null) {
+            return null;
+        }
+
+        List<Join> result = new ArrayList<>();
+
+        for (QueryJoinDto record : list) {
+            if (record == null) {
+                continue;
+            }
+
+            Join join = new Join();
+
+            String tableName = record.getJoinTable();
+            join.setTableName(tableName);
+
+            int type = record.getJoinType();
+            join.setType(type);
+
+            int joinId = record.getId();
+            List<Join.On> filters = selectJoinOn(queryId, joinId);
+            join.setFilters(filters);
+
+            result.add(join);
+        }
+
+        return result;
+    }
+
+    /**
+     * 连表
+     *
+     * @param queryId 查询主键
      * @return [ the {@link QueryJoinDto} instance ]
      */
     public List<QueryJoinDto> selectQueryJoin(int queryId) {
@@ -113,6 +150,44 @@ public class QuerySelect {
 
         List<Map<String, Value>> list = selectTemplate.selectList("xquery_join", filters);
         return QueryJoinDto.newInstance(list);
+    }
+
+    /**
+     * 连表条件
+     *
+     * @param queryId 查询主键
+     * @param joinId  连表主键
+     * @return [ the {@link Join.On} instance ]
+     */
+    public List<Join.On> selectJoinOn(int queryId, int joinId) {
+        List<QueryJoinOnDto> list = selectQueryJoinOn(queryId, joinId);
+        if (list == null) {
+            return null;
+        }
+
+        List<Join.On> result = new ArrayList<>();
+
+        for (QueryJoinOnDto record : list) {
+            if (record == null) {
+                continue;
+            }
+
+            String leftTable = record.getLeftTable();
+            String leftColumn = record.getLeftColumn();
+            String rightTable = record.getRightTable();
+            String rightColumn = record.getRightColumn();
+
+            String leftName = QueryUtils.joinName(leftTable, leftColumn);
+            String rightName = QueryUtils.joinName(rightTable, rightColumn);
+
+            Join.On on = new Join.On();
+            on.setLeftName(leftName);
+            on.setRightName(rightName);
+
+            result.add(on);
+        }
+
+        return result;
     }
 
     /**
