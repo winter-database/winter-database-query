@@ -1,6 +1,7 @@
 package io.github.winter.database.query.dto;
 
 import io.github.winter.boot.tuple.Value;
+import io.github.winter.database.query.BooleanCast;
 import io.github.winter.database.query.SelectTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -89,9 +90,9 @@ public class QueryDtoSelect {
      * @param parentId 父条件主键
      * @return [ the {@link QueryFilterDto} instance ]
      */
-    public List<QueryFilterDto> selectFilter(int isHaving, int queryId, int parentId) {
+    public List<QueryFilterDto> selectFilter(boolean isHaving, int queryId, int parentId) {
         Map<String, Integer> filters = new HashMap<>();
-        filters.put("is_having", isHaving);
+        filters.put("is_having", isHaving ? BooleanCast.TRUE : BooleanCast.FALSE);
         filters.put("query_id", queryId);
         filters.put("parent_id", parentId);
 
