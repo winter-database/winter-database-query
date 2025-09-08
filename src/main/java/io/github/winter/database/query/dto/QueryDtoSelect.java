@@ -2,7 +2,6 @@ package io.github.winter.database.query.dto;
 
 import io.github.winter.boot.tuple.Value;
 import io.github.winter.database.query.BooleanCast;
-import io.github.winter.database.query.SelectTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.HashMap;
