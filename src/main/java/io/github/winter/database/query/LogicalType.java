@@ -16,6 +16,9 @@ public final class LogicalType {
      */
     public static final int OR = 2;
 
+    private LogicalType() {
+    }
+
     /**
      * 逻辑或？
      *

@@ -16,6 +16,9 @@ public final class OrderType {
      */
     public static final int DESC = 2;
 
+    private OrderType() {
+    }
+
     /**
      * 降序？
      *
