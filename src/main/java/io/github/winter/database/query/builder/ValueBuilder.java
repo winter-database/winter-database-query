@@ -1,4 +1,4 @@
-package io.github.winter.database.query;
+package io.github.winter.database.query.builder;
 
 import io.github.winter.boot.tuple.Value;
 
