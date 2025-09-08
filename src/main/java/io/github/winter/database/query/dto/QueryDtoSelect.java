@@ -83,6 +83,56 @@ public class QueryDtoSelect {
     }
 
     /**
+     * 查询条件
+     *
+     * @param queryId  查询主键
+     * @param parentId 父条件主键
+     * @return [ the {@link QueryFilterDto} instance ]
+     */
+    public List<QueryFilterDto> selectWhere(int queryId, int parentId) {
+        return selectFilter(BooleanCast.FALSE, queryId, parentId);
+    }
+
+    /**
+     * 分组
+     *
+     * @param queryId 查询主键
+     * @return [ the {@link QueryGroupDto} instance ]
+     */
+    public List<QueryGroupDto> selectGroup(int queryId) {
+        Map<String, Integer> filters = new HashMap<>();
+        filters.put("query_id", queryId);
+
+        List<Map<String, Value>> list = selectTemplate.selectList("xquery_group", filters);
+        return QueryGroupDto.newInstance(list);
+    }
+
+    /**
+     * 分组条件
+     *
+     * @param queryId  查询主键
+     * @param parentId 父条件主键
+     * @return [ the {@link QueryFilterDto} instance ]
+     */
+    public List<QueryFilterDto> selectHaving(int queryId, int parentId) {
+        return selectFilter(BooleanCast.TRUE, queryId, parentId);
+    }
+
+    /**
+     * 排序
+     *
+     * @param queryId 查询主键
+     * @return [ the {@link QueryOrderDto} instance ]
+     */
+    public List<QueryOrderDto> selectOrder(int queryId) {
+        Map<String, Integer> filters = new HashMap<>();
+        filters.put("query_id", queryId);
+
+        List<Map<String, Value>> list = selectTemplate.selectList("xquery_order", filters);
+        return QueryOrderDto.newInstance(list);
+    }
+
+    /**
      * 条件
      *
      * @param isHaving 分组条件？
@@ -90,9 +140,9 @@ public class QueryDtoSelect {
      * @param parentId 父条件主键
      * @return [ the {@link QueryFilterDto} instance ]
      */
-    public List<QueryFilterDto> selectFilter(boolean isHaving, int queryId, int parentId) {
+    public List<QueryFilterDto> selectFilter(int isHaving, int queryId, int parentId) {
         Map<String, Integer> filters = new HashMap<>();
-        filters.put("is_having", isHaving ? BooleanCast.TRUE : BooleanCast.FALSE);
+        filters.put("is_having", isHaving);
         filters.put("query_id", queryId);
         filters.put("parent_id", parentId);
 
@@ -194,34 +244,6 @@ public class QueryDtoSelect {
 
         Map<String, Value> record = selectTemplate.selectOne("xquery_filter_wildcard", filters);
         return QueryFilterWildcardDto.newInstance(record);
-    }
-
-    /**
-     * 分组
-     *
-     * @param queryId 查询主键
-     * @return [ the {@link QueryGroupDto} instance ]
-     */
-    public List<QueryGroupDto> selectGroup(int queryId) {
-        Map<String, Integer> filters = new HashMap<>();
-        filters.put("query_id", queryId);
-
-        List<Map<String, Value>> list = selectTemplate.selectList("xquery_group", filters);
-        return QueryGroupDto.newInstance(list);
-    }
-
-    /**
-     * 排序
-     *
-     * @param queryId 查询主键
-     * @return [ the {@link QueryOrderDto} instance ]
-     */
-    public List<QueryOrderDto> selectOrder(int queryId) {
-        Map<String, Integer> filters = new HashMap<>();
-        filters.put("query_id", queryId);
-
-        List<Map<String, Value>> list = selectTemplate.selectList("xquery_order", filters);
-        return QueryOrderDto.newInstance(list);
     }
 
     public SelectTemplate getSelectTemplate() {
