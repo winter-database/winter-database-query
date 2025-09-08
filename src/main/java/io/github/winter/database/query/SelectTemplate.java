@@ -1,4 +1,4 @@
-package io.github.winter.database.query.builder;
+package io.github.winter.database.query;
 
 import io.github.winter.boot.filter.*;
 import io.github.winter.boot.sql.Preconditions;
