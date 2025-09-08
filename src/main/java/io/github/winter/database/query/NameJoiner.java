@@ -20,7 +20,7 @@ public final class NameJoiner {
      * @return 表名 + 字段名
      */
     @NotNull
-    public static String joinName(String tableName, String columnName) {
+    public static String join(String tableName, String columnName) {
         if (columnName == null || columnName.isEmpty()) {
             return "";
         }
