@@ -1,7 +1,6 @@
 package io.github.winter.database.query.dto;
 
 import io.github.winter.boot.filter.*;
-import io.github.winter.boot.sql.Preconditions;
 import io.github.winter.boot.tuple.Value;
 import io.github.winter.database.executor.Executor;
 import io.github.winter.database.template.Template;
@@ -22,8 +21,6 @@ public class SelectTemplate {
     private final Template template;
 
     public SelectTemplate(JdbcTemplate jdbcTemplate) {
-        Preconditions.requireNonNull(jdbcTemplate, "jdbcTemplate must not be null");
-
         this.template = new Template(new Executor(jdbcTemplate));
     }
 
