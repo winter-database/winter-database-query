@@ -22,7 +22,7 @@ public final class ValueTypeGetter {
      * @param columnName Column Name
      * @return Value Type
      */
-    public static Class<?> getValueType(String tableName, String columnName) {
+    public static Class<?> get(String tableName, String columnName) {
         if (tableName == null || tableName.isEmpty()) {
             return null;
         }

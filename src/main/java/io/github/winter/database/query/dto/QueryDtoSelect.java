@@ -1,7 +1,6 @@
 package io.github.winter.database.query.dto;
 
 import io.github.winter.boot.tuple.Value;
-import io.github.winter.database.query.BooleanCast;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.HashMap;
@@ -82,17 +81,6 @@ public class QueryDtoSelect {
     }
 
     /**
-     * 查询条件
-     *
-     * @param queryId  查询主键
-     * @param parentId 父条件主键
-     * @return [ the {@link QueryFilterDto} instance ]
-     */
-    public List<QueryFilterDto> selectWhere(int queryId, int parentId) {
-        return selectFilter(BooleanCast.FALSE, queryId, parentId);
-    }
-
-    /**
      * 分组
      *
      * @param queryId 查询主键
@@ -104,17 +92,6 @@ public class QueryDtoSelect {
 
         List<Map<String, Value>> list = selectTemplate.selectList("xquery_group", filters);
         return QueryGroupDto.newInstance(list);
-    }
-
-    /**
-     * 分组条件
-     *
-     * @param queryId  查询主键
-     * @param parentId 父条件主键
-     * @return [ the {@link QueryFilterDto} instance ]
-     */
-    public List<QueryFilterDto> selectHaving(int queryId, int parentId) {
-        return selectFilter(BooleanCast.TRUE, queryId, parentId);
     }
 
     /**
