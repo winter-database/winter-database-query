@@ -1,5 +1,6 @@
 package io.github.winter.database.query;
 
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 /**
@@ -29,6 +30,22 @@ public final class NameJoiner {
             return columnName;
         } else {
             return tableName + '.' + columnName;
+        }
+    }
+
+    /**
+     * 选择表名
+     *
+     * @param tableName 表名
+     * @param fromTable 默认表名
+     * @return Optional.of(tableName).filter(Predicate.not String.isEmpty).orElse(fromTable);
+     */
+    @NotEmpty
+    public static String defaultName(String tableName, @NotEmpty String fromTable) {
+        if (tableName == null || tableName.isEmpty()) {
+            return fromTable;
+        } else {
+            return tableName;
         }
     }
 
