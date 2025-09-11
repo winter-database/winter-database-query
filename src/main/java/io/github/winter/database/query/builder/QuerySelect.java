@@ -47,6 +47,7 @@ public class QuerySelect {
         int queryId = record.getId();
         String queryName = record.getQueryName();
         boolean distinct = record.getDistinct();
+        boolean asterisk = record.getAsterisk();
         String fromTable = record.getFromTable();
         Long pageOffset = record.getPageOffset();
         Integer pageLimit = record.getPageLimit();
@@ -67,7 +68,12 @@ public class QuerySelect {
         result.setRemark(queryRemark);
         result.setPage(page);
 
-//        boolean asterisk = record.getAsterisk();
+        if (asterisk) {
+            Pair<List<String>, Map<String, Class<?>>> asteriskPair = AsteriskBuilder.build(fromTable);
+            result.setColumns(asteriskPair.first);
+            result.setValueTypes(asteriskPair.second);
+        }
+
 //        List<String> columns;
 //        List<Join> joins;
 //        List<BaseFilter> filters;
