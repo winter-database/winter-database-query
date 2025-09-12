@@ -1,5 +1,6 @@
 package io.github.winter.database.query.builder;
 
+import io.github.winter.boot.sql.Preconditions;
 import io.github.winter.boot.tuple.Pair;
 import io.github.winter.database.query.NameJoiner;
 import io.github.winter.database.table.TableSchema;
@@ -30,9 +31,7 @@ public final class AsteriskBuilder {
     @NotNull
     public static Pair<List<String>, Map<String, Class<?>>> build(String fromTable) {
         TableSchema tableSchema = TableSchemaRegistry.get(fromTable);
-        if (tableSchema == null) {
-            return Pair.of(null, null);
-        }
+        Preconditions.requireNonNull(tableSchema, "tableSchema must not be null, fromTable: " + fromTable);
 
         List<String> fieldNames = new ArrayList<>();
         Map<String, Class<?>> valueTypes = new HashMap<>();
@@ -42,14 +41,10 @@ public final class AsteriskBuilder {
 
         for (String columnName : columnNames) {
             String fieldName = NameJoiner.join(tableName, columnName);
-            if (fieldName.isEmpty()) {
-                continue;
-            }
+            Preconditions.requireNonEmpty(fieldName, "fieldName must not be empty, tableName: " + tableName + ", columnName: " + columnName);
 
             Class<?> valueType = ValueTypeGetter.get(tableName, columnName);
-            if (valueType == null) {
-                continue;
-            }
+            Preconditions.requireNonNull(valueType, "valueType must not be null, tableName: " + tableName + ", columnName: " + columnName);
 
             fieldNames.add(fieldName);
             valueTypes.put(fieldName, valueType);
