@@ -1,6 +1,8 @@
 package io.github.winter.database.query.builder;
 
+import io.github.winter.boot.sql.Preconditions;
 import io.github.winter.boot.tuple.Value;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -26,11 +28,10 @@ public final class ValueBuilder {
      * @param valueDate       Date Value
      * @return the {@link Value} instance
      */
+    @NotNull
     public static Value build(Class<?> valueType,
                               String valueString, Integer valueInteger, Long valueLong, BigDecimal valueBigDecimal, Date valueDate) {
-        if (valueType == null) {
-            return null;
-        }
+        Preconditions.requireNonNull(valueType, "valueType must not be null");
 
         if (String.class == valueType) {
             return new Value(valueString);
@@ -52,7 +53,7 @@ public final class ValueBuilder {
             return new Value(valueDate);
         }
 
-        return null;
+        throw new RuntimeException(String.format("unsupported value type, type: %s", valueType));
     }
 
 }
