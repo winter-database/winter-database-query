@@ -1,5 +1,7 @@
 package io.github.winter.database.query;
 
+import jakarta.validation.constraints.NotNull;
+
 /**
  * 解析函数
  *
@@ -19,6 +21,7 @@ public interface FuncParser {
      * @param columnName 字段名
      * @return COUNT(1), SUM(tableName.columnName), MAX(tableName.columnName), MIN(tableName.columnName), AVG(tableName.columnName)
      */
+    @NotNull
     String parse(int func, String tableName, String columnName);
 
     /**
@@ -28,6 +31,7 @@ public interface FuncParser {
      * @param name 名称
      * @return COUNT(1), SUM(name), MAX(name), MIN(name), AVG(name)
      */
-    String parse(int func, String name);
+    @NotNull
+    String parse(int func, @NotNull String name);
 
 }

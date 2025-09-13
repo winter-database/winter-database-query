@@ -1,6 +1,7 @@
 package io.github.winter.database.query.builder;
 
 import io.github.winter.boot.filter.*;
+import io.github.winter.boot.sql.Preconditions;
 import io.github.winter.boot.tuple.Pair;
 import io.github.winter.boot.tuple.Value;
 import io.github.winter.database.query.*;
@@ -115,14 +116,10 @@ public class QuerySelect {
             String tableName = NameJoiner.defaultName(record.getTableName(), fromTable);
             String columnName = record.getColumnName();
             String fieldName = funcParser.parse(funcType, tableName, columnName);
-            if (fieldName == null || fieldName.isEmpty()) {
-                continue;
-            }
+            Preconditions.requireNonEmpty(fieldName, "fieldName must not be empty, tableName: " + tableName + ", columnName: " + columnName);
 
             Class<?> valueType = ValueTypeGetter.get(tableName, columnName);
-            if (valueType == null) {
-                continue;
-            }
+            Preconditions.requireNonNull(valueType, "valueType must not be null, tableName: " + tableName + ", columnName: " + columnName);
 
             fieldNames.add(fieldName);
             valueTypes.put(fieldName, valueType);
@@ -151,9 +148,13 @@ public class QuerySelect {
             }
 
             String joinTable = record.getJoinTable();
+            Preconditions.requireNonEmpty(joinTable, "joinTable must not be empty");
+
             int joinType = record.getJoinType();
             int joinId = record.getId();
             List<Join.On> filters = selectJoinOn(queryId, joinId);
+            Preconditions.requireNonNull(filters, "filters must not be null");
+            Preconditions.requireNonEmpty(filters, "filters must not be empty");
 
             Join join = new Join();
 
@@ -193,7 +194,10 @@ public class QuerySelect {
             String rightColumn = record.getRightColumn();
 
             String leftName = NameJoiner.join(leftTable, leftColumn);
+            Preconditions.requireNonEmpty(leftName, "leftName must not be empty, leftTable: " + leftTable + ", leftColumn: " + leftColumn);
+
             String rightName = NameJoiner.join(rightTable, rightColumn);
+            Preconditions.requireNonEmpty(rightName, "rightName must not be empty, rightTable: " + rightTable + ", rightColumn: " + rightColumn);
 
             Join.On on = new Join.On();
 
@@ -229,9 +233,7 @@ public class QuerySelect {
             String tableName = NameJoiner.defaultName(record.getTableName(), fromTable);
             String columnName = record.getColumnName();
             String groupName = NameJoiner.join(tableName, columnName);
-            if (groupName.isEmpty()) {
-                continue;
-            }
+            Preconditions.requireNonEmpty(groupName, "groupName must not be empty, tableName: " + tableName + ", columnName: " + columnName);
 
             groupNames.add(groupName);
         }
@@ -270,9 +272,7 @@ public class QuerySelect {
             String tableName = NameJoiner.defaultName(record.getTableName(), fromTable);
             String columnName = record.getColumnName();
             String orderName = funcParser.parse(funcType, tableName, columnName);
-            if (orderName == null || orderName.isEmpty()) {
-                continue;
-            }
+            Preconditions.requireNonEmpty(orderName, "orderName must not be empty, tableName: " + tableName + ", columnName: " + columnName);
 
             int orderType = record.getOrderType();
             Boolean desc = OrderType.isDesc(orderType);
@@ -314,182 +314,173 @@ public class QuerySelect {
             String tableName = NameJoiner.defaultName(record.getTableName(), fromTable);
             String columnName = record.getColumnName();
             String filterName = funcParser.parse(funcType, tableName, columnName);
-            if (filterName == null || filterName.isEmpty()) {
-                continue;
-            }
+            Preconditions.requireNonEmpty(filterName, "filterName must not be empty, tableName: " + tableName + ", columnName: " + columnName);
 
             Class<?> valueType = ValueTypeGetter.get(tableName, columnName);
-            if (valueType == null) {
-                continue;
-            }
+            Preconditions.requireNonNull(valueType, "valueType must not be null, tableName: " + tableName + ", columnName: " + columnName);
 
             int filterId = record.getId();
             int filterType = record.getFilterType();
             int logicalOperator = record.getLogicalOperator();
             Boolean or = LogicalType.isOr(logicalOperator);
 
-            if (filterType == FilterType.EXPRESSION) {
-                QueryFilterExpressionDto expressionRecord = queryDtoSelect.selectFilterExpression(queryId, filterId);
-                if (expressionRecord == null) {
-                    continue;
-                }
+            switch (filterType) {
+                case FilterType.EXPRESSION: {
+                    QueryFilterExpressionDto expressionRecord = queryDtoSelect.selectFilterExpression(queryId, filterId);
+                    Preconditions.requireNonNull(expressionRecord, "expressionRecord must not be null, queryId: " + queryId + ", filterId: " + filterId);
 
-                int expressionCode = expressionRecord.getExpressionCode();
+                    int expressionCode = expressionRecord.getExpressionCode();
 
-                String valueString = expressionRecord.getValueString();
-                Integer valueInteger = expressionRecord.getValueInteger();
-                Long valueLong = expressionRecord.getValueLong();
-                BigDecimal valueBigDecimal = expressionRecord.getValueBigDecimal();
-                Date valueDate = expressionRecord.getValueDate();
-                Value value = ValueBuilder.build(valueType, valueString, valueInteger, valueLong, valueBigDecimal, valueDate);
-
-                Parameter parameter = new Parameter();
-                parameter.setValue(value);
-
-                ExpressionFilter expressionFilter = new ExpressionFilter();
-
-                expressionFilter.setOr(or);
-                expressionFilter.setName(filterName);
-                expressionFilter.setCode(expressionCode);
-                expressionFilter.setParameter(parameter);
-
-                result.add(expressionFilter);
-                continue;
-            }
-
-            if (filterType == FilterType.IN) {
-                QueryFilterInDto inRecord = queryDtoSelect.selectFilterIn(queryId, filterId);
-                if (inRecord == null) {
-                    continue;
-                }
-
-                List<QueryFilterInValueDto> inValueList = queryDtoSelect.selectFilterInValue(queryId, filterId);
-                if (inValueList == null) {
-                    continue;
-                }
-
-                Boolean not = inRecord.getNot();
-                List<Parameter> parameters = new ArrayList<>();
-
-                for (QueryFilterInValueDto inValueRecord : inValueList) {
-                    if (inValueRecord == null) {
-                        continue;
-                    }
-
-                    String valueString = inValueRecord.getValueString();
-                    Integer valueInteger = inValueRecord.getValueInteger();
-                    Long valueLong = inValueRecord.getValueLong();
-                    BigDecimal valueBigDecimal = inValueRecord.getValueBigDecimal();
-                    Date valueDate = inValueRecord.getValueDate();
+                    String valueString = expressionRecord.getValueString();
+                    Integer valueInteger = expressionRecord.getValueInteger();
+                    Long valueLong = expressionRecord.getValueLong();
+                    BigDecimal valueBigDecimal = expressionRecord.getValueBigDecimal();
+                    Date valueDate = expressionRecord.getValueDate();
                     Value value = ValueBuilder.build(valueType, valueString, valueInteger, valueLong, valueBigDecimal, valueDate);
 
                     Parameter parameter = new Parameter();
                     parameter.setValue(value);
 
-                    parameters.add(parameter);
+                    ExpressionFilter expressionFilter = new ExpressionFilter();
+
+                    expressionFilter.setOr(or);
+                    expressionFilter.setName(filterName);
+                    expressionFilter.setCode(expressionCode);
+                    expressionFilter.setParameter(parameter);
+
+                    result.add(expressionFilter);
+                    break;
                 }
+                case FilterType.IN: {
+                    QueryFilterInDto inRecord = queryDtoSelect.selectFilterIn(queryId, filterId);
+                    Preconditions.requireNonNull(inRecord, "inRecord must not be null, queryId: " + queryId + ", filterId: " + filterId);
 
-                InFilter inFilter = new InFilter();
+                    List<QueryFilterInValueDto> inValueList = queryDtoSelect.selectFilterInValue(queryId, filterId);
+                    Preconditions.requireNonEmpty(inValueList, "inValueList must not be empty, queryId: " + queryId + ", filterId: " + filterId);
 
-                inFilter.setOr(or);
-                inFilter.setName(filterName);
-                inFilter.setNot(not);
-                inFilter.setParameters(parameters);
+                    Boolean not = inRecord.getNot();
+                    List<Parameter> parameters = new ArrayList<>();
 
-                result.add(inFilter);
-                continue;
+                    for (QueryFilterInValueDto inValue : inValueList) {
+                        if (inValue == null) {
+                            continue;
+                        }
+
+                        String valueString = inValue.getValueString();
+                        Integer valueInteger = inValue.getValueInteger();
+                        Long valueLong = inValue.getValueLong();
+                        BigDecimal valueBigDecimal = inValue.getValueBigDecimal();
+                        Date valueDate = inValue.getValueDate();
+                        Value value = ValueBuilder.build(valueType, valueString, valueInteger, valueLong, valueBigDecimal, valueDate);
+
+                        Parameter parameter = new Parameter();
+                        parameter.setValue(value);
+
+                        parameters.add(parameter);
+                    }
+
+                    InFilter inFilter = new InFilter();
+
+                    inFilter.setOr(or);
+                    inFilter.setName(filterName);
+                    inFilter.setNot(not);
+                    inFilter.setParameters(parameters);
+
+                    result.add(inFilter);
+                    break;
+                }
+                case FilterType.NULL: {
+                    QueryFilterNullDto nullRecord = queryDtoSelect.selectFilterNull(queryId, filterId);
+                    Preconditions.requireNonNull(nullRecord, "nullRecord must not be null, queryId: " + queryId + ", filterId: " + filterId);
+
+                    Boolean not = nullRecord.getNot();
+
+                    NullFilter nullFilter = new NullFilter();
+
+                    nullFilter.setOr(or);
+                    nullFilter.setName(filterName);
+                    nullFilter.setNot(not);
+
+                    result.add(nullFilter);
+                    break;
+                }
+                case FilterType.RANGE: {
+                    QueryFilterRangeDto rangeRecord = queryDtoSelect.selectFilterRange(queryId, filterId);
+                    Preconditions.requireNonNull(rangeRecord, "rangeRecord must not be null, queryId: " + queryId + ", filterId: " + filterId);
+
+                    Boolean includeLower = rangeRecord.getIncludeLower();
+                    Boolean includeUpper = rangeRecord.getIncludeUpper();
+                    String fromValueString = rangeRecord.getFromValueString();
+                    Integer fromValueInteger = rangeRecord.getFromValueInteger();
+                    Long fromValueLong = rangeRecord.getFromValueLong();
+                    BigDecimal fromValueBigDecimal = rangeRecord.getFromValueBigDecimal();
+                    Date fromValueDate = rangeRecord.getFromValueDate();
+                    String toValueString = rangeRecord.getToValueString();
+                    Integer toValueInteger = rangeRecord.getToValueInteger();
+                    Long toValueLong = rangeRecord.getToValueLong();
+                    BigDecimal toValueBigDecimal = rangeRecord.getToValueBigDecimal();
+                    Date toValueDate = rangeRecord.getToValueDate();
+
+                    Value fromValue = ValueBuilder.build(valueType, fromValueString, fromValueInteger, fromValueLong, fromValueBigDecimal, fromValueDate);
+                    Value toValue = ValueBuilder.build(valueType, toValueString, toValueInteger, toValueLong, toValueBigDecimal, toValueDate);
+
+                    Parameter from = new Parameter();
+                    from.setValue(fromValue);
+
+                    Parameter to = new Parameter();
+                    to.setValue(toValue);
+
+                    RangeFilter rangeFilter = new RangeFilter();
+
+                    rangeFilter.setOr(or);
+                    rangeFilter.setName(filterName);
+                    rangeFilter.setFrom(from);
+                    rangeFilter.setTo(to);
+                    rangeFilter.setIncludeLower(includeLower);
+                    rangeFilter.setIncludeUpper(includeUpper);
+
+                    result.add(rangeFilter);
+                    break;
+                }
+                case FilterType.WILDCARD: {
+                    QueryFilterWildcardDto wildcardRecord = queryDtoSelect.selectFilterWildcard(queryId, filterId);
+                    Preconditions.requireNonNull(wildcardRecord, "wildcardRecord must not be null, queryId: " + queryId + ", filterId: " + filterId);
+
+                    Boolean not = wildcardRecord.getNot();
+                    int wildcardCode = wildcardRecord.getWildcardCode();
+
+                    String valueString = wildcardRecord.getValueString();
+                    Integer valueInteger = wildcardRecord.getValueInteger();
+                    Long valueLong = wildcardRecord.getValueLong();
+                    BigDecimal valueBigDecimal = wildcardRecord.getValueBigDecimal();
+                    Date valueDate = wildcardRecord.getValueDate();
+                    Value value = ValueBuilder.build(valueType, valueString, valueInteger, valueLong, valueBigDecimal, valueDate);
+
+                    Parameter parameter = new Parameter();
+                    parameter.setValue(value);
+
+                    WildcardFilter wildcardFilter = new WildcardFilter();
+
+                    wildcardFilter.setOr(or);
+                    wildcardFilter.setName(filterName);
+                    wildcardFilter.setNot(not);
+                    wildcardFilter.setCode(wildcardCode);
+                    wildcardFilter.setParameter(parameter);
+
+                    result.add(wildcardFilter);
+                    break;
+                }
+                default:
+                    break;
             }
 
-            if (filterType == FilterType.NULL) {
-                QueryFilterNullDto nullRecord = queryDtoSelect.selectFilterNull(queryId, filterId);
-                if (nullRecord == null) {
-                    continue;
-                }
-
-                Boolean not = nullRecord.getNot();
-
-                NullFilter nullFilter = new NullFilter();
-
-                nullFilter.setOr(or);
-                nullFilter.setName(filterName);
-                nullFilter.setNot(not);
-
-                result.add(nullFilter);
-                continue;
-            }
-
-            if (filterType == FilterType.RANGE) {
-                QueryFilterRangeDto rangeRecord = queryDtoSelect.selectFilterRange(queryId, filterId);
-                if (rangeRecord == null) {
-                    continue;
-                }
-
-                Boolean isIncludeLower = rangeRecord.getIncludeLower();
-                Boolean isIncludeUpper = rangeRecord.getIncludeUpper();
-                String fromValueString = rangeRecord.getFromValueString();
-                Integer fromValueInteger = rangeRecord.getFromValueInteger();
-                Long fromValueLong = rangeRecord.getFromValueLong();
-                BigDecimal fromValueBigDecimal = rangeRecord.getFromValueBigDecimal();
-                Date fromValueDate = rangeRecord.getFromValueDate();
-                String toValueString = rangeRecord.getToValueString();
-                Integer toValueInteger = rangeRecord.getToValueInteger();
-                Long toValueLong = rangeRecord.getToValueLong();
-                BigDecimal toValueBigDecimal = rangeRecord.getToValueBigDecimal();
-                Date toValueDate = rangeRecord.getToValueDate();
-
-                Value fromValue = ValueBuilder.build(valueType, fromValueString, fromValueInteger, fromValueLong, fromValueBigDecimal, fromValueDate);
-                Value toValue = ValueBuilder.build(valueType, toValueString, toValueInteger, toValueLong, toValueBigDecimal, toValueDate);
-
-                Parameter from = new Parameter();
-                from.setValue(fromValue);
-
-                Parameter to = new Parameter();
-                to.setValue(toValue);
-
-                RangeFilter rangeFilter = new RangeFilter();
-
-                rangeFilter.setFrom(from);
-                rangeFilter.setTo(to);
-                rangeFilter.setIncludeLower(isIncludeLower);
-                rangeFilter.setIncludeUpper(isIncludeUpper);
-
-                result.add(rangeFilter);
-                continue;
-            }
-
-            if (filterType == FilterType.WILDCARD) {
-                QueryFilterWildcardDto wildcardRecord = queryDtoSelect.selectFilterWildcard(queryId, filterId);
-                if (wildcardRecord == null) {
-                    continue;
-                }
-
-                Boolean not = wildcardRecord.getNot();
-                int wildcardCode = wildcardRecord.getWildcardCode();
-
-                String valueString = wildcardRecord.getValueString();
-                Integer valueInteger = wildcardRecord.getValueInteger();
-                Long valueLong = wildcardRecord.getValueLong();
-                BigDecimal valueBigDecimal = wildcardRecord.getValueBigDecimal();
-                Date valueDate = wildcardRecord.getValueDate();
-                Value value = ValueBuilder.build(valueType, valueString, valueInteger, valueLong, valueBigDecimal, valueDate);
-
-                Parameter parameter = new Parameter();
-                parameter.setValue(value);
-
-                WildcardFilter wildcardFilter = new WildcardFilter();
-
-                wildcardFilter.setOr(or);
-                wildcardFilter.setName(filterName);
-                wildcardFilter.setNot(not);
-                wildcardFilter.setCode(wildcardCode);
-                wildcardFilter.setParameter(parameter);
-
-                result.add(wildcardFilter);
+            List<BaseFilter> filterList = selectFilter(isHaving, queryId, filterId, fromTable);
+            if (filterList == null || filterList.isEmpty()) {
                 continue;
             }
 
             Filters filters = new Filters();
-            filters.setFilters(selectFilter(isHaving, queryId, filterId, fromTable));
+            filters.setFilters(filterList);
 
             result.add(filters);
         }
