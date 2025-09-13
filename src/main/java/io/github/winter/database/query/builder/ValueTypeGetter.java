@@ -6,7 +6,7 @@ import io.github.winter.database.template.TableSchemaRegistry;
 import java.util.Map;
 
 /**
- * Get Value Type
+ * Value Type Getter
  *
  * @author changebooks@qq.com
  */

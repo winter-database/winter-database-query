@@ -36,6 +36,34 @@ public class QuerySelect {
     }
 
     /**
+     * 全部主键
+     *
+     * @return 主键列表
+     */
+    @NotNull
+    public List<Integer> selectAllId() {
+        List<Integer> result = new ArrayList<>();
+
+        List<QueryDto> list = queryDtoSelect.selectQueryAll();
+        if (list == null) {
+            return result;
+        }
+
+        for (QueryDto record : list) {
+            if (record == null) {
+                continue;
+            }
+
+            int id = record.getId();
+            if (id > 0) {
+                result.add(id);
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * 查询
      *
      * @param id 主键

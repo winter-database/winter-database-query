@@ -23,6 +23,16 @@ public class QueryDtoSelect {
     }
 
     /**
+     * 查询全部
+     *
+     * @return [ the {@link QueryDto} instance ]
+     */
+    public List<QueryDto> selectQueryAll() {
+        List<Map<String, Value>> list = selectTemplate.selectList("xquery", null);
+        return QueryDto.newInstance(list);
+    }
+
+    /**
      * 查询
      *
      * @param id 主键
