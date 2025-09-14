@@ -1,4 +1,4 @@
-package io.github.winter.database.query.builder;
+package io.github.winter.database.query;
 
 import io.github.winter.database.table.TableSchema;
 import io.github.winter.database.template.TableSchemaRegistry;

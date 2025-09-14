@@ -1,4 +1,4 @@
-package io.github.winter.database.query.builder;
+package io.github.winter.database.query;
 
 import io.github.winter.boot.sql.Preconditions;
 import io.github.winter.boot.tuple.Value;
@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * Value Builder
+ * 创建值
  *
  * @author changebooks@qq.com
  */
@@ -18,14 +18,14 @@ public final class ValueBuilder {
     }
 
     /**
-     * Build
+     * 创建
      *
-     * @param valueType       Value Type
-     * @param valueString     String Value
-     * @param valueInteger    Integer Value
-     * @param valueLong       Long Value
-     * @param valueBigDecimal BigDecimal Value
-     * @param valueDate       Date Value
+     * @param valueType       类型
+     * @param valueString     字符串
+     * @param valueInteger    整数
+     * @param valueLong       长整数
+     * @param valueBigDecimal 小数
+     * @param valueDate       日期时间
      * @return the {@link Value} instance
      */
     @NotNull
@@ -53,7 +53,7 @@ public final class ValueBuilder {
             return new Value(valueDate);
         }
 
-        throw new RuntimeException(String.format("unsupported value type, type: %s", valueType));
+        throw new RuntimeException(String.format("unsupported valueType, type: %s", valueType));
     }
 
 }
