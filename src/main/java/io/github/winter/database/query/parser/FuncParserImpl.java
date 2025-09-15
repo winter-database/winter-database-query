@@ -10,14 +10,14 @@ import io.github.winter.database.query.NameJoiner;
 public class FuncParserImpl implements FuncParser {
 
     @Override
-    public String parse(int func, String tableName, String columnName) {
+    public String parse(int funcType, String tableName, String columnName) {
         String name = NameJoiner.join(tableName, columnName);
-        return parse(func, name);
+        return parse(funcType, name);
     }
 
     @Override
-    public String parse(int func, String name) {
-        return switch (func) {
+    public String parse(int funcType, String name) {
+        return switch (funcType) {
             case FuncType.COUNT -> COUNT;
             case FuncType.SUM -> "SUM(" + name + ")";
             case FuncType.MAX -> "MAX(" + name + ")";
