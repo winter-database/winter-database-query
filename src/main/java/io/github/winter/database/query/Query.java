@@ -210,7 +210,7 @@ public final class Query implements Serializable {
                 .filter(Objects::nonNull)
                 .filter(x -> x.getKey() != null)
                 .filter(x -> x.getValue() != null)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (x, y) -> y));
     }
 
 }
