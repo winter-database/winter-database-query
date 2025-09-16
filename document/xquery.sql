@@ -3,8 +3,10 @@ CREATE TABLE xquery
 (
     id                int(10) unsigned    NOT NULL AUTO_INCREMENT COMMENT '主键',
     query_name        varchar(64)         NOT NULL DEFAULT '' COMMENT '名称',
+    is_sub_query      int(10) unsigned    NOT NULL DEFAULT '0' COMMENT '子查询？',
     is_distinct       int(10) unsigned    NOT NULL DEFAULT '0' COMMENT '去重？',
     is_asterisk       int(10) unsigned    NOT NULL DEFAULT '0' COMMENT '全字段？',
+    sub_query_id      int(10) unsigned    NOT NULL DEFAULT '0' COMMENT '子查询主键',
     from_table        varchar(64)         NOT NULL DEFAULT '' COMMENT '表名',
     page_offset       bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '开始行数',
     page_limit        int(10) unsigned    NOT NULL DEFAULT '0' COMMENT '每页行数',

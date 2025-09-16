@@ -3,6 +3,7 @@ CREATE TABLE xquery_join
 (
     id               int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
     query_id         int(10) unsigned NOT NULL DEFAULT '0' COMMENT '查询主键',
+    sub_query_id     int(10) unsigned NOT NULL DEFAULT '0' COMMENT '子查询主键',
     join_table       varchar(64)      NOT NULL DEFAULT '' COMMENT '表名',
     join_type        int(10) unsigned NOT NULL DEFAULT '0' COMMENT '连表方式',
     show_priority    int(10) unsigned NOT NULL DEFAULT '10000' COMMENT '排序',

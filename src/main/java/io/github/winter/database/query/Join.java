@@ -15,19 +15,41 @@ import java.util.Optional;
  */
 public class Join implements Serializable {
     /**
-     * 表名
-     */
-    private String tableName;
-
-    /**
      * 连表方式
      */
     private int type;
 
     /**
+     * 子查询
+     */
+    private String subQuery;
+
+    /**
+     * 表名
+     */
+    private String tableName;
+
+    /**
      * 条件列表
      */
     private List<On> filters;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    @NotNull
+    public String getSubQuery() {
+        return subQuery != null ? subQuery : "";
+    }
+
+    public void setSubQuery(String subQuery) {
+        this.subQuery = subQuery != null ? subQuery.trim() : "";
+    }
 
     @NotNull
     public String getTableName() {
@@ -36,14 +58,6 @@ public class Join implements Serializable {
 
     public void setTableName(String tableName) {
         this.tableName = tableName != null ? tableName.trim() : "";
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 
     public List<On> getFilters() {
