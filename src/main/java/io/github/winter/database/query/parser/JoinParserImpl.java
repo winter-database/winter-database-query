@@ -5,7 +5,7 @@ import io.github.winter.boot.sql.Preconditions;
 import io.github.winter.database.query.Join;
 import io.github.winter.database.query.JoinParser;
 import io.github.winter.database.query.JoinType;
-import jakarta.validation.constraints.NotEmpty;
+import io.github.winter.database.query.SubQueryParser;
 
 import java.util.List;
 import java.util.Objects;
@@ -16,6 +16,14 @@ import java.util.stream.Collectors;
  * @author changebooks@qq.com
  */
 public class JoinParserImpl implements JoinParser {
+    /**
+     * the {@link SubQueryParser} instance
+     */
+    private final SubQueryParser subQueryParser;
+
+    public JoinParserImpl() {
+        this.subQueryParser = new SubQueryParserImpl();
+    }
 
     @Override
     public String parse(List<Join> joins) {
@@ -42,24 +50,26 @@ public class JoinParserImpl implements JoinParser {
         List<Join.On> filters = join.getFilters();
         Preconditions.requireNonNull(filters, "filters must not be null, tableName: " + tableName);
 
-        int type = join.getType();
-        String joinTable = parse(type, tableName);
-
         String joinOn = parseFilter(filters);
         Preconditions.requireNonNull(joinOn, "joinOn must not be null, tableName: " + tableName);
         Preconditions.requireNonEmpty(joinOn, "joinOn must not be empty, tableName: " + tableName);
 
+        int type = join.getType();
+
+        String subQuery = join.getSubQuery();
+        String table = subQueryParser.parse(subQuery, tableName);
+        String joinTable = parse(type, table);
+
         return joinTable + " " + joinOn;
     }
 
-    @NotEmpty
     @Override
-    public String parse(int type, @NotEmpty String tableName) {
+    public String parse(int type, String tableName) {
         return switch (type) {
             case JoinType.INNER -> "JOIN " + tableName;
             case JoinType.LEFT -> "LEFT JOIN " + tableName;
             case JoinType.RIGHT -> "RIGHT JOIN " + tableName;
-            default -> throw new RuntimeException("unsupported join type, tableName: " + tableName);
+            default -> throw new RuntimeException("unsupported join type, type: " + type + ", tableName: " + tableName);
         };
     }
 
@@ -93,6 +103,10 @@ public class JoinParserImpl implements JoinParser {
         }
 
         return leftName + " = " + rightName;
+    }
+
+    public SubQueryParser getSubQueryParser() {
+        return subQueryParser;
     }
 
 }

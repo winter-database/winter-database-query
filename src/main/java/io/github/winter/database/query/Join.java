@@ -74,8 +74,6 @@ public class Join implements Serializable {
 
     /**
      * 连表条件
-     *
-     * @author changebooks@qq.com
      */
     public static class On implements Serializable {
         /**

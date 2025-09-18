@@ -59,14 +59,14 @@ public class GroupParserImpl implements GroupParser {
 
     @Override
     public String parse(List<String> names) {
-        if (names == null) {
-            return "";
-        } else {
+        if (names != null) {
             String sql = names.stream()
                     .peek(name -> Preconditions.requireNonNull(name, "name must not be null"))
                     .peek(name -> Preconditions.requireNonEmpty(name, "name must not be empty"))
                     .collect(Collectors.joining(", "));
             return prefixed(sql);
+        } else {
+            return "";
         }
     }
 

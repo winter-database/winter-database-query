@@ -37,13 +37,13 @@ public class HavingParserImpl implements HavingParser {
 
     @Override
     public Statement prefixed(Statement statement) {
-        if (statement == null) {
-            return null;
-        } else {
+        if (statement != null) {
             String sql = statement.getSql();
             String prefixedSql = prefixed(sql);
             statement.setSql(prefixedSql);
             return statement;
+        } else {
+            return null;
         }
     }
 

@@ -41,12 +41,18 @@ public class QueryParserImpl implements QueryParser {
      */
     private final PageParser pageParser;
 
+    /**
+     * the {@link SubQueryParser} instance
+     */
+    private final SubQueryParser subQueryParser;
+
     public QueryParserImpl() {
         this.joinParser = new JoinParserImpl();
         this.whereParser = new WhereParserImpl();
         this.groupParser = new GroupParserImpl();
         this.orderParser = new OrderParserImpl();
         this.pageParser = new PageParserImpl();
+        this.subQueryParser = new SubQueryParserImpl();
     }
 
     @Override
@@ -55,9 +61,14 @@ public class QueryParserImpl implements QueryParser {
             return null;
         }
 
+        String tableName = query.getTableName();
+        Preconditions.requireNonEmpty(tableName, "tableName must not be empty");
+
+        String subQuery = query.getSubQuery();
+        String table = subQueryParser.parse(subQuery, tableName);
+
         boolean distinct = query.isDistinct();
         String columns = joinColumns(query);
-        String table = query.getTableName();
 
         String sql = String.format
                 (
