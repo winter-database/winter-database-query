@@ -1,0 +1,197 @@
+package io.github.winter.database.query.dto;
+
+import io.github.winter.boot.tuple.Value;
+import jakarta.validation.constraints.NotNull;
+
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * 排序
+ *
+ * @author changebooks@qq.com
+ */
+public final class QueryOrderDto implements Serializable {
+    /**
+     * 主键
+     */
+    private Integer id;
+
+    /**
+     * 查询主键
+     */
+    private Integer queryId;
+
+    /**
+     * 表名
+     */
+    private String tableName;
+
+    /**
+     * 字段名
+     */
+    private String columnName;
+
+    /**
+     * 函数类型
+     */
+    private Integer funcType;
+
+    /**
+     * 排序方式
+     */
+    private Integer orderType;
+
+    /**
+     * 排序
+     */
+    private Integer showPriority;
+
+    /**
+     * 更新版本
+     */
+    private Integer updateVersion;
+
+    /**
+     * 创建时间
+     */
+    private Date createDate;
+
+    /**
+     * 更新时间
+     */
+    private Date lastUpdate;
+
+    public int getId() {
+        return id != null ? id : 0;
+    }
+
+    public void setId(Value value) {
+        Integer id = value != null ? value.getInteger() : null;
+        setId(id);
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public int getQueryId() {
+        return queryId != null ? queryId : 0;
+    }
+
+    public void setQueryId(Value value) {
+        Integer queryId = value != null ? value.getInteger() : null;
+        setQueryId(queryId);
+    }
+
+    public void setQueryId(Integer queryId) {
+        this.queryId = queryId;
+    }
+
+    @NotNull
+    public String getTableName() {
+        return tableName != null ? tableName : "";
+    }
+
+    public void setTableName(Value value) {
+        String tableName = value != null ? value.getString() : null;
+        setTableName(tableName);
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName != null ? tableName.trim() : "";
+    }
+
+    @NotNull
+    public String getColumnName() {
+        return columnName != null ? columnName : "";
+    }
+
+    public void setColumnName(Value value) {
+        String columnName = value != null ? value.getString() : null;
+        setColumnName(columnName);
+    }
+
+    public void setColumnName(String columnName) {
+        this.columnName = columnName != null ? columnName.trim() : "";
+    }
+
+    public int getFuncType() {
+        return funcType != null ? funcType : 0;
+    }
+
+    public void setFuncType(Value value) {
+        Integer funcType = value != null ? value.getInteger() : null;
+        setFuncType(funcType);
+    }
+
+    public void setFuncType(Integer funcType) {
+        this.funcType = funcType;
+    }
+
+    public int getOrderType() {
+        return orderType != null ? orderType : 0;
+    }
+
+    public void setOrderType(Value value) {
+        Integer orderType = value != null ? value.getInteger() : null;
+        setOrderType(orderType);
+    }
+
+    public void setOrderType(Integer orderType) {
+        this.orderType = orderType;
+    }
+
+    public int getShowPriority() {
+        return showPriority != null ? showPriority : 0;
+    }
+
+    public void setShowPriority(Value value) {
+        Integer showPriority = value != null ? value.getInteger() : null;
+        setShowPriority(showPriority);
+    }
+
+    public void setShowPriority(Integer showPriority) {
+        this.showPriority = showPriority;
+    }
+
+    public int getUpdateVersion() {
+        return updateVersion != null ? updateVersion : 0;
+    }
+
+    public void setUpdateVersion(Value value) {
+        Integer updateVersion = value != null ? value.getInteger() : null;
+        setUpdateVersion(updateVersion);
+    }
+
+    public void setUpdateVersion(Integer updateVersion) {
+        this.updateVersion = updateVersion;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Value value) {
+        Date createDate = value != null ? value.getDate() : null;
+        setCreateDate(createDate);
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Value value) {
+        Date lastUpdate = value != null ? value.getDate() : null;
+        setLastUpdate(lastUpdate);
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+}
