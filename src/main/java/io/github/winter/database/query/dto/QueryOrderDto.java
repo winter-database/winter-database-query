@@ -107,6 +107,16 @@ public final class QueryOrderDto implements Serializable {
 
         QueryOrderDto result = new QueryOrderDto();
 
+        result.setId(id);
+        result.setQueryId(queryId);
+        result.setTableName(tableName);
+        result.setColumnName(columnName);
+        result.setFuncType(funcType);
+        result.setOrderType(orderType);
+        result.setShowPriority(showPriority);
+        result.setUpdateVersion(updateVersion);
+        result.setCreateDate(createDate);
+        result.setLastUpdate(lastUpdate);
 
         return result;
     }

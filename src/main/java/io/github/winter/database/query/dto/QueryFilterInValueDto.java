@@ -119,6 +119,18 @@ public final class QueryFilterInValueDto implements Serializable {
 
         QueryFilterInValueDto result = new QueryFilterInValueDto();
 
+        result.setId(id);
+        result.setQueryId(queryId);
+        result.setFilterId(filterId);
+        result.setValueString(valueString);
+        result.setValueInteger(valueInteger);
+        result.setValueLong(valueLong);
+        result.setValueBigDecimal(valueBigDecimal);
+        result.setValueDate(valueDate);
+        result.setShowPriority(showPriority);
+        result.setUpdateVersion(updateVersion);
+        result.setCreateDate(createDate);
+        result.setLastUpdate(lastUpdate);
 
         return result;
     }

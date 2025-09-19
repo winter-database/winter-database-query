@@ -149,8 +149,8 @@ public final class QueryFilterRangeDto implements Serializable {
         Value id = record.get("id");
         Value queryId = record.get("query_id");
         Value filterId = record.get("filter_id");
-        Value isIncludeLower = record.get("is_include_lower");
-        Value isIncludeUpper = record.get("is_include_upper");
+        Value includeLower = record.get("is_include_lower");
+        Value includeUpper = record.get("is_include_upper");
         Value fromParameterName = record.get("from_parameter_name");
         Value fromValueString = record.get("from_value_string");
         Value fromValueInteger = record.get("from_value_integer");
@@ -168,6 +168,27 @@ public final class QueryFilterRangeDto implements Serializable {
         Value lastUpdate = record.get("last_update");
 
         QueryFilterRangeDto result = new QueryFilterRangeDto();
+
+        result.setId(id);
+        result.setQueryId(queryId);
+        result.setFilterId(filterId);
+        result.setIncludeLower(includeLower);
+        result.setIncludeUpper(includeUpper);
+        result.setFromParameterName(fromParameterName);
+        result.setFromValueString(fromValueString);
+        result.setFromValueInteger(fromValueInteger);
+        result.setFromValueLong(fromValueLong);
+        result.setFromValueBigDecimal(fromValueBigDecimal);
+        result.setFromValueDate(fromValueDate);
+        result.setToParameterName(toParameterName);
+        result.setToValueString(toValueString);
+        result.setToValueInteger(toValueInteger);
+        result.setToValueLong(toValueLong);
+        result.setToValueBigDecimal(toValueBigDecimal);
+        result.setToValueDate(toValueDate);
+        result.setUpdateVersion(updateVersion);
+        result.setCreateDate(createDate);
+        result.setLastUpdate(lastUpdate);
 
         return result;
     }

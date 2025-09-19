@@ -93,7 +93,7 @@ public final class QueryFilterInDto implements Serializable {
         Value id = record.get("id");
         Value queryId = record.get("query_id");
         Value filterId = record.get("filter_id");
-        Value isNot = record.get("is_not");
+        Value not = record.get("is_not");
         Value subQueryId = record.get("sub_query_id");
         Value parameterName = record.get("parameter_name");
         Value updateVersion = record.get("update_version");
@@ -102,6 +102,15 @@ public final class QueryFilterInDto implements Serializable {
 
         QueryFilterInDto result = new QueryFilterInDto();
 
+        result.setId(id);
+        result.setQueryId(queryId);
+        result.setFilterId(filterId);
+        result.setNot(not);
+        result.setSubQueryId(subQueryId);
+        result.setParameterName(parameterName);
+        result.setUpdateVersion(updateVersion);
+        result.setCreateDate(createDate);
+        result.setLastUpdate(lastUpdate);
 
         return result;
     }

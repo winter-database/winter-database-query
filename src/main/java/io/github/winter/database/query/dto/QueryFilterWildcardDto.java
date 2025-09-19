@@ -119,7 +119,7 @@ public final class QueryFilterWildcardDto implements Serializable {
         Value id = record.get("id");
         Value queryId = record.get("query_id");
         Value filterId = record.get("filter_id");
-        Value isNot = record.get("is_not");
+        Value not = record.get("is_not");
         Value wildcardCode = record.get("wildcard_code");
         Value parameterName = record.get("parameter_name");
         Value valueString = record.get("value_string");
@@ -133,6 +133,20 @@ public final class QueryFilterWildcardDto implements Serializable {
 
         QueryFilterWildcardDto result = new QueryFilterWildcardDto();
 
+        result.setId(id);
+        result.setQueryId(queryId);
+        result.setFilterId(filterId);
+        result.setNot(not);
+        result.setWildcardCode(wildcardCode);
+        result.setParameterName(parameterName);
+        result.setValueString(valueString);
+        result.setValueInteger(valueInteger);
+        result.setValueLong(valueLong);
+        result.setValueBigDecimal(valueBigDecimal);
+        result.setValueDate(valueDate);
+        result.setUpdateVersion(updateVersion);
+        result.setCreateDate(createDate);
+        result.setLastUpdate(lastUpdate);
 
         return result;
     }

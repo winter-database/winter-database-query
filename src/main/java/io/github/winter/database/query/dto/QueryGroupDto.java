@@ -95,6 +95,14 @@ public final class QueryGroupDto implements Serializable {
 
         QueryGroupDto result = new QueryGroupDto();
 
+        result.setId(id);
+        result.setQueryId(queryId);
+        result.setTableName(tableName);
+        result.setColumnName(columnName);
+        result.setShowPriority(showPriority);
+        result.setUpdateVersion(updateVersion);
+        result.setCreateDate(createDate);
+        result.setLastUpdate(lastUpdate);
 
         return result;
     }

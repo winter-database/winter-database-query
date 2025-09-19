@@ -118,7 +118,7 @@ public final class QueryFilterDto implements Serializable {
         Value funcType = record.get("func_type");
         Value filterType = record.get("filter_type");
         Value logicalOperator = record.get("logical_operator");
-        Value isHaving = record.get("is_having");
+        Value having = record.get("is_having");
         Value showPriority = record.get("show_priority");
         Value updateVersion = record.get("update_version");
         Value createDate = record.get("create_date");
@@ -126,6 +126,19 @@ public final class QueryFilterDto implements Serializable {
 
         QueryFilterDto result = new QueryFilterDto();
 
+        result.setId(id);
+        result.setQueryId(queryId);
+        result.setParentId(parentId);
+        result.setTableName(tableName);
+        result.setColumnName(columnName);
+        result.setFuncType(funcType);
+        result.setFilterType(filterType);
+        result.setLogicalOperator(logicalOperator);
+        result.setHaving(having);
+        result.setShowPriority(showPriority);
+        result.setUpdateVersion(updateVersion);
+        result.setCreateDate(createDate);
+        result.setLastUpdate(lastUpdate);
 
         return result;
     }

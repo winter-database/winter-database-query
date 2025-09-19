@@ -113,6 +113,17 @@ public final class QueryJoinOnDto implements Serializable {
 
         QueryJoinOnDto result = new QueryJoinOnDto();
 
+        result.setId(id);
+        result.setQueryId(queryId);
+        result.setJoinId(joinId);
+        result.setLeftTable(leftTable);
+        result.setLeftColumn(leftColumn);
+        result.setRightTable(rightTable);
+        result.setRightColumn(rightColumn);
+        result.setShowPriority(showPriority);
+        result.setUpdateVersion(updateVersion);
+        result.setCreateDate(createDate);
+        result.setLastUpdate(lastUpdate);
 
         return result;
     }

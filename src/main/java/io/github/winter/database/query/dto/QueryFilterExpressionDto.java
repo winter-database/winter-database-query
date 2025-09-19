@@ -126,6 +126,19 @@ public final class QueryFilterExpressionDto implements Serializable {
 
         QueryFilterExpressionDto result = new QueryFilterExpressionDto();
 
+        result.setId(id);
+        result.setQueryId(queryId);
+        result.setFilterId(filterId);
+        result.setExpressionCode(expressionCode);
+        result.setParameterName(parameterName);
+        result.setValueString(valueString);
+        result.setValueInteger(valueInteger);
+        result.setValueLong(valueLong);
+        result.setValueBigDecimal(valueBigDecimal);
+        result.setValueDate(valueDate);
+        result.setUpdateVersion(updateVersion);
+        result.setCreateDate(createDate);
+        result.setLastUpdate(lastUpdate);
 
         return result;
     }
