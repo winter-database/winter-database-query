@@ -146,9 +146,28 @@ public final class QueryFilterRangeDto implements Serializable {
             return null;
         }
 
+        Value id = record.get("id");
+        Value queryId = record.get("query_id");
+        Value filterId = record.get("filter_id");
+        Value isIncludeLower = record.get("is_include_lower");
+        Value isIncludeUpper = record.get("is_include_upper");
+        Value fromParameterName = record.get("from_parameter_name");
+        Value fromValueString = record.get("from_value_string");
+        Value fromValueInteger = record.get("from_value_integer");
+        Value fromValueLong = record.get("from_value_long");
+        Value fromValueBigDecimal = record.get("from_value_big_decimal");
+        Value fromValueDate = record.get("from_value_date");
+        Value toParameterName = record.get("to_parameter_name");
+        Value toValueString = record.get("to_value_string");
+        Value toValueInteger = record.get("to_value_integer");
+        Value toValueLong = record.get("to_value_long");
+        Value toValueBigDecimal = record.get("to_value_big_decimal");
+        Value toValueDate = record.get("to_value_date");
+        Value updateVersion = record.get("update_version");
+        Value createDate = record.get("create_date");
+        Value lastUpdate = record.get("last_update");
 
         QueryFilterRangeDto result = new QueryFilterRangeDto();
-
 
         return result;
     }

@@ -120,6 +120,21 @@ public final class QueryDto implements Serializable {
             return null;
         }
 
+        Value id = record.get("id");
+        Value queryName = record.get("query_name");
+        Value isSubQuery = record.get("is_sub_query");
+        Value isDistinct = record.get("is_distinct");
+        Value isAsterisk = record.get("is_asterisk");
+        Value subQueryId = record.get("sub_query_id");
+        Value fromTable = record.get("from_table");
+        Value pageOffset = record.get("page_offset");
+        Value pageLimit = record.get("page_limit");
+        Value queryDescription = record.get("query_description");
+        Value queryRemark = record.get("query_remark");
+        Value showPriority = record.get("show_priority");
+        Value updateVersion = record.get("update_version");
+        Value createDate = record.get("create_date");
+        Value lastUpdate = record.get("last_update");
 
         QueryDto result = new QueryDto();
 

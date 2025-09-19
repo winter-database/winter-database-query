@@ -89,6 +89,15 @@ public final class QueryColumnDto implements Serializable {
             return null;
         }
 
+        Value id = record.get("id");
+        Value queryId = record.get("query_id");
+        Value tableName = record.get("table_name");
+        Value columnName = record.get("column_name");
+        Value funcType = record.get("func_type");
+        Value showPriority = record.get("show_priority");
+        Value updateVersion = record.get("update_version");
+        Value createDate = record.get("create_date");
+        Value lastUpdate = record.get("last_update");
 
         QueryColumnDto result = new QueryColumnDto();
 

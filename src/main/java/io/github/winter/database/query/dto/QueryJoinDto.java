@@ -89,6 +89,15 @@ public final class QueryJoinDto implements Serializable {
             return null;
         }
 
+        Value id = record.get("id");
+        Value queryId = record.get("query_id");
+        Value subQueryId = record.get("sub_query_id");
+        Value joinTable = record.get("join_table");
+        Value joinType = record.get("join_type");
+        Value showPriority = record.get("show_priority");
+        Value updateVersion = record.get("update_version");
+        Value createDate = record.get("create_date");
+        Value lastUpdate = record.get("last_update");
 
         QueryJoinDto result = new QueryJoinDto();
 
