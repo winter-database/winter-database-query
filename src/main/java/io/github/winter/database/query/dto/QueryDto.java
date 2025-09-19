@@ -6,6 +6,9 @@ import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * 查询
@@ -87,6 +90,42 @@ public final class QueryDto implements Serializable {
      * 更新时间
      */
     private Date lastUpdate;
+
+    /**
+     * Build Instance List
+     *
+     * @param list [ [ Column Name : Column Value ] ]
+     * @return [ the {@link QueryDto} instance ]
+     */
+    public static List<QueryDto> newInstance(List<Map<String, Value>> list) {
+        if (list != null) {
+            return list.stream()
+                    .filter(Objects::nonNull)
+                    .map(QueryDto::newInstance)
+                    .filter(Objects::nonNull)
+                    .toList();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Build Instance
+     *
+     * @param record [ Column Name : Column Value ]
+     * @return the {@link QueryDto} instance
+     */
+    public static QueryDto newInstance(Map<String, Value> record) {
+        if (record == null) {
+            return null;
+        }
+
+
+        QueryDto result = new QueryDto();
+
+
+        return result;
+    }
 
     public int getId() {
         return id != null ? id : 0;

@@ -5,6 +5,9 @@ import io.github.winter.boot.tuple.Value;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * 列表值
@@ -71,6 +74,42 @@ public final class QueryFilterInValueDto implements Serializable {
      * 更新时间
      */
     private Date lastUpdate;
+
+    /**
+     * Build Instance List
+     *
+     * @param list [ [ Column Name : Column Value ] ]
+     * @return [ the {@link QueryFilterInValueDto} instance ]
+     */
+    public static List<QueryFilterInValueDto> newInstance(List<Map<String, Value>> list) {
+        if (list != null) {
+            return list.stream()
+                    .filter(Objects::nonNull)
+                    .map(QueryFilterInValueDto::newInstance)
+                    .filter(Objects::nonNull)
+                    .toList();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Build Instance
+     *
+     * @param record [ Column Name : Column Value ]
+     * @return the {@link QueryFilterInValueDto} instance
+     */
+    public static QueryFilterInValueDto newInstance(Map<String, Value> record) {
+        if (record == null) {
+            return null;
+        }
+
+
+        QueryFilterInValueDto result = new QueryFilterInValueDto();
+
+
+        return result;
+    }
 
     public int getId() {
         return id != null ? id : 0;

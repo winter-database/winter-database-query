@@ -5,6 +5,9 @@ import io.github.winter.database.query.BooleanCast;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * 空
@@ -46,6 +49,42 @@ public final class QueryFilterNullDto implements Serializable {
      * 更新时间
      */
     private Date lastUpdate;
+
+    /**
+     * Build Instance List
+     *
+     * @param list [ [ Column Name : Column Value ] ]
+     * @return [ the {@link QueryFilterNullDto} instance ]
+     */
+    public static List<QueryFilterNullDto> newInstance(List<Map<String, Value>> list) {
+        if (list != null) {
+            return list.stream()
+                    .filter(Objects::nonNull)
+                    .map(QueryFilterNullDto::newInstance)
+                    .filter(Objects::nonNull)
+                    .toList();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Build Instance
+     *
+     * @param record [ Column Name : Column Value ]
+     * @return the {@link QueryFilterNullDto} instance
+     */
+    public static QueryFilterNullDto newInstance(Map<String, Value> record) {
+        if (record == null) {
+            return null;
+        }
+
+
+        QueryFilterNullDto result = new QueryFilterNullDto();
+
+
+        return result;
+    }
 
     public int getId() {
         return id != null ? id : 0;
