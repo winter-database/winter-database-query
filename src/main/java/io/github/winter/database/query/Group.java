@@ -14,7 +14,7 @@ import java.util.function.Predicate;
  *
  * @author changebooks@qq.com
  */
-public class Group implements Serializable {
+public final class Group implements Serializable {
     /**
      * 名称列表
      */

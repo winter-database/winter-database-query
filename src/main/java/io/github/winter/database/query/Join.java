@@ -13,7 +13,7 @@ import java.util.Optional;
  *
  * @author changebooks@qq.com
  */
-public class Join implements Serializable {
+public final class Join implements Serializable {
     /**
      * 连表方式
      */

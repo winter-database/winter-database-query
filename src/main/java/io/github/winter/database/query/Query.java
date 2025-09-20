@@ -6,9 +6,10 @@ import io.github.winter.boot.filter.Page;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
-import java.util.*;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * 查询
@@ -34,7 +35,7 @@ public final class Query implements Serializable {
     /**
      * 字段列表
      */
-    private List<String> columns;
+    private List<Column> columns;
 
     /**
      * 子查询
@@ -81,11 +82,6 @@ public final class Query implements Serializable {
      */
     private String remark;
 
-    /**
-     * [ 字段名 : 字段类型 ]
-     */
-    private Map<String, Class<?>> valueTypes;
-
     public int getId() {
         return id;
     }
@@ -111,18 +107,15 @@ public final class Query implements Serializable {
         this.distinct = distinct;
     }
 
-    public List<String> getColumns() {
+    public List<Column> getColumns() {
         return columns;
     }
 
-    public void setColumns(List<String> columns) {
+    public void setColumns(List<Column> columns) {
         this.columns = Optional.ofNullable(columns)
                 .orElse(Collections.emptyList())
                 .stream()
                 .filter(Objects::nonNull)
-                .map(String::trim)
-                .filter(Predicate.not(String::isEmpty))
-                .distinct()
                 .toList();
     }
 
@@ -210,21 +203,6 @@ public final class Query implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    public Map<String, Class<?>> getValueTypes() {
-        return valueTypes;
-    }
-
-    public void setValueTypes(Map<String, Class<?>> valueTypes) {
-        this.valueTypes = Optional.ofNullable(valueTypes)
-                .orElse(Collections.emptyMap())
-                .entrySet()
-                .stream()
-                .filter(Objects::nonNull)
-                .filter(x -> x.getKey() != null)
-                .filter(x -> x.getValue() != null)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (x, y) -> y));
     }
 
 }
