@@ -37,7 +37,7 @@ public class FieldParserImpl implements FieldParser {
             case FuncType.MAX -> Pair.of("MAX(" + fieldName + ")", valueType);
             case FuncType.MIN -> Pair.of("MIN(" + fieldName + ")", valueType);
             case FuncType.AVG -> Pair.of("AVG(" + fieldName + ")", BigDecimal.class);
-            default -> fieldPair;
+            default -> Pair.of(joinAs(fieldName), valueType);
         };
     }
 
@@ -68,6 +68,20 @@ public class FieldParserImpl implements FieldParser {
 
         String fieldName = tableName + '.' + columnName;
         return Pair.of(fieldName, valueType);
+    }
+
+    @Override
+    public String joinAs(String fieldName) {
+        if (fieldName == null || fieldName.isEmpty()) {
+            return "";
+        }
+
+        if (fieldName.indexOf('.') < 0) {
+            return fieldName;
+        }
+
+        String asName = fieldName.replace('.', '_');
+        return fieldName + " AS " + asName;
     }
 
 }

@@ -30,4 +30,13 @@ public interface FieldParser {
     @NotNull
     Pair<String, Class<?>> parse(String tableName, String columnName);
 
+    /**
+     * 连接别名
+     *
+     * @param fieldName 字段名
+     * @return 字段名 + 别名
+     */
+    @NotNull
+    String joinAs(String fieldName);
+
 }
