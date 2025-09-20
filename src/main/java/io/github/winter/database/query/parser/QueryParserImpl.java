@@ -11,6 +11,9 @@ import io.github.winter.database.query.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * @author changebooks@qq.com
@@ -91,9 +94,14 @@ public class QueryParserImpl implements QueryParser {
 
     @Override
     public String joinColumns(@NotNull Query query) {
-        List<String> columns = query.getColumns();
+        List<Column> columns = query.getColumns();
         if (columns != null) {
-            return String.join(", ", columns);
+            return columns.stream()
+                    .filter(Objects::nonNull)
+                    .map(Column::getSqlName)
+                    .filter(Objects::nonNull)
+                    .filter(Predicate.not(String::isEmpty))
+                    .collect(Collectors.joining(", "));
         } else {
             return null;
         }
