@@ -8,10 +8,11 @@ import io.github.winter.boot.sql.parser.OrderParserImpl;
 import io.github.winter.boot.sql.parser.PageParserImpl;
 import io.github.winter.boot.sql.parser.WhereParserImpl;
 import io.github.winter.database.query.*;
-import jakarta.validation.constraints.NotNull;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -69,9 +70,12 @@ public class QueryParserImpl implements QueryParser {
 
         String subQuery = query.getSubQuery();
         String table = subQueryParser.parse(subQuery, tableName);
+        Preconditions.requireNonEmpty(table, "table must not be empty");
+
+        String columns = joinColumns(query);
+        Preconditions.requireNonEmpty(columns, "columns must not be empty");
 
         boolean distinct = query.isDistinct();
-        String columns = joinColumns(query);
 
         String sql = String.format
                 (
@@ -93,46 +97,44 @@ public class QueryParserImpl implements QueryParser {
     }
 
     @Override
-    public String joinColumns(@NotNull Query query) {
+    public String joinColumns(Query query) {
         List<Column> columns = query.getColumns();
-        if (columns != null) {
-            return columns.stream()
-                    .filter(Objects::nonNull)
-                    .map(Column::getSqlName)
-                    .filter(Objects::nonNull)
-                    .filter(Predicate.not(String::isEmpty))
-                    .collect(Collectors.joining(", "));
-        } else {
-            return null;
-        }
+        return Optional.ofNullable(columns)
+                .orElse(Collections.emptyList())
+                .stream()
+                .filter(Objects::nonNull)
+                .map(Column::getSqlName)
+                .filter(Objects::nonNull)
+                .filter(Predicate.not(String::isEmpty))
+                .collect(Collectors.joining(", "));
     }
 
     @Override
-    public String parseJoin(@NotNull Query query) {
+    public String parseJoin(Query query) {
         List<Join> joins = query.getJoins();
         return joinParser.parse(joins);
     }
 
     @Override
-    public Statement parseWhere(@NotNull Query query) {
+    public Statement parseWhere(Query query) {
         List<BaseFilter> filters = query.getFilters();
         return whereParser.parse(filters);
     }
 
     @Override
-    public Statement parseGroup(@NotNull Query query) {
+    public Statement parseGroup(Query query) {
         Group group = query.getGroup();
         return groupParser.parse(group);
     }
 
     @Override
-    public String parseOrder(@NotNull Query query) {
+    public String parseOrder(Query query) {
         List<Order> orders = query.getOrders();
         return orderParser.parse(orders);
     }
 
     @Override
-    public String parsePage(@NotNull Query query) {
+    public String parsePage(Query query) {
         Page page = query.getPage();
         return pageParser.parse(page);
     }

@@ -24,6 +24,7 @@ public interface QueryParser {
      * @param query the {@link Query} instance
      * @return name, COUNT(1), SUM(name), MAX(name), MIN(name), AVG(name)
      */
+    @NotNull
     String joinColumns(@NotNull Query query);
 
     /**
