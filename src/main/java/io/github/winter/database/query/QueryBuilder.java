@@ -5,7 +5,11 @@ import io.github.winter.boot.filter.Order;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 创建查询
@@ -28,6 +32,62 @@ public interface QueryBuilder {
      * @return the {@link Query} instance
      */
     Query build(int id);
+
+    /**
+     * 字段 + 全字段
+     *
+     * @param queryId        查询主键
+     * @param fromTable      表名
+     * @param asteriskTables 全字段表名
+     * @return [ the {@link Column} instance ]
+     */
+    default List<Column> selectColumn(int queryId, @NotEmpty String fromTable, List<String> asteriskTables) {
+        List<Column> result = selectColumn(queryId, fromTable);
+
+        if (asteriskTables == null || asteriskTables.isEmpty()) {
+            return result;
+        }
+
+        if (result == null) {
+            result = new ArrayList<>();
+        }
+
+        Set<String> asNames = result.stream()
+                .filter(Objects::nonNull)
+                .map(Column::getAsName)
+                .collect(Collectors.toSet());
+
+        for (String tableName : asteriskTables) {
+            if (tableName == null || tableName.isEmpty()) {
+                continue;
+            }
+
+            List<Column> columns = selectAsterisk(tableName);
+            if (columns == null) {
+                continue;
+            }
+
+            for (Column column : columns) {
+                if (column == null) {
+                    continue;
+                }
+
+                String asName = column.getAsName();
+                if (asName.isEmpty()) {
+                    continue;
+                }
+
+                if (asNames.contains(asName)) {
+                    continue;
+                }
+
+                asNames.add(asName);
+                result.add(column);
+            }
+        }
+
+        return result;
+    }
 
     /**
      * 字段
