@@ -36,8 +36,15 @@ public interface QueryBuilder {
      * @param fromTable 表名
      * @return [ the {@link Column} instance ]
      */
-    @NotNull
     List<Column> selectColumn(int queryId, @NotEmpty String fromTable);
+
+    /**
+     * 全字段
+     *
+     * @param fromTable 表名
+     * @return [ the {@link Column} instance ]
+     */
+    List<Column> selectAsterisk(@NotEmpty String fromTable);
 
     /**
      * 连表
