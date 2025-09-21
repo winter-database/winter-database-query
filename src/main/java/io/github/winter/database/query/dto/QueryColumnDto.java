@@ -1,13 +1,12 @@
 package io.github.winter.database.query.dto;
 
 import io.github.winter.boot.tuple.Value;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * 字段
@@ -66,11 +65,11 @@ public final class QueryColumnDto implements Serializable {
      * @param list [ [ Column Name : Column Value ] ]
      * @return [ the {@link QueryColumnDto} instance ]
      */
-    public static List<QueryColumnDto> newInstance(List<Map<String, Value>> list) {
+    public static List<QueryColumnDto> newInstance(List<Map<String, Value>> list, @NotEmpty String fromTable) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryColumnDto::newInstance)
+                    .map(x -> newInstance(x, fromTable))
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -84,7 +83,7 @@ public final class QueryColumnDto implements Serializable {
      * @param record [ Column Name : Column Value ]
      * @return the {@link QueryColumnDto} instance
      */
-    public static QueryColumnDto newInstance(Map<String, Value> record) {
+    public static QueryColumnDto newInstance(Map<String, Value> record, @NotEmpty String fromTable) {
         if (record == null) {
             return null;
         }
@@ -103,7 +102,7 @@ public final class QueryColumnDto implements Serializable {
 
         result.setId(id);
         result.setQueryId(queryId);
-        result.setTableName(tableName);
+        result.setTableName(tableName, fromTable);
         result.setColumnName(columnName);
         result.setFuncType(funcType);
         result.setShowPriority(showPriority);
@@ -145,8 +144,11 @@ public final class QueryColumnDto implements Serializable {
         return tableName != null ? tableName : "";
     }
 
-    public void setTableName(Value value) {
-        String tableName = value != null ? value.getString() : null;
+    public void setTableName(Value value, @NotEmpty String fromTable) {
+        String tableName = Optional.ofNullable(value)
+                .map(Value::getString)
+                .filter(Predicate.not(String::isEmpty))
+                .orElse(fromTable);
         setTableName(tableName);
     }
 
