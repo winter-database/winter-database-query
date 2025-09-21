@@ -60,10 +60,11 @@ public interface QueryBuilder {
      * 分组
      *
      * @param queryId   查询主键
+     * @param subQuery  子查询？
      * @param fromTable 表名
      * @return the {@link Group} instance
      */
-    Group selectGroup(int queryId, @NotEmpty String fromTable);
+    Group selectGroup(int queryId, boolean subQuery, @NotEmpty String fromTable);
 
     /**
      * 排序
@@ -80,9 +81,10 @@ public interface QueryBuilder {
      * @param isHaving  分组条件？
      * @param queryId   查询主键
      * @param parentId  父条件主键
+     * @param subQuery  子查询？
      * @param fromTable 表名
      * @return [ the {@link BaseFilter} instance ]
      */
-    List<BaseFilter> selectFilter(int isHaving, int queryId, int parentId, @NotEmpty String fromTable);
+    List<BaseFilter> selectFilter(int isHaving, int queryId, int parentId, boolean subQuery, @NotEmpty String fromTable);
 
 }
