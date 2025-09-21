@@ -34,6 +34,24 @@ public interface QueryBuilder {
     Query build(int id);
 
     /**
+     * 字段
+     *
+     * @param queryId   查询主键
+     * @param fromTable 表名
+     * @param asterisk  全字段？
+     * @param joins     [ the {@link Join} instance ]
+     * @return [ the {@link Column} instance ]
+     */
+    default List<Column> selectColumn(int queryId, @NotEmpty String fromTable, boolean asterisk, List<Join> joins) {
+        if (asterisk) {
+            List<String> asteriskTables = selectAsteriskTables(fromTable, joins);
+            return selectColumn(queryId, fromTable, asteriskTables);
+        } else {
+            return selectColumn(queryId, fromTable);
+        }
+    }
+
+    /**
      * 字段 + 全字段
      *
      * @param queryId        查询主键
