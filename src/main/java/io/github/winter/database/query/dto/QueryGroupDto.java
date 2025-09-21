@@ -1,13 +1,12 @@
 package io.github.winter.database.query.dto;
 
 import io.github.winter.boot.tuple.Value;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * 分组
@@ -58,14 +57,15 @@ public final class QueryGroupDto implements Serializable {
     /**
      * Build Instance List
      *
-     * @param list [ [ Column Name : Column Value ] ]
+     * @param list      [ [ Column Name : Column Value ] ]
+     * @param fromTable Table Name
      * @return [ the {@link QueryGroupDto} instance ]
      */
-    public static List<QueryGroupDto> newInstance(List<Map<String, Value>> list) {
+    public static List<QueryGroupDto> newInstance(List<Map<String, Value>> list, @NotEmpty String fromTable) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryGroupDto::newInstance)
+                    .map(x -> newInstance(x, fromTable))
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -76,10 +76,11 @@ public final class QueryGroupDto implements Serializable {
     /**
      * Build Instance
      *
-     * @param record [ Column Name : Column Value ]
+     * @param record    [ Column Name : Column Value ]
+     * @param fromTable Table Name
      * @return the {@link QueryGroupDto} instance
      */
-    public static QueryGroupDto newInstance(Map<String, Value> record) {
+    public static QueryGroupDto newInstance(Map<String, Value> record, @NotEmpty String fromTable) {
         if (record == null) {
             return null;
         }
@@ -97,7 +98,7 @@ public final class QueryGroupDto implements Serializable {
 
         result.setId(id);
         result.setQueryId(queryId);
-        result.setTableName(tableName);
+        result.setTableName(tableName, fromTable);
         result.setColumnName(columnName);
         result.setShowPriority(showPriority);
         result.setUpdateVersion(updateVersion);
@@ -138,8 +139,11 @@ public final class QueryGroupDto implements Serializable {
         return tableName != null ? tableName : "";
     }
 
-    public void setTableName(Value value) {
-        String tableName = value != null ? value.getString() : null;
+    public void setTableName(Value value, @NotEmpty String fromTable) {
+        String tableName = Optional.ofNullable(value)
+                .map(Value::getString)
+                .filter(Predicate.not(String::isBlank))
+                .orElse(fromTable);
         setTableName(tableName);
     }
 

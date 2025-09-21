@@ -62,7 +62,8 @@ public final class QueryColumnDto implements Serializable {
     /**
      * Build Instance List
      *
-     * @param list [ [ Column Name : Column Value ] ]
+     * @param list      [ [ Column Name : Column Value ] ]
+     * @param fromTable Table Name
      * @return [ the {@link QueryColumnDto} instance ]
      */
     public static List<QueryColumnDto> newInstance(List<Map<String, Value>> list, @NotEmpty String fromTable) {
@@ -80,7 +81,8 @@ public final class QueryColumnDto implements Serializable {
     /**
      * Build Instance
      *
-     * @param record [ Column Name : Column Value ]
+     * @param record    [ Column Name : Column Value ]
+     * @param fromTable Table Name
      * @return the {@link QueryColumnDto} instance
      */
     public static QueryColumnDto newInstance(Map<String, Value> record, @NotEmpty String fromTable) {
@@ -147,7 +149,7 @@ public final class QueryColumnDto implements Serializable {
     public void setTableName(Value value, @NotEmpty String fromTable) {
         String tableName = Optional.ofNullable(value)
                 .map(Value::getString)
-                .filter(Predicate.not(String::isEmpty))
+                .filter(Predicate.not(String::isBlank))
                 .orElse(fromTable);
         setTableName(tableName);
     }
