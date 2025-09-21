@@ -2,13 +2,12 @@ package io.github.winter.database.query.dto;
 
 import io.github.winter.boot.tuple.Value;
 import io.github.winter.database.query.BooleanCast;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * 条件
@@ -84,14 +83,15 @@ public final class QueryFilterDto implements Serializable {
     /**
      * Build Instance List
      *
-     * @param list [ [ Column Name : Column Value ] ]
+     * @param list      [ [ Column Name : Column Value ] ]
+     * @param fromTable Table Name
      * @return [ the {@link QueryFilterDto} instance ]
      */
-    public static List<QueryFilterDto> newInstance(List<Map<String, Value>> list) {
+    public static List<QueryFilterDto> newInstance(List<Map<String, Value>> list, @NotEmpty String fromTable) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryFilterDto::newInstance)
+                    .map(x -> newInstance(x, fromTable))
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -102,10 +102,11 @@ public final class QueryFilterDto implements Serializable {
     /**
      * Build Instance
      *
-     * @param record [ Column Name : Column Value ]
+     * @param record    [ Column Name : Column Value ]
+     * @param fromTable Table Name
      * @return the {@link QueryFilterDto} instance
      */
-    public static QueryFilterDto newInstance(Map<String, Value> record) {
+    public static QueryFilterDto newInstance(Map<String, Value> record, @NotEmpty String fromTable) {
         if (record == null) {
             return null;
         }
@@ -129,7 +130,7 @@ public final class QueryFilterDto implements Serializable {
         result.setId(id);
         result.setQueryId(queryId);
         result.setParentId(parentId);
-        result.setTableName(tableName);
+        result.setTableName(tableName, fromTable);
         result.setColumnName(columnName);
         result.setFuncType(funcType);
         result.setFilterType(filterType);
@@ -187,13 +188,16 @@ public final class QueryFilterDto implements Serializable {
         return tableName != null ? tableName : "";
     }
 
-    public void setTableName(Value value) {
-        String tableName = value != null ? value.getString() : null;
-        setTableName(tableName);
-    }
-
     public void setTableName(String tableName) {
         this.tableName = tableName != null ? tableName.trim() : "";
+    }
+
+    public void setTableName(Value value, @NotEmpty String fromTable) {
+        String tableName = Optional.ofNullable(value)
+                .map(Value::getString)
+                .filter(Predicate.not(String::isBlank))
+                .orElse(fromTable);
+        setTableName(tableName);
     }
 
     @NotNull

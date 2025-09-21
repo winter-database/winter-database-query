@@ -139,16 +139,16 @@ public final class QueryGroupDto implements Serializable {
         return tableName != null ? tableName : "";
     }
 
+    public void setTableName(String tableName) {
+        this.tableName = tableName != null ? tableName.trim() : "";
+    }
+
     public void setTableName(Value value, @NotEmpty String fromTable) {
         String tableName = Optional.ofNullable(value)
                 .map(Value::getString)
                 .filter(Predicate.not(String::isBlank))
                 .orElse(fromTable);
         setTableName(tableName);
-    }
-
-    public void setTableName(String tableName) {
-        this.tableName = tableName != null ? tableName.trim() : "";
     }
 
     @NotNull

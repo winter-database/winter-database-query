@@ -96,19 +96,20 @@ public class QuerySelect {
     /**
      * 条件
      *
-     * @param isHaving 分组条件？
-     * @param queryId  查询主键
-     * @param parentId 父条件主键
+     * @param isHaving  分组条件？
+     * @param queryId   查询主键
+     * @param parentId  父条件主键
+     * @param fromTable 表名
      * @return [ the {@link QueryFilterDto} instance ]
      */
-    public List<QueryFilterDto> selectFilter(int isHaving, int queryId, int parentId) {
+    public List<QueryFilterDto> selectFilter(int isHaving, int queryId, int parentId, @NotEmpty String fromTable) {
         Map<String, Integer> filters = new HashMap<>();
         filters.put("is_having", isHaving);
         filters.put("query_id", queryId);
         filters.put("parent_id", parentId);
 
         List<Map<String, Value>> list = selectTemplate.selectList("xquery_filter", filters);
-        return QueryFilterDto.newInstance(list);
+        return QueryFilterDto.newInstance(list, fromTable);
     }
 
     /**
