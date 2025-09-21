@@ -1,13 +1,12 @@
 package io.github.winter.database.query.dto;
 
 import io.github.winter.boot.tuple.Value;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * 排序
@@ -68,14 +67,15 @@ public final class QueryOrderDto implements Serializable {
     /**
      * Build Instance List
      *
-     * @param list [ [ Column Name : Column Value ] ]
+     * @param list      [ [ Column Name : Column Value ] ]
+     * @param fromTable Table Name
      * @return [ the {@link QueryOrderDto} instance ]
      */
-    public static List<QueryOrderDto> newInstance(List<Map<String, Value>> list) {
+    public static List<QueryOrderDto> newInstance(List<Map<String, Value>> list, @NotEmpty String fromTable) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryOrderDto::newInstance)
+                    .map(x -> newInstance(x, fromTable))
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -86,10 +86,11 @@ public final class QueryOrderDto implements Serializable {
     /**
      * Build Instance
      *
-     * @param record [ Column Name : Column Value ]
+     * @param record    [ Column Name : Column Value ]
+     * @param fromTable Table Name
      * @return the {@link QueryOrderDto} instance
      */
-    public static QueryOrderDto newInstance(Map<String, Value> record) {
+    public static QueryOrderDto newInstance(Map<String, Value> record, @NotEmpty String fromTable) {
         if (record == null) {
             return null;
         }
@@ -109,7 +110,7 @@ public final class QueryOrderDto implements Serializable {
 
         result.setId(id);
         result.setQueryId(queryId);
-        result.setTableName(tableName);
+        result.setTableName(tableName, fromTable);
         result.setColumnName(columnName);
         result.setFuncType(funcType);
         result.setOrderType(orderType);
@@ -152,8 +153,11 @@ public final class QueryOrderDto implements Serializable {
         return tableName != null ? tableName : "";
     }
 
-    public void setTableName(Value value) {
-        String tableName = value != null ? value.getString() : null;
+    public void setTableName(Value value, @NotEmpty String fromTable) {
+        String tableName = Optional.ofNullable(value)
+                .map(Value::getString)
+                .filter(Predicate.not(String::isBlank))
+                .orElse(fromTable);
         setTableName(tableName);
     }
 

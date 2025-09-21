@@ -210,29 +210,31 @@ public class QuerySelect {
     /**
      * 分组
      *
-     * @param queryId 查询主键
+     * @param queryId   查询主键
+     * @param fromTable 表名
      * @return [ the {@link QueryGroupDto} instance ]
      */
-    public List<QueryGroupDto> selectGroup(int queryId) {
+    public List<QueryGroupDto> selectGroup(int queryId, @NotEmpty String fromTable) {
         Map<String, Integer> filters = new HashMap<>();
         filters.put("query_id", queryId);
 
         List<Map<String, Value>> list = selectTemplate.selectList("xquery_group", filters);
-        return QueryGroupDto.newInstance(list);
+        return QueryGroupDto.newInstance(list, fromTable);
     }
 
     /**
      * 排序
      *
-     * @param queryId 查询主键
+     * @param queryId   查询主键
+     * @param fromTable 表名
      * @return [ the {@link QueryOrderDto} instance ]
      */
-    public List<QueryOrderDto> selectOrder(int queryId) {
+    public List<QueryOrderDto> selectOrder(int queryId, @NotEmpty String fromTable) {
         Map<String, Integer> filters = new HashMap<>();
         filters.put("query_id", queryId);
 
         List<Map<String, Value>> list = selectTemplate.selectList("xquery_order", filters);
-        return QueryOrderDto.newInstance(list);
+        return QueryOrderDto.newInstance(list, fromTable);
     }
 
     public SelectTemplate getSelectTemplate() {
