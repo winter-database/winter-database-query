@@ -107,6 +107,47 @@ public interface QueryBuilder {
     List<Column> selectAsterisk(@NotEmpty String fromTable);
 
     /**
+     * 全字段表名
+     *
+     * @param fromTable 表名
+     * @param joins     [ the {@link Join} instance ]
+     * @return [ 表名 ]
+     */
+    @NotNull
+    default List<String> selectAsteriskTables(@NotEmpty String fromTable, List<Join> joins) {
+        List<String> result = new ArrayList<>();
+        result.add(fromTable);
+
+        if (joins == null) {
+            return result;
+        }
+
+        for (Join join : joins) {
+            if (join == null) {
+                continue;
+            }
+
+            String subQuery = join.getSubQuery();
+            if (subQuery.isEmpty()) {
+                continue;
+            }
+
+            String tableName = join.getTableName();
+            if (tableName.isEmpty()) {
+                continue;
+            }
+
+            if (result.contains(tableName)) {
+                continue;
+            }
+
+            result.add(tableName);
+        }
+
+        return result;
+    }
+
+    /**
      * 连表
      *
      * @param queryId 查询主键
