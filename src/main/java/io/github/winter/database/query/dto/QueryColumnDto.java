@@ -35,6 +35,11 @@ public final class QueryColumnDto implements Serializable {
     private String columnName;
 
     /**
+     * 别名
+     */
+    private String asName;
+
+    /**
      * 函数类型
      */
     private Integer funcType;
@@ -94,6 +99,7 @@ public final class QueryColumnDto implements Serializable {
         Value queryId = record.get("query_id");
         Value tableName = record.get("table_name");
         Value columnName = record.get("column_name");
+        Value asName = record.get("as_name");
         Value funcType = record.get("func_type");
         Value showPriority = record.get("show_priority");
         Value updateVersion = record.get("update_version");
@@ -106,6 +112,7 @@ public final class QueryColumnDto implements Serializable {
         result.setQueryId(queryId);
         result.setTableName(tableName, fromTable);
         result.setColumnName(columnName);
+        result.setAsName(asName);
         result.setFuncType(funcType);
         result.setShowPriority(showPriority);
         result.setUpdateVersion(updateVersion);
@@ -170,6 +177,20 @@ public final class QueryColumnDto implements Serializable {
 
     public void setColumnName(String columnName) {
         this.columnName = columnName != null ? columnName.trim() : "";
+    }
+
+    @NotNull
+    public String getAsName() {
+        return asName != null ? asName : "";
+    }
+
+    public void setAsName(Value value) {
+        String asName = value != null ? value.getString() : null;
+        setAsName(asName);
+    }
+
+    public void setAsName(String asName) {
+        this.asName = asName != null ? asName.trim() : "";
     }
 
     public int getFuncType() {
