@@ -5,6 +5,7 @@ CREATE TABLE xquery_column
     query_id         int(10) unsigned NOT NULL DEFAULT '0' COMMENT '查询主键',
     table_name       varchar(64)      NOT NULL DEFAULT '' COMMENT '表名',
     column_name      varchar(64)      NOT NULL DEFAULT '' COMMENT '字段名',
+    as_name          varchar(64)      NOT NULL DEFAULT '' COMMENT '别名',
     func_type        int(10) unsigned NOT NULL DEFAULT '0' COMMENT '函数类型',
     show_priority    int(10) unsigned NOT NULL DEFAULT '10000' COMMENT '排序',
     update_version   int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新版本',

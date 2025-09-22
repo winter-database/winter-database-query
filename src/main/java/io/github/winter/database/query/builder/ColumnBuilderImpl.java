@@ -8,6 +8,9 @@ import io.github.winter.database.template.TableSchemaRegistry;
 
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.Objects;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * @author changebooks@qq.com
@@ -15,9 +18,9 @@ import java.util.Map;
 public class ColumnBuilderImpl implements ColumnBuilder {
 
     @Override
-    public Column build(int funcType, String tableName, String columnName) {
+    public Column build(int funcType, String tableName, String columnName, String aliasName) {
         String fieldName = joinFunc(funcType, tableName, columnName);
-        String asName = asName(fieldName);
+        String asName = asName(aliasName, fieldName);
         String sqlName = joinAs(fieldName, asName);
         Class<?> valueType = parseType(funcType, tableName, columnName);
 
@@ -79,12 +82,12 @@ public class ColumnBuilderImpl implements ColumnBuilder {
     }
 
     @Override
-    public String asName(String fieldName) {
-        if (fieldName == null || fieldName.isEmpty()) {
-            return "";
-        } else {
-            return fieldName;
-        }
+    public String asName(String asName, String fieldName) {
+        return Stream.of(asName, fieldName)
+                .filter(Objects::nonNull)
+                .filter(Predicate.not(String::isEmpty))
+                .findFirst()
+                .orElse("");
     }
 
     @Override
