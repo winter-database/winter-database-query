@@ -34,6 +34,14 @@ public interface QueryBuilder {
     Query build(int id);
 
     /**
+     * 子查询
+     *
+     * @param id 查询主键
+     * @return Sub Query Sql
+     */
+    String getSubQuery(int id);
+
+    /**
      * 字段
      *
      * @param queryId   查询主键
@@ -212,5 +220,25 @@ public interface QueryBuilder {
      * @return [ the {@link BaseFilter} instance ]
      */
     List<BaseFilter> selectFilter(int isHaving, int queryId, int parentId, boolean subQuery, @NotEmpty String fromTable);
+
+    /**
+     * 参数名
+     *
+     * @param subQuery      子查询？
+     * @param parameterName 自定义的参数名
+     * @param filterName    条件名
+     * @return 自定义的参数名或条件名
+     */
+    default String getParameterName(boolean subQuery, String parameterName, String filterName) {
+        if (subQuery) {
+            return "";
+        }
+
+        if (parameterName == null || parameterName.isEmpty()) {
+            return filterName;
+        } else {
+            return parameterName;
+        }
+    }
 
 }

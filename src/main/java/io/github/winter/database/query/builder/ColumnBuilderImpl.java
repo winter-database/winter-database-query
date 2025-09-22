@@ -1,5 +1,6 @@
 package io.github.winter.database.query.builder;
 
+import io.github.winter.boot.sql.Preconditions;
 import io.github.winter.database.query.Column;
 import io.github.winter.database.query.ColumnBuilder;
 import io.github.winter.database.query.FuncType;
@@ -22,7 +23,9 @@ public class ColumnBuilderImpl implements ColumnBuilder {
         String fieldName = joinFunc(funcType, tableName, columnName);
         String asName = asName(aliasName, fieldName);
         String sqlName = joinAs(fieldName, asName);
+
         Class<?> valueType = parseType(funcType, tableName, columnName);
+        Preconditions.requireNonNull(valueType, "valueType must not be null, sqlName: " + sqlName);
 
         Column result = new Column();
 

@@ -7,6 +7,11 @@ package io.github.winter.database.query;
  */
 public interface FuncType {
     /**
+     * 未知
+     */
+    int NULL = 0;
+
+    /**
      * 总行数
      */
     int COUNT = 1;
