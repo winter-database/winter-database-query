@@ -340,13 +340,28 @@ public class QueryBuilderImpl implements QueryBuilder {
                 continue;
             }
 
+            int logicalOperator = record.getLogicalOperator();
+            Boolean isOr = LogicalType.isOr(logicalOperator);
+
             int filterId = record.getId();
+            List<BaseFilter> subFilterList = selectFilter(isHaving, queryId, filterId, subQuery, fromTable);
+            Filters subFilters = null;
+            if (subFilterList != null && !subFilterList.isEmpty()) {
+                subFilters = new Filters();
+                subFilters.setOr(isOr);
+                subFilters.setFilters(subFilterList);
+            }
+
+            String columnName = record.getColumnName();
+            if (columnName.isEmpty()) {
+                if (subFilters != null) {
+                    result.add(subFilters);
+                }
+                continue;
+            }
 
             String tableName = record.getTableName();
             Preconditions.requireNonEmpty(tableName, "tableName must not be empty, queryId: " + queryId + ", filterId: " + filterId);
-
-            String columnName = record.getColumnName();
-            Preconditions.requireNonEmpty(columnName, "columnName must not be empty, queryId: " + queryId + ", filterId: " + filterId);
 
             int funcType = record.getFuncType();
             String filterName = columnBuilder.joinFunc(funcType, tableName, columnName);
@@ -355,9 +370,6 @@ public class QueryBuilderImpl implements QueryBuilder {
             Preconditions.requireNonNull(valueType, "valueType must not be null, queryId: " + queryId + ", filterId: " + filterId);
 
             int filterType = record.getFilterType();
-            int logicalOperator = record.getLogicalOperator();
-            Boolean isOr = LogicalType.isOr(logicalOperator);
-
             switch (filterType) {
                 case FilterType.EXPRESSION: {
                     QueryFilterExpressionDto expressionRecord = querySelect.selectFilterExpression(queryId, filterId);
@@ -453,9 +465,17 @@ public class QueryBuilderImpl implements QueryBuilder {
                     QueryFilterRangeDto rangeRecord = querySelect.selectFilterRange(queryId, filterId);
                     Preconditions.requireNonNull(rangeRecord, "rangeRecord must not be null, queryId: " + queryId + ", filterId: " + filterId);
 
-                    String fromParameterName = getParameterName(subQuery, rangeRecord.getFromParameterName(), filterName);
-                    String toParameterName = getParameterName(subQuery, rangeRecord.getToParameterName(), filterName);
+                    Boolean isIncludeLower = rangeRecord.getIncludeLower();
+                    Boolean isIncludeUpper = rangeRecord.getIncludeUpper();
 
+                    RangeFilter rangeFilter = new RangeFilter();
+
+                    rangeFilter.setOr(isOr);
+                    rangeFilter.setName(filterName);
+                    rangeFilter.setIncludeLower(isIncludeLower);
+                    rangeFilter.setIncludeUpper(isIncludeUpper);
+
+                    String fromParameterName = getParameterName(subQuery, rangeRecord.getFromParameterName(), "");
                     Value fromValue = Value.newInstance
                             (
                                     valueType,
@@ -465,7 +485,16 @@ public class QueryBuilderImpl implements QueryBuilder {
                                     rangeRecord.getFromValueBigDecimal(),
                                     rangeRecord.getFromValueDate()
                             );
+                    if (fromValue.toObject() != null) {
+                        if (subQuery || !fromParameterName.isEmpty()) {
+                            Parameter from = new Parameter();
+                            from.setName(fromParameterName);
+                            from.setValue(fromValue);
+                            rangeFilter.setFrom(from);
+                        }
+                    }
 
+                    String toParameterName = getParameterName(subQuery, rangeRecord.getToParameterName(), "");
                     Value toValue = Value.newInstance
                             (
                                     valueType,
@@ -475,26 +504,14 @@ public class QueryBuilderImpl implements QueryBuilder {
                                     rangeRecord.getToValueBigDecimal(),
                                     rangeRecord.getToValueDate()
                             );
-
-                    Parameter from = new Parameter();
-                    from.setName(fromParameterName);
-                    from.setValue(fromValue);
-
-                    Parameter to = new Parameter();
-                    to.setName(toParameterName);
-                    to.setValue(toValue);
-
-                    Boolean isIncludeLower = rangeRecord.getIncludeLower();
-                    Boolean isIncludeUpper = rangeRecord.getIncludeUpper();
-
-                    RangeFilter rangeFilter = new RangeFilter();
-
-                    rangeFilter.setOr(isOr);
-                    rangeFilter.setName(filterName);
-                    rangeFilter.setFrom(from);
-                    rangeFilter.setTo(to);
-                    rangeFilter.setIncludeLower(isIncludeLower);
-                    rangeFilter.setIncludeUpper(isIncludeUpper);
+                    if (toValue.toObject() != null) {
+                        if (subQuery || !toParameterName.isEmpty()) {
+                            Parameter to = new Parameter();
+                            to.setName(toParameterName);
+                            to.setValue(toValue);
+                            rangeFilter.setTo(to);
+                        }
+                    }
 
                     result.add(rangeFilter);
                     break;
@@ -532,18 +549,11 @@ public class QueryBuilderImpl implements QueryBuilder {
                     break;
                 }
                 default:
+                    if (subFilters != null) {
+                        result.add(subFilters);
+                    }
                     break;
             }
-
-            List<BaseFilter> filterList = selectFilter(isHaving, queryId, filterId, subQuery, fromTable);
-            if (filterList == null || filterList.isEmpty()) {
-                continue;
-            }
-
-            Filters filters = new Filters();
-            filters.setFilters(filterList);
-
-            result.add(filters);
         }
 
         return result;

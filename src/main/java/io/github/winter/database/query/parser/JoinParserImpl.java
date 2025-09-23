@@ -60,7 +60,7 @@ public class JoinParserImpl implements JoinParser {
         String table = subQueryParser.parse(subQuery, tableName);
         String joinTable = parse(type, table);
 
-        return joinTable + " " + joinOn;
+        return joinTable + " ON " + joinOn;
     }
 
     @Override
