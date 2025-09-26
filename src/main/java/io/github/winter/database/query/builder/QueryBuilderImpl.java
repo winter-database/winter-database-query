@@ -76,7 +76,6 @@ public class QueryBuilderImpl implements QueryBuilder {
         boolean subQuery = record.getSubQuery();
         boolean distinct = record.getDistinct();
         boolean asterisk = record.getAsterisk();
-        int subQueryId = record.getSubQueryId();
         Long pageOffset = record.getPageOffset();
         int pageLimit = record.getPageLimit();
 
@@ -84,7 +83,6 @@ public class QueryBuilderImpl implements QueryBuilder {
         String queryDescription = record.getQueryDescription();
         String queryRemark = record.getQueryRemark();
 
-        String subSql = getSubQuery(subQueryId);
         List<Join> joins = selectJoin(queryId);
         List<Column> columns = selectColumn(queryId, fromTable, asterisk, joins);
         List<BaseFilter> filters = selectFilter(BooleanCast.FALSE, queryId, 0, subQuery, fromTable);
@@ -101,7 +99,6 @@ public class QueryBuilderImpl implements QueryBuilder {
         result.setName(queryName);
         result.setDistinct(distinct);
         result.setColumns(columns);
-        result.setSubQuery(subSql);
         result.setTableName(fromTable);
         result.setJoins(joins);
         result.setFilters(filters);

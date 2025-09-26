@@ -153,11 +153,6 @@ public interface QueryBuilder {
                 continue;
             }
 
-            String subQuery = join.getSubQuery();
-            if (subQuery.isEmpty()) {
-                continue;
-            }
-
             String tableName = join.getTableName();
             if (tableName.isEmpty()) {
                 continue;

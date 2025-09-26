@@ -38,11 +38,6 @@ public final class Query implements Serializable {
     private List<Column> columns;
 
     /**
-     * 子查询
-     */
-    private String subQuery;
-
-    /**
      * 表名
      */
     private String tableName;
@@ -117,15 +112,6 @@ public final class Query implements Serializable {
                 .stream()
                 .filter(Objects::nonNull)
                 .toList();
-    }
-
-    @NotNull
-    public String getSubQuery() {
-        return subQuery != null ? subQuery : "";
-    }
-
-    public void setSubQuery(String subQuery) {
-        this.subQuery = subQuery != null ? subQuery.trim() : "";
     }
 
     @NotNull

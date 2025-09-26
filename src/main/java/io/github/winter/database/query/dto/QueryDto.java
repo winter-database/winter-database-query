@@ -27,11 +27,6 @@ public final class QueryDto implements Serializable {
     private String queryName;
 
     /**
-     * 子查询？
-     */
-    private Boolean isSubQuery;
-
-    /**
      * 去重？
      */
     private Boolean isDistinct;
@@ -42,9 +37,9 @@ public final class QueryDto implements Serializable {
     private Boolean isAsterisk;
 
     /**
-     * 子查询主键
+     * 用参数名？
      */
-    private Integer subQueryId;
+    private Boolean isParameterName;
 
     /**
      * 表名
@@ -122,10 +117,9 @@ public final class QueryDto implements Serializable {
 
         Value id = record.get("id");
         Value queryName = record.get("query_name");
-        Value subQuery = record.get("is_sub_query");
         Value distinct = record.get("is_distinct");
         Value asterisk = record.get("is_asterisk");
-        Value subQueryId = record.get("sub_query_id");
+        Value parameterName = record.get("is_parameter_name");
         Value fromTable = record.get("from_table");
         Value pageOffset = record.get("page_offset");
         Value pageLimit = record.get("page_limit");
@@ -140,10 +134,9 @@ public final class QueryDto implements Serializable {
 
         result.setId(id);
         result.setQueryName(queryName);
-        result.setSubQuery(subQuery);
         result.setDistinct(distinct);
         result.setAsterisk(asterisk);
-        result.setSubQueryId(subQueryId);
+        result.setParameterName(parameterName);
         result.setFromTable(fromTable);
         result.setPageOffset(pageOffset);
         result.setPageLimit(pageLimit);
@@ -183,20 +176,6 @@ public final class QueryDto implements Serializable {
         this.queryName = queryName;
     }
 
-    public boolean getSubQuery() {
-        return isSubQuery != null ? isSubQuery : false;
-    }
-
-    public void setSubQuery(Value value) {
-        Integer subQuery = value != null ? value.getInteger() : null;
-        Boolean isSubQuery = BooleanCast.fromInt(subQuery);
-        setSubQuery(isSubQuery);
-    }
-
-    public void setSubQuery(Boolean subQuery) {
-        isSubQuery = subQuery;
-    }
-
     public boolean getDistinct() {
         return isDistinct != null ? isDistinct : false;
     }
@@ -225,17 +204,18 @@ public final class QueryDto implements Serializable {
         isAsterisk = asterisk;
     }
 
-    public int getSubQueryId() {
-        return subQueryId != null ? subQueryId : 0;
+    public boolean getParameterName() {
+        return isParameterName != null ? isParameterName : false;
     }
 
-    public void setSubQueryId(Value value) {
-        Integer subQueryId = value != null ? value.getInteger() : null;
-        setSubQueryId(subQueryId);
+    public void setParameterName(Value value) {
+        Integer parameterName = value != null ? value.getInteger() : null;
+        Boolean isParameterName = BooleanCast.fromInt(parameterName);
+        setParameterName(isParameterName);
     }
 
-    public void setSubQueryId(Integer subQueryId) {
-        this.subQueryId = subQueryId;
+    public void setParameterName(Boolean parameterName) {
+        isParameterName = parameterName;
     }
 
     @NotNull

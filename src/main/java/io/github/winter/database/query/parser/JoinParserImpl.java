@@ -5,7 +5,6 @@ import io.github.winter.boot.sql.Preconditions;
 import io.github.winter.database.query.Join;
 import io.github.winter.database.query.JoinParser;
 import io.github.winter.database.query.JoinType;
-import io.github.winter.database.query.SubQueryParser;
 
 import java.util.List;
 import java.util.Objects;
@@ -16,14 +15,6 @@ import java.util.stream.Collectors;
  * @author changebooks@qq.com
  */
 public class JoinParserImpl implements JoinParser {
-    /**
-     * the {@link SubQueryParser} instance
-     */
-    private final SubQueryParser subQueryParser;
-
-    public JoinParserImpl() {
-        this.subQueryParser = new SubQueryParserImpl();
-    }
 
     @Override
     public String parse(List<Join> joins) {
@@ -55,10 +46,7 @@ public class JoinParserImpl implements JoinParser {
         Preconditions.requireNonEmpty(joinOn, "joinOn must not be empty, tableName: " + tableName);
 
         int type = join.getType();
-
-        String subQuery = join.getSubQuery();
-        String table = subQueryParser.parse(subQuery, tableName);
-        String joinTable = parse(type, table);
+        String joinTable = parse(type, tableName);
 
         return joinTable + " ON " + joinOn;
     }
@@ -103,10 +91,6 @@ public class JoinParserImpl implements JoinParser {
         }
 
         return leftName + " = " + rightName;
-    }
-
-    public SubQueryParser getSubQueryParser() {
-        return subQueryParser;
     }
 
 }

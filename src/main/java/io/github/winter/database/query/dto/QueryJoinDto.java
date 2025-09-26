@@ -26,11 +26,6 @@ public final class QueryJoinDto implements Serializable {
     private Integer queryId;
 
     /**
-     * 子查询主键
-     */
-    private Integer subQueryId;
-
-    /**
      * 表名
      */
     private String joinTable;
@@ -91,7 +86,6 @@ public final class QueryJoinDto implements Serializable {
 
         Value id = record.get("id");
         Value queryId = record.get("query_id");
-        Value subQueryId = record.get("sub_query_id");
         Value joinTable = record.get("join_table");
         Value joinType = record.get("join_type");
         Value showPriority = record.get("show_priority");
@@ -103,7 +97,6 @@ public final class QueryJoinDto implements Serializable {
 
         result.setId(id);
         result.setQueryId(queryId);
-        result.setSubQueryId(subQueryId);
         result.setJoinTable(joinTable);
         result.setJoinType(joinType);
         result.setShowPriority(showPriority);
@@ -138,19 +131,6 @@ public final class QueryJoinDto implements Serializable {
 
     public void setQueryId(Integer queryId) {
         this.queryId = queryId;
-    }
-
-    public int getSubQueryId() {
-        return subQueryId != null ? subQueryId : 0;
-    }
-
-    public void setSubQueryId(Value value) {
-        Integer subQueryId = value != null ? value.getInteger() : null;
-        setSubQueryId(subQueryId);
-    }
-
-    public void setSubQueryId(Integer subQueryId) {
-        this.subQueryId = subQueryId;
     }
 
     @NotNull
