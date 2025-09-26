@@ -78,7 +78,7 @@ public class QueryBuilderImpl implements QueryBuilder {
         boolean asterisk = record.getAsterisk();
         int subQueryId = record.getSubQueryId();
         Long pageOffset = record.getPageOffset();
-        Integer pageLimit = record.getPageLimit();
+        int pageLimit = record.getPageLimit();
 
         String queryName = record.getQueryName();
         String queryDescription = record.getQueryDescription();
@@ -405,36 +405,38 @@ public class QueryBuilderImpl implements QueryBuilder {
                     QueryFilterInDto inRecord = querySelect.selectFilterIn(queryId, filterId);
                     Preconditions.requireNonNull(inRecord, "inRecord must not be null, queryId: " + queryId + ", filterId: " + filterId);
 
-                    List<QueryFilterInValueDto> inValueList = querySelect.selectFilterInValue(queryId, filterId);
-                    Preconditions.requireNonNull(inValueList, "inValueList must not be null, queryId: " + queryId + ", filterId: " + filterId);
-                    Preconditions.requireNonEmpty(inValueList, "inValueList must not be empty, queryId: " + queryId + ", filterId: " + filterId);
-
                     Boolean isNot = inRecord.getNot();
                     String parameterName = getParameterName(subQuery, inRecord.getParameterName(), filterName);
 
                     List<Parameter> parameters = new ArrayList<>();
 
-                    for (QueryFilterInValueDto inValueRecord : inValueList) {
-                        if (inValueRecord == null) {
-                            continue;
+                    List<QueryFilterInValueDto> inValueList = querySelect.selectFilterInValue(queryId, filterId);
+                    if (inValueList != null) {
+                        for (QueryFilterInValueDto inValueRecord : inValueList) {
+                            if (inValueRecord == null) {
+                                continue;
+                            }
+
+                            Value value = Value.newInstance
+                                    (
+                                            valueType,
+                                            inValueRecord.getValueString(),
+                                            inValueRecord.getValueInteger(),
+                                            inValueRecord.getValueLong(),
+                                            inValueRecord.getValueBigDecimal(),
+                                            inValueRecord.getValueDate()
+                                    );
+
+                            Parameter parameter = new Parameter();
+                            parameter.setName(parameterName);
+                            parameter.setValue(value);
+
+                            parameters.add(parameter);
                         }
-
-                        Value value = Value.newInstance
-                                (
-                                        valueType,
-                                        inValueRecord.getValueString(),
-                                        inValueRecord.getValueInteger(),
-                                        inValueRecord.getValueLong(),
-                                        inValueRecord.getValueBigDecimal(),
-                                        inValueRecord.getValueDate()
-                                );
-
-                        Parameter parameter = new Parameter();
-                        parameter.setName(parameterName);
-                        parameter.setValue(value);
-
-                        parameters.add(parameter);
                     }
+
+                    int subQueryId = inRecord.getSubQueryId();
+                    String subSql = (subQueryId > 0) ? getSubQuery(subQueryId) : "";
 
                     InFilter inFilter = new InFilter();
 
@@ -442,6 +444,7 @@ public class QueryBuilderImpl implements QueryBuilder {
                     inFilter.setName(filterName);
                     inFilter.setNot(isNot);
                     inFilter.setParameters(parameters);
+                    inFilter.setSql(subSql);
 
                     result.add(inFilter);
                     break;

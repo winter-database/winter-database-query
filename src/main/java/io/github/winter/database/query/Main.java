@@ -39,7 +39,7 @@ public class Main implements CommandLineRunner {
         refreshTableSchemaListener.refreshAll();
 
         QueryBuilder queryBuilder = new QueryBuilderImpl(jdbcTemplate);
-        Query query = queryBuilder.build(10001);
+        Query query = queryBuilder.build(10009);
         QueryParser queryParser = new QueryParserImpl();
         SqlParameter parameter = queryParser.parse(query);
 

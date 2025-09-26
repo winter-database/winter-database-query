@@ -25,7 +25,7 @@ public class ColumnBuilderImpl implements ColumnBuilder {
         String sqlName = joinAs(fieldName, asName);
 
         Class<?> valueType = parseType(funcType, tableName, columnName);
-        Preconditions.requireNonNull(valueType, "valueType must not be null, sqlName: " + sqlName);
+        Preconditions.requireNonNull(valueType, "valueType must not be null, sqlName: " + sqlName + ", funcType: " + funcType + ", tableName: " + tableName + ", columnName: " + columnName);
 
         Column result = new Column();
 

@@ -265,8 +265,8 @@ public final class QueryDto implements Serializable {
         this.pageOffset = pageOffset;
     }
 
-    public Integer getPageLimit() {
-        return pageLimit;
+    public int getPageLimit() {
+        return pageLimit != null ? pageLimit : 0;
     }
 
     public void setPageLimit(Value value) {
