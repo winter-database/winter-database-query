@@ -5,7 +5,7 @@ CREATE TABLE xquery
     query_name        varchar(64)         NOT NULL DEFAULT '' COMMENT '名称',
     is_distinct       int(10) unsigned    NOT NULL DEFAULT '0' COMMENT '去重？',
     is_asterisk       int(10) unsigned    NOT NULL DEFAULT '0' COMMENT '全字段？',
-    is_parameter_name int(10) unsigned    NOT NULL DEFAULT '0' COMMENT '用参数名？',
+    is_parameter_name int(10) unsigned    NOT NULL DEFAULT '0' COMMENT '忽略参数名？',
     from_table        varchar(64)         NOT NULL DEFAULT '' COMMENT '表名',
     page_offset       bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '开始行数',
     page_limit        int(10) unsigned    NOT NULL DEFAULT '0' COMMENT '每页行数',
