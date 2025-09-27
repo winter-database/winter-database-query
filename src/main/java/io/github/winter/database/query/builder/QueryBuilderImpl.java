@@ -73,9 +73,9 @@ public class QueryBuilderImpl implements QueryBuilder {
         String fromTable = record.getFromTable();
         Preconditions.requireNonEmpty(fromTable, "fromTable must not be empty, queryId: " + queryId);
 
-        boolean subQuery = record.getSubQuery();
-        boolean distinct = record.getDistinct();
-        boolean asterisk = record.getAsterisk();
+        boolean subQuery = record.isAsterisk();
+        boolean distinct = record.isDistinct();
+        boolean asterisk = record.isAsterisk();
         Long pageOffset = record.getPageOffset();
         int pageLimit = record.getPageLimit();
 
@@ -128,14 +128,14 @@ public class QueryBuilderImpl implements QueryBuilder {
 
     @Override
     public List<Column> selectColumn(int queryId, String fromTable) {
-        List<QueryColumnDto> list = querySelect.selectColumn(queryId, fromTable);
+        List<QueryColumn> list = querySelect.selectColumn(queryId, fromTable);
         if (list == null) {
             return null;
         }
 
         List<Column> result = new ArrayList<>();
 
-        for (QueryColumnDto record : list) {
+        for (QueryColumn record : list) {
             if (record == null) {
                 continue;
             }
@@ -182,14 +182,14 @@ public class QueryBuilderImpl implements QueryBuilder {
 
     @Override
     public List<Join> selectJoin(int queryId) {
-        List<QueryJoinDto> list = querySelect.selectJoin(queryId);
+        List<QueryJoin> list = querySelect.selectJoin(queryId);
         if (list == null) {
             return null;
         }
 
         List<Join> result = new ArrayList<>();
 
-        for (QueryJoinDto record : list) {
+        for (QueryJoin record : list) {
             if (record == null) {
                 continue;
             }
@@ -218,14 +218,14 @@ public class QueryBuilderImpl implements QueryBuilder {
 
     @Override
     public List<Join.On> selectJoinOn(int queryId, int joinId) {
-        List<QueryJoinOnDto> list = querySelect.selectJoinOn(queryId, joinId);
+        List<QueryJoinOn> list = querySelect.selectJoinOn(queryId, joinId);
         if (list == null) {
             return null;
         }
 
         List<Join.On> result = new ArrayList<>();
 
-        for (QueryJoinOnDto record : list) {
+        for (QueryJoinOn record : list) {
             if (record == null) {
                 continue;
             }
@@ -254,14 +254,14 @@ public class QueryBuilderImpl implements QueryBuilder {
 
     @Override
     public Group selectGroup(int queryId, boolean subQuery, String fromTable) {
-        List<QueryGroupDto> list = querySelect.selectGroup(queryId, fromTable);
+        List<QueryGroup> list = querySelect.selectGroup(queryId, fromTable);
         if (list == null) {
             return null;
         }
 
         List<String> groupNames = new ArrayList<>();
 
-        for (QueryGroupDto record : list) {
+        for (QueryGroup record : list) {
             if (record == null) {
                 continue;
             }
@@ -288,14 +288,14 @@ public class QueryBuilderImpl implements QueryBuilder {
 
     @Override
     public List<Order> selectOrder(int queryId, String fromTable) {
-        List<QueryOrderDto> list = querySelect.selectOrder(queryId, fromTable);
+        List<QueryOrder> list = querySelect.selectOrder(queryId, fromTable);
         if (list == null) {
             return null;
         }
 
         List<Order> result = new ArrayList<>();
 
-        for (QueryOrderDto record : list) {
+        for (QueryOrder record : list) {
             if (record == null) {
                 continue;
             }
@@ -325,14 +325,14 @@ public class QueryBuilderImpl implements QueryBuilder {
 
     @Override
     public List<BaseFilter> selectFilter(int isHaving, int queryId, int parentId, boolean subQuery, String fromTable) {
-        List<QueryFilterDto> list = querySelect.selectFilter(isHaving, queryId, parentId, fromTable);
+        List<QueryFilter> list = querySelect.selectFilter(isHaving, queryId, parentId, fromTable);
         if (list == null) {
             return null;
         }
 
         List<BaseFilter> result = new ArrayList<>();
 
-        for (QueryFilterDto record : list) {
+        for (QueryFilter record : list) {
             if (record == null) {
                 continue;
             }
@@ -369,7 +369,7 @@ public class QueryBuilderImpl implements QueryBuilder {
             int filterType = record.getFilterType();
             switch (filterType) {
                 case FilterType.EXPRESSION: {
-                    QueryFilterExpressionDto expressionRecord = querySelect.selectFilterExpression(queryId, filterId);
+                    QueryFilterExpression expressionRecord = querySelect.selectFilterExpression(queryId, filterId);
                     Preconditions.requireNonNull(expressionRecord, "expressionRecord must not be null, queryId: " + queryId + ", filterId: " + filterId);
 
                     int expressionCode = expressionRecord.getExpressionCode();
@@ -399,17 +399,17 @@ public class QueryBuilderImpl implements QueryBuilder {
                     break;
                 }
                 case FilterType.IN: {
-                    QueryFilterInDto inRecord = querySelect.selectFilterIn(queryId, filterId);
+                    QueryFilterIn inRecord = querySelect.selectFilterIn(queryId, filterId);
                     Preconditions.requireNonNull(inRecord, "inRecord must not be null, queryId: " + queryId + ", filterId: " + filterId);
 
-                    Boolean isNot = inRecord.getNot();
+                    boolean isNot = inRecord.isNot();
                     String parameterName = getParameterName(subQuery, inRecord.getParameterName(), filterName);
 
                     List<Parameter> parameters = new ArrayList<>();
 
-                    List<QueryFilterInValueDto> inValueList = querySelect.selectFilterInValue(queryId, filterId);
+                    List<QueryFilterInValue> inValueList = querySelect.selectFilterInValue(queryId, filterId);
                     if (inValueList != null) {
-                        for (QueryFilterInValueDto inValueRecord : inValueList) {
+                        for (QueryFilterInValue inValueRecord : inValueList) {
                             if (inValueRecord == null) {
                                 continue;
                             }
@@ -447,10 +447,10 @@ public class QueryBuilderImpl implements QueryBuilder {
                     break;
                 }
                 case FilterType.NULL: {
-                    QueryFilterNullDto nullRecord = querySelect.selectFilterNull(queryId, filterId);
+                    QueryFilterNull nullRecord = querySelect.selectFilterNull(queryId, filterId);
                     Preconditions.requireNonNull(nullRecord, "nullRecord must not be null, queryId: " + queryId + ", filterId: " + filterId);
 
-                    Boolean isNot = nullRecord.getNot();
+                    boolean isNot = nullRecord.isNot();
 
                     NullFilter nullFilter = new NullFilter();
 
@@ -462,11 +462,11 @@ public class QueryBuilderImpl implements QueryBuilder {
                     break;
                 }
                 case FilterType.RANGE: {
-                    QueryFilterRangeDto rangeRecord = querySelect.selectFilterRange(queryId, filterId);
+                    QueryFilterRange rangeRecord = querySelect.selectFilterRange(queryId, filterId);
                     Preconditions.requireNonNull(rangeRecord, "rangeRecord must not be null, queryId: " + queryId + ", filterId: " + filterId);
 
-                    Boolean isIncludeLower = rangeRecord.getIncludeLower();
-                    Boolean isIncludeUpper = rangeRecord.getIncludeUpper();
+                    boolean isIncludeLower = rangeRecord.isIncludeLower();
+                    boolean isIncludeUpper = rangeRecord.isIncludeUpper();
 
                     RangeFilter rangeFilter = new RangeFilter();
 
@@ -517,10 +517,10 @@ public class QueryBuilderImpl implements QueryBuilder {
                     break;
                 }
                 case FilterType.WILDCARD: {
-                    QueryFilterWildcardDto wildcardRecord = querySelect.selectFilterWildcard(queryId, filterId);
+                    QueryFilterWildcard wildcardRecord = querySelect.selectFilterWildcard(queryId, filterId);
                     Preconditions.requireNonNull(wildcardRecord, "wildcardRecord must not be null, queryId: " + queryId + ", filterId: " + filterId);
 
-                    Boolean isNot = wildcardRecord.getNot();
+                    boolean isNot = wildcardRecord.isNot();
                     int wildcardCode = wildcardRecord.getWildcardCode();
                     String parameterName = getParameterName(subQuery, wildcardRecord.getParameterName(), filterName);
                     Value value = Value.newInstance

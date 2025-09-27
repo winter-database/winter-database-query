@@ -5,10 +5,7 @@ import io.github.winter.database.query.BooleanCast;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * 查询
@@ -19,7 +16,7 @@ public final class QueryDto implements Serializable {
     /**
      * 主键
      */
-    private Integer id;
+    private int id;
 
     /**
      * 名称
@@ -29,17 +26,17 @@ public final class QueryDto implements Serializable {
     /**
      * 去重？
      */
-    private boolean isDistinct;
+    private boolean distinct;
 
     /**
      * 全字段？
      */
-    private boolean isAsterisk;
+    private boolean asterisk;
 
     /**
-     * 用参数名？
+     * 忽略参数名？
      */
-    private boolean isParameterName;
+    private boolean parameterName;
 
     /**
      * 表名
@@ -151,15 +148,15 @@ public final class QueryDto implements Serializable {
     }
 
     public int getId() {
-        return id != null ? id : 0;
+        return id;
     }
 
     public void setId(Value value) {
-        Integer id = value != null ? value.getInteger() : null;
+        int id = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
         setId(id);
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -177,45 +174,45 @@ public final class QueryDto implements Serializable {
     }
 
     public boolean isDistinct() {
-        return isDistinct;
+        return distinct;
     }
 
     public void setDistinct(Value value) {
         Integer distinct = value != null ? value.getInteger() : null;
-        Boolean isDistinct = BooleanCast.fromInt(distinct);
+        boolean isDistinct = BooleanCast.fromInt(distinct);
         setDistinct(isDistinct);
     }
 
-    public void setDistinct(Boolean isDistinct) {
-        this.isDistinct = isDistinct != null ? isDistinct : false;
+    public void setDistinct(boolean distinct) {
+        this.distinct = distinct;
     }
 
     public boolean isAsterisk() {
-        return isAsterisk;
+        return asterisk;
     }
 
     public void setAsterisk(Value value) {
         Integer asterisk = value != null ? value.getInteger() : null;
-        Boolean isAsterisk = BooleanCast.fromInt(asterisk);
+        boolean isAsterisk = BooleanCast.fromInt(asterisk);
         setAsterisk(isAsterisk);
     }
 
-    public void setAsterisk(Boolean isAsterisk) {
-        this.isAsterisk = isAsterisk != null ? isAsterisk : false;
+    public void setAsterisk(boolean asterisk) {
+        this.asterisk = asterisk;
     }
 
     public boolean isParameterName() {
-        return isParameterName;
+        return parameterName;
     }
 
     public void setParameterName(Value value) {
         Integer parameterName = value != null ? value.getInteger() : null;
-        Boolean isParameterName = BooleanCast.fromInt(parameterName);
+        boolean isParameterName = BooleanCast.fromInt(parameterName);
         setParameterName(isParameterName);
     }
 
-    public void setParameterName(Boolean isParameterName) {
-        this.isParameterName = isParameterName != null ? isParameterName : false;
+    public void setParameterName(boolean parameterName) {
+        this.parameterName = parameterName;
     }
 
     @NotNull

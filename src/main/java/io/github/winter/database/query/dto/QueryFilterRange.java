@@ -6,41 +6,38 @@ import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * 范围
  *
  * @author changebooks@qq.com
  */
-public final class QueryFilterRangeDto implements Serializable {
+public final class QueryFilterRange implements Serializable {
     /**
      * 主键
      */
-    private Integer id;
+    private int id;
 
     /**
      * 查询主键
      */
-    private Integer queryId;
+    private int queryId;
 
     /**
      * 条件主键
      */
-    private Integer filterId;
+    private int filterId;
 
     /**
      * 包含开始？
      */
-    private boolean isIncludeLower;
+    private boolean includeLower;
 
     /**
      * 包含结束？
      */
-    private boolean isIncludeUpper;
+    private boolean includeUpper;
 
     /**
      * 开始参数名
@@ -103,31 +100,16 @@ public final class QueryFilterRangeDto implements Serializable {
     private Date toValueDate;
 
     /**
-     * 更新版本
-     */
-    private Integer updateVersion;
-
-    /**
-     * 创建时间
-     */
-    private Date createDate;
-
-    /**
-     * 更新时间
-     */
-    private Date lastUpdate;
-
-    /**
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryFilterRangeDto} instance ]
+     * @return [ the {@link QueryFilterRange} instance ]
      */
-    public static List<QueryFilterRangeDto> newInstance(List<Map<String, Value>> list) {
+    public static List<QueryFilterRange> newInstance(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryFilterRangeDto::newInstance)
+                    .map(QueryFilterRange::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -139,9 +121,9 @@ public final class QueryFilterRangeDto implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryFilterRangeDto} instance
+     * @return the {@link QueryFilterRange} instance
      */
-    public static QueryFilterRangeDto newInstance(Map<String, Value> record) {
+    public static QueryFilterRange newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
@@ -163,11 +145,8 @@ public final class QueryFilterRangeDto implements Serializable {
         Value toValueLong = record.get("to_value_long");
         Value toValueBigDecimal = record.get("to_value_big_decimal");
         Value toValueDate = record.get("to_value_date");
-        Value updateVersion = record.get("update_version");
-        Value createDate = record.get("create_date");
-        Value lastUpdate = record.get("last_update");
 
-        QueryFilterRangeDto result = new QueryFilterRangeDto();
+        QueryFilterRange result = new QueryFilterRange();
 
         result.setId(id);
         result.setQueryId(queryId);
@@ -186,78 +165,75 @@ public final class QueryFilterRangeDto implements Serializable {
         result.setToValueLong(toValueLong);
         result.setToValueBigDecimal(toValueBigDecimal);
         result.setToValueDate(toValueDate);
-        result.setUpdateVersion(updateVersion);
-        result.setCreateDate(createDate);
-        result.setLastUpdate(lastUpdate);
 
         return result;
     }
 
     public int getId() {
-        return id != null ? id : 0;
+        return id;
     }
 
     public void setId(Value value) {
-        Integer id = value != null ? value.getInteger() : null;
+        int id = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
         setId(id);
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
     public int getQueryId() {
-        return queryId != null ? queryId : 0;
+        return queryId;
     }
 
     public void setQueryId(Value value) {
-        Integer queryId = value != null ? value.getInteger() : null;
+        int queryId = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
         setQueryId(queryId);
     }
 
-    public void setQueryId(Integer queryId) {
+    public void setQueryId(int queryId) {
         this.queryId = queryId;
     }
 
     public int getFilterId() {
-        return filterId != null ? filterId : 0;
+        return filterId;
     }
 
     public void setFilterId(Value value) {
-        Integer filterId = value != null ? value.getInteger() : null;
+        int filterId = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
         setFilterId(filterId);
     }
 
-    public void setFilterId(Integer filterId) {
+    public void setFilterId(int filterId) {
         this.filterId = filterId;
     }
 
     public boolean isIncludeLower() {
-        return isIncludeLower;
+        return includeLower;
     }
 
     public void setIncludeLower(Value value) {
         Integer includeLower = value != null ? value.getInteger() : null;
-        Boolean isIncludeLower = BooleanCast.fromInt(includeLower);
+        boolean isIncludeLower = BooleanCast.fromInt(includeLower);
         setIncludeLower(isIncludeLower);
     }
 
-    public void setIncludeLower(Boolean isIncludeLower) {
-        this.isIncludeLower = isIncludeLower != null ? isIncludeLower : false;
+    public void setIncludeLower(boolean includeLower) {
+        this.includeLower = includeLower;
     }
 
     public boolean isIncludeUpper() {
-        return isIncludeUpper;
+        return includeUpper;
     }
 
     public void setIncludeUpper(Value value) {
         Integer includeUpper = value != null ? value.getInteger() : null;
-        Boolean isIncludeUpper = BooleanCast.fromInt(includeUpper);
+        boolean isIncludeUpper = BooleanCast.fromInt(includeUpper);
         setIncludeUpper(isIncludeUpper);
     }
 
-    public void setIncludeUpper(Boolean isIncludeUpper) {
-        this.isIncludeUpper = isIncludeUpper != null ? isIncludeUpper : false;
+    public void setIncludeUpper(boolean includeUpper) {
+        this.includeUpper = includeUpper;
     }
 
     @NotNull
@@ -434,45 +410,6 @@ public final class QueryFilterRangeDto implements Serializable {
 
     public void setToValueDate(Date toValueDate) {
         this.toValueDate = toValueDate;
-    }
-
-    public int getUpdateVersion() {
-        return updateVersion != null ? updateVersion : 0;
-    }
-
-    public void setUpdateVersion(Value value) {
-        Integer updateVersion = value != null ? value.getInteger() : null;
-        setUpdateVersion(updateVersion);
-    }
-
-    public void setUpdateVersion(Integer updateVersion) {
-        this.updateVersion = updateVersion;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Value value) {
-        Date createDate = value != null ? value.getDate() : null;
-        setCreateDate(createDate);
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(Value value) {
-        Date lastUpdate = value != null ? value.getDate() : null;
-        setLastUpdate(lastUpdate);
-    }
-
-    public void setLastUpdate(Date lastUpdate) {
-        this.lastUpdate = lastUpdate;
     }
 
 }

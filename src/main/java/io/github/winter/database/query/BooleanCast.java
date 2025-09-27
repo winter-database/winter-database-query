@@ -6,8 +6,6 @@ package io.github.winter.database.query;
  * <pre>
  * 1 to True
  * !1 to False
- * True to 1
- * False to 0
  * </pre>
  *
  * @author changebooks@qq.com
@@ -23,19 +21,11 @@ public final class BooleanCast {
     private BooleanCast() {
     }
 
-    public static Boolean fromInt(Integer value) {
+    public static boolean fromInt(Integer value) {
         if (value != null) {
             return value == TRUE;
         } else {
-            return null;
-        }
-    }
-
-    public static Integer toInt(Boolean value) {
-        if (value != null) {
-            return value ? TRUE : FALSE;
-        } else {
-            return null;
+            return false;
         }
     }
 

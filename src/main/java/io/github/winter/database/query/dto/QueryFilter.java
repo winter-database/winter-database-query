@@ -6,7 +6,10 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 /**
@@ -14,21 +17,21 @@ import java.util.function.Predicate;
  *
  * @author changebooks@qq.com
  */
-public final class QueryFilterDto implements Serializable {
+public final class QueryFilter implements Serializable {
     /**
      * 主键
      */
-    private Integer id;
+    private int id;
 
     /**
      * 查询主键
      */
-    private Integer queryId;
+    private int queryId;
 
     /**
      * 父条件主键
      */
-    private Integer parentId;
+    private int parentId;
 
     /**
      * 表名
@@ -43,51 +46,31 @@ public final class QueryFilterDto implements Serializable {
     /**
      * 函数类型
      */
-    private Integer funcType;
+    private int funcType;
 
     /**
      * 条件类型
      */
-    private Integer filterType;
+    private int filterType;
 
     /**
      * 逻辑与或
      */
-    private Integer logicalOperator;
+    private int logicalOperator;
 
     /**
      * 分组条件？
      */
-    private boolean isHaving;
-
-    /**
-     * 排序
-     */
-    private Integer showPriority;
-
-    /**
-     * 更新版本
-     */
-    private Integer updateVersion;
-
-    /**
-     * 创建时间
-     */
-    private Date createDate;
-
-    /**
-     * 更新时间
-     */
-    private Date lastUpdate;
+    private boolean having;
 
     /**
      * Build Instance List
      *
      * @param list      [ [ Column Name : Column Value ] ]
      * @param fromTable Table Name
-     * @return [ the {@link QueryFilterDto} instance ]
+     * @return [ the {@link QueryFilter} instance ]
      */
-    public static List<QueryFilterDto> newInstance(List<Map<String, Value>> list, @NotEmpty String fromTable) {
+    public static List<QueryFilter> newInstance(List<Map<String, Value>> list, @NotEmpty String fromTable) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
@@ -104,9 +87,9 @@ public final class QueryFilterDto implements Serializable {
      *
      * @param record    [ Column Name : Column Value ]
      * @param fromTable Table Name
-     * @return the {@link QueryFilterDto} instance
+     * @return the {@link QueryFilter} instance
      */
-    public static QueryFilterDto newInstance(Map<String, Value> record, @NotEmpty String fromTable) {
+    public static QueryFilter newInstance(Map<String, Value> record, @NotEmpty String fromTable) {
         if (record == null) {
             return null;
         }
@@ -120,12 +103,8 @@ public final class QueryFilterDto implements Serializable {
         Value filterType = record.get("filter_type");
         Value logicalOperator = record.get("logical_operator");
         Value isHaving = record.get("is_having");
-        Value showPriority = record.get("show_priority");
-        Value updateVersion = record.get("update_version");
-        Value createDate = record.get("create_date");
-        Value lastUpdate = record.get("last_update");
 
-        QueryFilterDto result = new QueryFilterDto();
+        QueryFilter result = new QueryFilter();
 
         result.setId(id);
         result.setQueryId(queryId);
@@ -136,50 +115,46 @@ public final class QueryFilterDto implements Serializable {
         result.setFilterType(filterType);
         result.setLogicalOperator(logicalOperator);
         result.setHaving(isHaving);
-        result.setShowPriority(showPriority);
-        result.setUpdateVersion(updateVersion);
-        result.setCreateDate(createDate);
-        result.setLastUpdate(lastUpdate);
 
         return result;
     }
 
     public int getId() {
-        return id != null ? id : 0;
+        return id;
     }
 
     public void setId(Value value) {
-        Integer id = value != null ? value.getInteger() : null;
+        int id = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
         setId(id);
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
     public int getQueryId() {
-        return queryId != null ? queryId : 0;
+        return queryId;
     }
 
     public void setQueryId(Value value) {
-        Integer queryId = value != null ? value.getInteger() : null;
+        int queryId = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
         setQueryId(queryId);
     }
 
-    public void setQueryId(Integer queryId) {
+    public void setQueryId(int queryId) {
         this.queryId = queryId;
     }
 
     public int getParentId() {
-        return parentId != null ? parentId : 0;
+        return parentId;
     }
 
     public void setParentId(Value value) {
-        Integer parentId = value != null ? value.getInteger() : null;
+        int parentId = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
         setParentId(parentId);
     }
 
-    public void setParentId(Integer parentId) {
+    public void setParentId(int parentId) {
         this.parentId = parentId;
     }
 
@@ -215,108 +190,56 @@ public final class QueryFilterDto implements Serializable {
     }
 
     public int getFuncType() {
-        return funcType != null ? funcType : 0;
+        return funcType;
     }
 
     public void setFuncType(Value value) {
-        Integer funcType = value != null ? value.getInteger() : null;
+        int funcType = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
         setFuncType(funcType);
     }
 
-    public void setFuncType(Integer funcType) {
+    public void setFuncType(int funcType) {
         this.funcType = funcType;
     }
 
     public int getFilterType() {
-        return filterType != null ? filterType : 0;
+        return filterType;
     }
 
     public void setFilterType(Value value) {
-        Integer filterType = value != null ? value.getInteger() : null;
+        int filterType = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
         setFilterType(filterType);
     }
 
-    public void setFilterType(Integer filterType) {
+    public void setFilterType(int filterType) {
         this.filterType = filterType;
     }
 
     public int getLogicalOperator() {
-        return logicalOperator != null ? logicalOperator : 0;
+        return logicalOperator;
     }
 
     public void setLogicalOperator(Value value) {
-        Integer logicalOperator = value != null ? value.getInteger() : null;
+        int logicalOperator = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
         setLogicalOperator(logicalOperator);
     }
 
-    public void setLogicalOperator(Integer logicalOperator) {
+    public void setLogicalOperator(int logicalOperator) {
         this.logicalOperator = logicalOperator;
     }
 
     public boolean isHaving() {
-        return isHaving;
+        return having;
     }
 
     public void setHaving(Value value) {
         Integer having = value != null ? value.getInteger() : null;
-        Boolean isHaving = BooleanCast.fromInt(having);
+        boolean isHaving = BooleanCast.fromInt(having);
         setHaving(isHaving);
     }
 
-    public void setHaving(Boolean isHaving) {
-        this.isHaving = isHaving != null ? isHaving : false;
-    }
-
-    public int getShowPriority() {
-        return showPriority != null ? showPriority : 0;
-    }
-
-    public void setShowPriority(Value value) {
-        Integer showPriority = value != null ? value.getInteger() : null;
-        setShowPriority(showPriority);
-    }
-
-    public void setShowPriority(Integer showPriority) {
-        this.showPriority = showPriority;
-    }
-
-    public int getUpdateVersion() {
-        return updateVersion != null ? updateVersion : 0;
-    }
-
-    public void setUpdateVersion(Value value) {
-        Integer updateVersion = value != null ? value.getInteger() : null;
-        setUpdateVersion(updateVersion);
-    }
-
-    public void setUpdateVersion(Integer updateVersion) {
-        this.updateVersion = updateVersion;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Value value) {
-        Date createDate = value != null ? value.getDate() : null;
-        setCreateDate(createDate);
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(Value value) {
-        Date lastUpdate = value != null ? value.getDate() : null;
-        setLastUpdate(lastUpdate);
-    }
-
-    public void setLastUpdate(Date lastUpdate) {
-        this.lastUpdate = lastUpdate;
+    public void setHaving(boolean having) {
+        this.having = having;
     }
 
 }

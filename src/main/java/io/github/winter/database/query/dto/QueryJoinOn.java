@@ -4,31 +4,31 @@ import io.github.winter.boot.tuple.Value;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * 连表条件
  *
  * @author changebooks@qq.com
  */
-public final class QueryJoinOnDto implements Serializable {
+public final class QueryJoinOn implements Serializable {
     /**
      * 主键
      */
-    private Integer id;
+    private int id;
 
     /**
      * 查询主键
      */
-    private Integer queryId;
+    private int queryId;
 
     /**
      * 连表主键
      */
-    private Integer joinId;
+    private int joinId;
 
     /**
      * 左表名
@@ -51,36 +51,16 @@ public final class QueryJoinOnDto implements Serializable {
     private String rightColumn;
 
     /**
-     * 排序
-     */
-    private Integer showPriority;
-
-    /**
-     * 更新版本
-     */
-    private Integer updateVersion;
-
-    /**
-     * 创建时间
-     */
-    private Date createDate;
-
-    /**
-     * 更新时间
-     */
-    private Date lastUpdate;
-
-    /**
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryJoinOnDto} instance ]
+     * @return [ the {@link QueryJoinOn} instance ]
      */
-    public static List<QueryJoinOnDto> newInstance(List<Map<String, Value>> list) {
+    public static List<QueryJoinOn> newInstance(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryJoinOnDto::newInstance)
+                    .map(QueryJoinOn::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -92,9 +72,9 @@ public final class QueryJoinOnDto implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryJoinOnDto} instance
+     * @return the {@link QueryJoinOn} instance
      */
-    public static QueryJoinOnDto newInstance(Map<String, Value> record) {
+    public static QueryJoinOn newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
@@ -106,12 +86,8 @@ public final class QueryJoinOnDto implements Serializable {
         Value leftColumn = record.get("left_column");
         Value rightTable = record.get("right_table");
         Value rightColumn = record.get("right_column");
-        Value showPriority = record.get("show_priority");
-        Value updateVersion = record.get("update_version");
-        Value createDate = record.get("create_date");
-        Value lastUpdate = record.get("last_update");
 
-        QueryJoinOnDto result = new QueryJoinOnDto();
+        QueryJoinOn result = new QueryJoinOn();
 
         result.setId(id);
         result.setQueryId(queryId);
@@ -120,50 +96,46 @@ public final class QueryJoinOnDto implements Serializable {
         result.setLeftColumn(leftColumn);
         result.setRightTable(rightTable);
         result.setRightColumn(rightColumn);
-        result.setShowPriority(showPriority);
-        result.setUpdateVersion(updateVersion);
-        result.setCreateDate(createDate);
-        result.setLastUpdate(lastUpdate);
 
         return result;
     }
 
     public int getId() {
-        return id != null ? id : 0;
+        return id;
     }
 
     public void setId(Value value) {
-        Integer id = value != null ? value.getInteger() : null;
+        int id = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
         setId(id);
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
     public int getQueryId() {
-        return queryId != null ? queryId : 0;
+        return queryId;
     }
 
     public void setQueryId(Value value) {
-        Integer queryId = value != null ? value.getInteger() : null;
+        int queryId = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
         setQueryId(queryId);
     }
 
-    public void setQueryId(Integer queryId) {
+    public void setQueryId(int queryId) {
         this.queryId = queryId;
     }
 
     public int getJoinId() {
-        return joinId != null ? joinId : 0;
+        return joinId;
     }
 
     public void setJoinId(Value value) {
-        Integer joinId = value != null ? value.getInteger() : null;
+        int joinId = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
         setJoinId(joinId);
     }
 
-    public void setJoinId(Integer joinId) {
+    public void setJoinId(int joinId) {
         this.joinId = joinId;
     }
 
@@ -221,58 +193,6 @@ public final class QueryJoinOnDto implements Serializable {
 
     public void setRightColumn(String rightColumn) {
         this.rightColumn = rightColumn != null ? rightColumn.trim() : "";
-    }
-
-    public int getShowPriority() {
-        return showPriority != null ? showPriority : 0;
-    }
-
-    public void setShowPriority(Value value) {
-        Integer showPriority = value != null ? value.getInteger() : null;
-        setShowPriority(showPriority);
-    }
-
-    public void setShowPriority(Integer showPriority) {
-        this.showPriority = showPriority;
-    }
-
-    public int getUpdateVersion() {
-        return updateVersion != null ? updateVersion : 0;
-    }
-
-    public void setUpdateVersion(Value value) {
-        Integer updateVersion = value != null ? value.getInteger() : null;
-        setUpdateVersion(updateVersion);
-    }
-
-    public void setUpdateVersion(Integer updateVersion) {
-        this.updateVersion = updateVersion;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Value value) {
-        Date createDate = value != null ? value.getDate() : null;
-        setCreateDate(createDate);
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(Value value) {
-        Date lastUpdate = value != null ? value.getDate() : null;
-        setLastUpdate(lastUpdate);
-    }
-
-    public void setLastUpdate(Date lastUpdate) {
-        this.lastUpdate = lastUpdate;
     }
 
 }

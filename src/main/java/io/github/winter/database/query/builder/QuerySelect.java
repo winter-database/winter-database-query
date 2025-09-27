@@ -53,28 +53,28 @@ public class QuerySelect {
      *
      * @param queryId   查询主键
      * @param fromTable 表名
-     * @return [ the {@link QueryColumnDto} instance ]
+     * @return [ the {@link QueryColumn} instance ]
      */
-    public List<QueryColumnDto> selectColumn(int queryId, @NotEmpty String fromTable) {
+    public List<QueryColumn> selectColumn(int queryId, @NotEmpty String fromTable) {
         Map<String, Integer> filters = new HashMap<>();
         filters.put("query_id", queryId);
 
         List<Map<String, Value>> list = selectTemplate.selectList("xquery_column", filters);
-        return QueryColumnDto.newInstance(list, fromTable);
+        return QueryColumn.newInstance(list, fromTable);
     }
 
     /**
      * 连表
      *
      * @param queryId 查询主键
-     * @return [ the {@link QueryJoinDto} instance ]
+     * @return [ the {@link QueryJoin} instance ]
      */
-    public List<QueryJoinDto> selectJoin(int queryId) {
+    public List<QueryJoin> selectJoin(int queryId) {
         Map<String, Integer> filters = new HashMap<>();
         filters.put("query_id", queryId);
 
         List<Map<String, Value>> list = selectTemplate.selectList("xquery_join", filters);
-        return QueryJoinDto.newInstance(list);
+        return QueryJoin.newInstance(list);
     }
 
     /**
@@ -82,15 +82,15 @@ public class QuerySelect {
      *
      * @param queryId 查询主键
      * @param joinId  连表主键
-     * @return [ the {@link QueryJoinOnDto} instance ]
+     * @return [ the {@link QueryJoinOn} instance ]
      */
-    public List<QueryJoinOnDto> selectJoinOn(int queryId, int joinId) {
+    public List<QueryJoinOn> selectJoinOn(int queryId, int joinId) {
         Map<String, Integer> filters = new HashMap<>();
         filters.put("query_id", queryId);
         filters.put("join_id", joinId);
 
         List<Map<String, Value>> list = selectTemplate.selectList("xquery_join_on", filters);
-        return QueryJoinOnDto.newInstance(list);
+        return QueryJoinOn.newInstance(list);
     }
 
     /**
@@ -100,16 +100,16 @@ public class QuerySelect {
      * @param queryId   查询主键
      * @param parentId  父条件主键
      * @param fromTable 表名
-     * @return [ the {@link QueryFilterDto} instance ]
+     * @return [ the {@link QueryFilter} instance ]
      */
-    public List<QueryFilterDto> selectFilter(int isHaving, int queryId, int parentId, @NotEmpty String fromTable) {
+    public List<QueryFilter> selectFilter(int isHaving, int queryId, int parentId, @NotEmpty String fromTable) {
         Map<String, Integer> filters = new HashMap<>();
         filters.put("is_having", isHaving);
         filters.put("query_id", queryId);
         filters.put("parent_id", parentId);
 
         List<Map<String, Value>> list = selectTemplate.selectList("xquery_filter", filters);
-        return QueryFilterDto.newInstance(list, fromTable);
+        return QueryFilter.newInstance(list, fromTable);
     }
 
     /**
@@ -117,15 +117,15 @@ public class QuerySelect {
      *
      * @param queryId  查询主键
      * @param filterId 条件主键
-     * @return the {@link QueryFilterExpressionDto} instance
+     * @return the {@link QueryFilterExpression} instance
      */
-    public QueryFilterExpressionDto selectFilterExpression(int queryId, int filterId) {
+    public QueryFilterExpression selectFilterExpression(int queryId, int filterId) {
         Map<String, Integer> filters = new HashMap<>();
         filters.put("query_id", queryId);
         filters.put("filter_id", filterId);
 
         Map<String, Value> record = selectTemplate.selectOne("xquery_filter_expression", filters);
-        return QueryFilterExpressionDto.newInstance(record);
+        return QueryFilterExpression.newInstance(record);
     }
 
     /**
@@ -133,15 +133,15 @@ public class QuerySelect {
      *
      * @param queryId  查询主键
      * @param filterId 条件主键
-     * @return the {@link QueryFilterInDto} instance
+     * @return the {@link QueryFilterIn} instance
      */
-    public QueryFilterInDto selectFilterIn(int queryId, int filterId) {
+    public QueryFilterIn selectFilterIn(int queryId, int filterId) {
         Map<String, Integer> filters = new HashMap<>();
         filters.put("query_id", queryId);
         filters.put("filter_id", filterId);
 
         Map<String, Value> record = selectTemplate.selectOne("xquery_filter_in", filters);
-        return QueryFilterInDto.newInstance(record);
+        return QueryFilterIn.newInstance(record);
     }
 
     /**
@@ -149,15 +149,15 @@ public class QuerySelect {
      *
      * @param queryId  查询主键
      * @param filterId 条件主键
-     * @return [ the {@link QueryFilterInValueDto} instance ]
+     * @return [ the {@link QueryFilterInValue} instance ]
      */
-    public List<QueryFilterInValueDto> selectFilterInValue(int queryId, int filterId) {
+    public List<QueryFilterInValue> selectFilterInValue(int queryId, int filterId) {
         Map<String, Integer> filters = new HashMap<>();
         filters.put("query_id", queryId);
         filters.put("filter_id", filterId);
 
         List<Map<String, Value>> list = selectTemplate.selectList("xquery_filter_in_value", filters);
-        return QueryFilterInValueDto.newInstance(list);
+        return QueryFilterInValue.newInstance(list);
     }
 
     /**
@@ -165,15 +165,15 @@ public class QuerySelect {
      *
      * @param queryId  查询主键
      * @param filterId 条件主键
-     * @return the {@link QueryFilterNullDto} instance
+     * @return the {@link QueryFilterNull} instance
      */
-    public QueryFilterNullDto selectFilterNull(int queryId, int filterId) {
+    public QueryFilterNull selectFilterNull(int queryId, int filterId) {
         Map<String, Integer> filters = new HashMap<>();
         filters.put("query_id", queryId);
         filters.put("filter_id", filterId);
 
         Map<String, Value> record = selectTemplate.selectOne("xquery_filter_null", filters);
-        return QueryFilterNullDto.newInstance(record);
+        return QueryFilterNull.newInstance(record);
     }
 
     /**
@@ -181,15 +181,15 @@ public class QuerySelect {
      *
      * @param queryId  查询主键
      * @param filterId 条件主键
-     * @return the {@link QueryFilterRangeDto} instance
+     * @return the {@link QueryFilterRange} instance
      */
-    public QueryFilterRangeDto selectFilterRange(int queryId, int filterId) {
+    public QueryFilterRange selectFilterRange(int queryId, int filterId) {
         Map<String, Integer> filters = new HashMap<>();
         filters.put("query_id", queryId);
         filters.put("filter_id", filterId);
 
         Map<String, Value> record = selectTemplate.selectOne("xquery_filter_range", filters);
-        return QueryFilterRangeDto.newInstance(record);
+        return QueryFilterRange.newInstance(record);
     }
 
     /**
@@ -197,15 +197,15 @@ public class QuerySelect {
      *
      * @param queryId  查询主键
      * @param filterId 条件主键
-     * @return the {@link QueryFilterWildcardDto} instance
+     * @return the {@link QueryFilterWildcard} instance
      */
-    public QueryFilterWildcardDto selectFilterWildcard(int queryId, int filterId) {
+    public QueryFilterWildcard selectFilterWildcard(int queryId, int filterId) {
         Map<String, Integer> filters = new HashMap<>();
         filters.put("query_id", queryId);
         filters.put("filter_id", filterId);
 
         Map<String, Value> record = selectTemplate.selectOne("xquery_filter_wildcard", filters);
-        return QueryFilterWildcardDto.newInstance(record);
+        return QueryFilterWildcard.newInstance(record);
     }
 
     /**
@@ -213,14 +213,14 @@ public class QuerySelect {
      *
      * @param queryId   查询主键
      * @param fromTable 表名
-     * @return [ the {@link QueryGroupDto} instance ]
+     * @return [ the {@link QueryGroup} instance ]
      */
-    public List<QueryGroupDto> selectGroup(int queryId, @NotEmpty String fromTable) {
+    public List<QueryGroup> selectGroup(int queryId, @NotEmpty String fromTable) {
         Map<String, Integer> filters = new HashMap<>();
         filters.put("query_id", queryId);
 
         List<Map<String, Value>> list = selectTemplate.selectList("xquery_group", filters);
-        return QueryGroupDto.newInstance(list, fromTable);
+        return QueryGroup.newInstance(list, fromTable);
     }
 
     /**
@@ -228,14 +228,14 @@ public class QuerySelect {
      *
      * @param queryId   查询主键
      * @param fromTable 表名
-     * @return [ the {@link QueryOrderDto} instance ]
+     * @return [ the {@link QueryOrder} instance ]
      */
-    public List<QueryOrderDto> selectOrder(int queryId, @NotEmpty String fromTable) {
+    public List<QueryOrder> selectOrder(int queryId, @NotEmpty String fromTable) {
         Map<String, Integer> filters = new HashMap<>();
         filters.put("query_id", queryId);
 
         List<Map<String, Value>> list = selectTemplate.selectList("xquery_order", filters);
-        return QueryOrderDto.newInstance(list, fromTable);
+        return QueryOrder.newInstance(list, fromTable);
     }
 
     public SelectTemplate getSelectTemplate() {

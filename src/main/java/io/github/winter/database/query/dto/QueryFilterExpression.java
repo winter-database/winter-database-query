@@ -1,34 +1,42 @@
 package io.github.winter.database.query.dto;
 
 import io.github.winter.boot.tuple.Value;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
- * 列表值
+ * 表达式
  *
  * @author changebooks@qq.com
  */
-public final class QueryFilterInValueDto implements Serializable {
+public final class QueryFilterExpression implements Serializable {
     /**
      * 主键
      */
-    private Integer id;
+    private int id;
 
     /**
      * 查询主键
      */
-    private Integer queryId;
+    private int queryId;
 
     /**
      * 条件主键
      */
-    private Integer filterId;
+    private int filterId;
+
+    /**
+     * 编码
+     */
+    private int expressionCode;
+
+    /**
+     * 参数名
+     */
+    private String parameterName;
 
     /**
      * 字符串
@@ -56,36 +64,16 @@ public final class QueryFilterInValueDto implements Serializable {
     private Date valueDate;
 
     /**
-     * 排序
-     */
-    private Integer showPriority;
-
-    /**
-     * 更新版本
-     */
-    private Integer updateVersion;
-
-    /**
-     * 创建时间
-     */
-    private Date createDate;
-
-    /**
-     * 更新时间
-     */
-    private Date lastUpdate;
-
-    /**
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryFilterInValueDto} instance ]
+     * @return [ the {@link QueryFilterExpression} instance ]
      */
-    public static List<QueryFilterInValueDto> newInstance(List<Map<String, Value>> list) {
+    public static List<QueryFilterExpression> newInstance(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryFilterInValueDto::newInstance)
+                    .map(QueryFilterExpression::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -97,9 +85,9 @@ public final class QueryFilterInValueDto implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryFilterInValueDto} instance
+     * @return the {@link QueryFilterExpression} instance
      */
-    public static QueryFilterInValueDto newInstance(Map<String, Value> record) {
+    public static QueryFilterExpression newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
@@ -107,71 +95,94 @@ public final class QueryFilterInValueDto implements Serializable {
         Value id = record.get("id");
         Value queryId = record.get("query_id");
         Value filterId = record.get("filter_id");
+        Value expressionCode = record.get("expression_code");
+        Value parameterName = record.get("parameter_name");
         Value valueString = record.get("value_string");
         Value valueInteger = record.get("value_integer");
         Value valueLong = record.get("value_long");
         Value valueBigDecimal = record.get("value_big_decimal");
         Value valueDate = record.get("value_date");
-        Value showPriority = record.get("show_priority");
-        Value updateVersion = record.get("update_version");
-        Value createDate = record.get("create_date");
-        Value lastUpdate = record.get("last_update");
 
-        QueryFilterInValueDto result = new QueryFilterInValueDto();
+        QueryFilterExpression result = new QueryFilterExpression();
 
         result.setId(id);
         result.setQueryId(queryId);
         result.setFilterId(filterId);
+        result.setExpressionCode(expressionCode);
+        result.setParameterName(parameterName);
         result.setValueString(valueString);
         result.setValueInteger(valueInteger);
         result.setValueLong(valueLong);
         result.setValueBigDecimal(valueBigDecimal);
         result.setValueDate(valueDate);
-        result.setShowPriority(showPriority);
-        result.setUpdateVersion(updateVersion);
-        result.setCreateDate(createDate);
-        result.setLastUpdate(lastUpdate);
 
         return result;
     }
 
     public int getId() {
-        return id != null ? id : 0;
+        return id;
     }
 
     public void setId(Value value) {
-        Integer id = value != null ? value.getInteger() : null;
+        int id = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
         setId(id);
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
     public int getQueryId() {
-        return queryId != null ? queryId : 0;
+        return queryId;
     }
 
     public void setQueryId(Value value) {
-        Integer queryId = value != null ? value.getInteger() : null;
+        int queryId = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
         setQueryId(queryId);
     }
 
-    public void setQueryId(Integer queryId) {
+    public void setQueryId(int queryId) {
         this.queryId = queryId;
     }
 
     public int getFilterId() {
-        return filterId != null ? filterId : 0;
+        return filterId;
     }
 
     public void setFilterId(Value value) {
-        Integer filterId = value != null ? value.getInteger() : null;
+        int filterId = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
         setFilterId(filterId);
     }
 
-    public void setFilterId(Integer filterId) {
+    public void setFilterId(int filterId) {
         this.filterId = filterId;
+    }
+
+    public int getExpressionCode() {
+        return expressionCode;
+    }
+
+    public void setExpressionCode(Value value) {
+        int expressionCode = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
+        setExpressionCode(expressionCode);
+    }
+
+    public void setExpressionCode(int expressionCode) {
+        this.expressionCode = expressionCode;
+    }
+
+    @NotNull
+    public String getParameterName() {
+        return parameterName != null ? parameterName : "";
+    }
+
+    public void setParameterName(Value value) {
+        String parameterName = value != null ? value.getString() : null;
+        setParameterName(parameterName);
+    }
+
+    public void setParameterName(String parameterName) {
+        this.parameterName = parameterName != null ? parameterName.trim() : "";
     }
 
     public Value getValue(Class<?> valueType) {
@@ -246,58 +257,6 @@ public final class QueryFilterInValueDto implements Serializable {
 
     public void setValueDate(Date valueDate) {
         this.valueDate = valueDate;
-    }
-
-    public int getShowPriority() {
-        return showPriority != null ? showPriority : 0;
-    }
-
-    public void setShowPriority(Value value) {
-        Integer showPriority = value != null ? value.getInteger() : null;
-        setShowPriority(showPriority);
-    }
-
-    public void setShowPriority(Integer showPriority) {
-        this.showPriority = showPriority;
-    }
-
-    public int getUpdateVersion() {
-        return updateVersion != null ? updateVersion : 0;
-    }
-
-    public void setUpdateVersion(Value value) {
-        Integer updateVersion = value != null ? value.getInteger() : null;
-        setUpdateVersion(updateVersion);
-    }
-
-    public void setUpdateVersion(Integer updateVersion) {
-        this.updateVersion = updateVersion;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Value value) {
-        Date createDate = value != null ? value.getDate() : null;
-        setCreateDate(createDate);
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(Value value) {
-        Date lastUpdate = value != null ? value.getDate() : null;
-        setLastUpdate(lastUpdate);
-    }
-
-    public void setLastUpdate(Date lastUpdate) {
-        this.lastUpdate = lastUpdate;
     }
 
 }

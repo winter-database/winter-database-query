@@ -1,40 +1,43 @@
 package io.github.winter.database.query.dto;
 
 import io.github.winter.boot.tuple.Value;
+import io.github.winter.database.query.BooleanCast;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
- * 表达式
+ * 模糊匹配
  *
  * @author changebooks@qq.com
  */
-public final class QueryFilterExpressionDto implements Serializable {
+public final class QueryFilterWildcard implements Serializable {
     /**
      * 主键
      */
-    private Integer id;
+    private int id;
 
     /**
      * 查询主键
      */
-    private Integer queryId;
+    private int queryId;
 
     /**
      * 条件主键
      */
-    private Integer filterId;
+    private int filterId;
+
+    /**
+     * 取反？
+     */
+    private boolean not;
 
     /**
      * 编码
      */
-    private Integer expressionCode;
+    private int wildcardCode;
 
     /**
      * 参数名
@@ -67,31 +70,16 @@ public final class QueryFilterExpressionDto implements Serializable {
     private Date valueDate;
 
     /**
-     * 更新版本
-     */
-    private Integer updateVersion;
-
-    /**
-     * 创建时间
-     */
-    private Date createDate;
-
-    /**
-     * 更新时间
-     */
-    private Date lastUpdate;
-
-    /**
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryFilterExpressionDto} instance ]
+     * @return [ the {@link QueryFilterWildcard} instance ]
      */
-    public static List<QueryFilterExpressionDto> newInstance(List<Map<String, Value>> list) {
+    public static List<QueryFilterWildcard> newInstance(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryFilterExpressionDto::newInstance)
+                    .map(QueryFilterWildcard::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -103,9 +91,9 @@ public final class QueryFilterExpressionDto implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryFilterExpressionDto} instance
+     * @return the {@link QueryFilterWildcard} instance
      */
-    public static QueryFilterExpressionDto newInstance(Map<String, Value> record) {
+    public static QueryFilterWildcard newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
@@ -113,86 +101,96 @@ public final class QueryFilterExpressionDto implements Serializable {
         Value id = record.get("id");
         Value queryId = record.get("query_id");
         Value filterId = record.get("filter_id");
-        Value expressionCode = record.get("expression_code");
+        Value isNot = record.get("is_not");
+        Value wildcardCode = record.get("wildcard_code");
         Value parameterName = record.get("parameter_name");
         Value valueString = record.get("value_string");
         Value valueInteger = record.get("value_integer");
         Value valueLong = record.get("value_long");
         Value valueBigDecimal = record.get("value_big_decimal");
         Value valueDate = record.get("value_date");
-        Value updateVersion = record.get("update_version");
-        Value createDate = record.get("create_date");
-        Value lastUpdate = record.get("last_update");
 
-        QueryFilterExpressionDto result = new QueryFilterExpressionDto();
+        QueryFilterWildcard result = new QueryFilterWildcard();
 
         result.setId(id);
         result.setQueryId(queryId);
         result.setFilterId(filterId);
-        result.setExpressionCode(expressionCode);
+        result.setNot(isNot);
+        result.setWildcardCode(wildcardCode);
         result.setParameterName(parameterName);
         result.setValueString(valueString);
         result.setValueInteger(valueInteger);
         result.setValueLong(valueLong);
         result.setValueBigDecimal(valueBigDecimal);
         result.setValueDate(valueDate);
-        result.setUpdateVersion(updateVersion);
-        result.setCreateDate(createDate);
-        result.setLastUpdate(lastUpdate);
 
         return result;
     }
 
     public int getId() {
-        return id != null ? id : 0;
+        return id;
     }
 
     public void setId(Value value) {
-        Integer id = value != null ? value.getInteger() : null;
+        int id = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
         setId(id);
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
     public int getQueryId() {
-        return queryId != null ? queryId : 0;
+        return queryId;
     }
 
     public void setQueryId(Value value) {
-        Integer queryId = value != null ? value.getInteger() : null;
+        int queryId = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
         setQueryId(queryId);
     }
 
-    public void setQueryId(Integer queryId) {
+    public void setQueryId(int queryId) {
         this.queryId = queryId;
     }
 
     public int getFilterId() {
-        return filterId != null ? filterId : 0;
+        return filterId;
     }
 
     public void setFilterId(Value value) {
-        Integer filterId = value != null ? value.getInteger() : null;
+        int filterId = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
         setFilterId(filterId);
     }
 
-    public void setFilterId(Integer filterId) {
+    public void setFilterId(int filterId) {
         this.filterId = filterId;
     }
 
-    public int getExpressionCode() {
-        return expressionCode != null ? expressionCode : 0;
+    public boolean isNot() {
+        return not;
     }
 
-    public void setExpressionCode(Value value) {
-        Integer expressionCode = value != null ? value.getInteger() : null;
-        setExpressionCode(expressionCode);
+    public void setNot(Value value) {
+        Integer not = value != null ? value.getInteger() : null;
+        boolean isNot = BooleanCast.fromInt(not);
+        setNot(isNot);
     }
 
-    public void setExpressionCode(Integer expressionCode) {
-        this.expressionCode = expressionCode;
+    public void setNot(boolean not) {
+        this.not = not;
+    }
+
+    public int getWildcardCode() {
+        return wildcardCode;
+    }
+
+    public void setWildcardCode(Value value) {
+        int wildcardCode = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
+        setWildcardCode(wildcardCode);
+    }
+
+    public void setWildcardCode(int wildcardCode) {
+        this.wildcardCode = wildcardCode;
     }
 
     @NotNull
@@ -281,45 +279,6 @@ public final class QueryFilterExpressionDto implements Serializable {
 
     public void setValueDate(Date valueDate) {
         this.valueDate = valueDate;
-    }
-
-    public int getUpdateVersion() {
-        return updateVersion != null ? updateVersion : 0;
-    }
-
-    public void setUpdateVersion(Value value) {
-        Integer updateVersion = value != null ? value.getInteger() : null;
-        setUpdateVersion(updateVersion);
-    }
-
-    public void setUpdateVersion(Integer updateVersion) {
-        this.updateVersion = updateVersion;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Value value) {
-        Date createDate = value != null ? value.getDate() : null;
-        setCreateDate(createDate);
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(Value value) {
-        Date lastUpdate = value != null ? value.getDate() : null;
-        setLastUpdate(lastUpdate);
-    }
-
-    public void setLastUpdate(Date lastUpdate) {
-        this.lastUpdate = lastUpdate;
     }
 
 }
