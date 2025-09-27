@@ -34,7 +34,7 @@ public final class QueryFilterInDto implements Serializable {
     /**
      * 取反？
      */
-    private Boolean isNot;
+    private boolean isNot;
 
     /**
      * 子查询主键
@@ -93,7 +93,7 @@ public final class QueryFilterInDto implements Serializable {
         Value id = record.get("id");
         Value queryId = record.get("query_id");
         Value filterId = record.get("filter_id");
-        Value not = record.get("is_not");
+        Value isNot = record.get("is_not");
         Value subQueryId = record.get("sub_query_id");
         Value parameterName = record.get("parameter_name");
         Value updateVersion = record.get("update_version");
@@ -105,7 +105,7 @@ public final class QueryFilterInDto implements Serializable {
         result.setId(id);
         result.setQueryId(queryId);
         result.setFilterId(filterId);
-        result.setNot(not);
+        result.setNot(isNot);
         result.setSubQueryId(subQueryId);
         result.setParameterName(parameterName);
         result.setUpdateVersion(updateVersion);
@@ -154,7 +154,7 @@ public final class QueryFilterInDto implements Serializable {
         this.filterId = filterId;
     }
 
-    public Boolean getNot() {
+    public boolean isNot() {
         return isNot;
     }
 
@@ -164,8 +164,8 @@ public final class QueryFilterInDto implements Serializable {
         setNot(isNot);
     }
 
-    public void setNot(Boolean not) {
-        isNot = not;
+    public void setNot(Boolean isNot) {
+        this.isNot = isNot != null ? isNot : false;
     }
 
     public int getSubQueryId() {

@@ -29,17 +29,17 @@ public final class QueryDto implements Serializable {
     /**
      * 去重？
      */
-    private Boolean isDistinct;
+    private boolean isDistinct;
 
     /**
      * 全字段？
      */
-    private Boolean isAsterisk;
+    private boolean isAsterisk;
 
     /**
      * 用参数名？
      */
-    private Boolean isParameterName;
+    private boolean isParameterName;
 
     /**
      * 表名
@@ -117,9 +117,9 @@ public final class QueryDto implements Serializable {
 
         Value id = record.get("id");
         Value queryName = record.get("query_name");
-        Value distinct = record.get("is_distinct");
-        Value asterisk = record.get("is_asterisk");
-        Value parameterName = record.get("is_parameter_name");
+        Value isDistinct = record.get("is_distinct");
+        Value isAsterisk = record.get("is_asterisk");
+        Value isParameterName = record.get("is_parameter_name");
         Value fromTable = record.get("from_table");
         Value pageOffset = record.get("page_offset");
         Value pageLimit = record.get("page_limit");
@@ -134,9 +134,9 @@ public final class QueryDto implements Serializable {
 
         result.setId(id);
         result.setQueryName(queryName);
-        result.setDistinct(distinct);
-        result.setAsterisk(asterisk);
-        result.setParameterName(parameterName);
+        result.setDistinct(isDistinct);
+        result.setAsterisk(isAsterisk);
+        result.setParameterName(isParameterName);
         result.setFromTable(fromTable);
         result.setPageOffset(pageOffset);
         result.setPageLimit(pageLimit);
@@ -176,8 +176,8 @@ public final class QueryDto implements Serializable {
         this.queryName = queryName;
     }
 
-    public boolean getDistinct() {
-        return isDistinct != null ? isDistinct : false;
+    public boolean isDistinct() {
+        return isDistinct;
     }
 
     public void setDistinct(Value value) {
@@ -186,12 +186,12 @@ public final class QueryDto implements Serializable {
         setDistinct(isDistinct);
     }
 
-    public void setDistinct(Boolean distinct) {
-        isDistinct = distinct;
+    public void setDistinct(Boolean isDistinct) {
+        this.isDistinct = isDistinct != null ? isDistinct : false;
     }
 
-    public boolean getAsterisk() {
-        return isAsterisk != null ? isAsterisk : false;
+    public boolean isAsterisk() {
+        return isAsterisk;
     }
 
     public void setAsterisk(Value value) {
@@ -200,12 +200,12 @@ public final class QueryDto implements Serializable {
         setAsterisk(isAsterisk);
     }
 
-    public void setAsterisk(Boolean asterisk) {
-        isAsterisk = asterisk;
+    public void setAsterisk(Boolean isAsterisk) {
+        this.isAsterisk = isAsterisk != null ? isAsterisk : false;
     }
 
-    public boolean getParameterName() {
-        return isParameterName != null ? isParameterName : false;
+    public boolean isParameterName() {
+        return isParameterName;
     }
 
     public void setParameterName(Value value) {
@@ -214,8 +214,8 @@ public final class QueryDto implements Serializable {
         setParameterName(isParameterName);
     }
 
-    public void setParameterName(Boolean parameterName) {
-        isParameterName = parameterName;
+    public void setParameterName(Boolean isParameterName) {
+        this.isParameterName = isParameterName != null ? isParameterName : false;
     }
 
     @NotNull

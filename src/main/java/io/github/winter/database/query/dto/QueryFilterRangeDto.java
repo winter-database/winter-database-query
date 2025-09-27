@@ -35,12 +35,12 @@ public final class QueryFilterRangeDto implements Serializable {
     /**
      * 包含开始？
      */
-    private Boolean isIncludeLower;
+    private boolean isIncludeLower;
 
     /**
      * 包含结束？
      */
-    private Boolean isIncludeUpper;
+    private boolean isIncludeUpper;
 
     /**
      * 开始参数名
@@ -149,8 +149,8 @@ public final class QueryFilterRangeDto implements Serializable {
         Value id = record.get("id");
         Value queryId = record.get("query_id");
         Value filterId = record.get("filter_id");
-        Value includeLower = record.get("is_include_lower");
-        Value includeUpper = record.get("is_include_upper");
+        Value isIncludeLower = record.get("is_include_lower");
+        Value isIncludeUpper = record.get("is_include_upper");
         Value fromParameterName = record.get("from_parameter_name");
         Value fromValueString = record.get("from_value_string");
         Value fromValueInteger = record.get("from_value_integer");
@@ -172,8 +172,8 @@ public final class QueryFilterRangeDto implements Serializable {
         result.setId(id);
         result.setQueryId(queryId);
         result.setFilterId(filterId);
-        result.setIncludeLower(includeLower);
-        result.setIncludeUpper(includeUpper);
+        result.setIncludeLower(isIncludeLower);
+        result.setIncludeUpper(isIncludeUpper);
         result.setFromParameterName(fromParameterName);
         result.setFromValueString(fromValueString);
         result.setFromValueInteger(fromValueInteger);
@@ -232,7 +232,7 @@ public final class QueryFilterRangeDto implements Serializable {
         this.filterId = filterId;
     }
 
-    public Boolean getIncludeLower() {
+    public boolean isIncludeLower() {
         return isIncludeLower;
     }
 
@@ -242,11 +242,11 @@ public final class QueryFilterRangeDto implements Serializable {
         setIncludeLower(isIncludeLower);
     }
 
-    public void setIncludeLower(Boolean includeLower) {
-        isIncludeLower = includeLower;
+    public void setIncludeLower(Boolean isIncludeLower) {
+        this.isIncludeLower = isIncludeLower != null ? isIncludeLower : false;
     }
 
-    public Boolean getIncludeUpper() {
+    public boolean isIncludeUpper() {
         return isIncludeUpper;
     }
 
@@ -256,8 +256,8 @@ public final class QueryFilterRangeDto implements Serializable {
         setIncludeUpper(isIncludeUpper);
     }
 
-    public void setIncludeUpper(Boolean includeUpper) {
-        isIncludeUpper = includeUpper;
+    public void setIncludeUpper(Boolean isIncludeUpper) {
+        this.isIncludeUpper = isIncludeUpper != null ? isIncludeUpper : false;
     }
 
     @NotNull

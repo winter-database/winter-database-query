@@ -58,7 +58,7 @@ public final class QueryFilterDto implements Serializable {
     /**
      * 分组条件？
      */
-    private Boolean isHaving;
+    private boolean isHaving;
 
     /**
      * 排序
@@ -119,7 +119,7 @@ public final class QueryFilterDto implements Serializable {
         Value funcType = record.get("func_type");
         Value filterType = record.get("filter_type");
         Value logicalOperator = record.get("logical_operator");
-        Value having = record.get("is_having");
+        Value isHaving = record.get("is_having");
         Value showPriority = record.get("show_priority");
         Value updateVersion = record.get("update_version");
         Value createDate = record.get("create_date");
@@ -135,7 +135,7 @@ public final class QueryFilterDto implements Serializable {
         result.setFuncType(funcType);
         result.setFilterType(filterType);
         result.setLogicalOperator(logicalOperator);
-        result.setHaving(having);
+        result.setHaving(isHaving);
         result.setShowPriority(showPriority);
         result.setUpdateVersion(updateVersion);
         result.setCreateDate(createDate);
@@ -253,8 +253,8 @@ public final class QueryFilterDto implements Serializable {
         this.logicalOperator = logicalOperator;
     }
 
-    public boolean getHaving() {
-        return isHaving != null ? isHaving : false;
+    public boolean isHaving() {
+        return isHaving;
     }
 
     public void setHaving(Value value) {
@@ -263,8 +263,8 @@ public final class QueryFilterDto implements Serializable {
         setHaving(isHaving);
     }
 
-    public void setHaving(Boolean having) {
-        isHaving = having;
+    public void setHaving(Boolean isHaving) {
+        this.isHaving = isHaving != null ? isHaving : false;
     }
 
     public int getShowPriority() {

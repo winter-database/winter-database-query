@@ -35,7 +35,7 @@ public final class QueryFilterWildcardDto implements Serializable {
     /**
      * 取反？
      */
-    private Boolean isNot;
+    private boolean isNot;
 
     /**
      * 编码
@@ -190,7 +190,7 @@ public final class QueryFilterWildcardDto implements Serializable {
         this.filterId = filterId;
     }
 
-    public Boolean getNot() {
+    public boolean isNot() {
         return isNot;
     }
 
@@ -200,8 +200,8 @@ public final class QueryFilterWildcardDto implements Serializable {
         setNot(isNot);
     }
 
-    public void setNot(Boolean not) {
-        isNot = not;
+    public void setNot(Boolean isNot) {
+        this.isNot = isNot != null ? isNot : false;
     }
 
     public int getWildcardCode() {

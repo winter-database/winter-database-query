@@ -33,7 +33,7 @@ public final class QueryFilterNullDto implements Serializable {
     /**
      * 取反？
      */
-    private Boolean isNot;
+    private boolean isNot;
 
     /**
      * 更新版本
@@ -82,7 +82,7 @@ public final class QueryFilterNullDto implements Serializable {
         Value id = record.get("id");
         Value queryId = record.get("query_id");
         Value filterId = record.get("filter_id");
-        Value not = record.get("is_not");
+        Value isNot = record.get("is_not");
         Value updateVersion = record.get("update_version");
         Value createDate = record.get("create_date");
         Value lastUpdate = record.get("last_update");
@@ -92,7 +92,7 @@ public final class QueryFilterNullDto implements Serializable {
         result.setId(id);
         result.setQueryId(queryId);
         result.setFilterId(filterId);
-        result.setNot(not);
+        result.setNot(isNot);
         result.setUpdateVersion(updateVersion);
         result.setCreateDate(createDate);
         result.setLastUpdate(lastUpdate);
@@ -139,7 +139,7 @@ public final class QueryFilterNullDto implements Serializable {
         this.filterId = filterId;
     }
 
-    public Boolean getNot() {
+    public boolean isNot() {
         return isNot;
     }
 
@@ -149,8 +149,8 @@ public final class QueryFilterNullDto implements Serializable {
         setNot(isNot);
     }
 
-    public void setNot(Boolean not) {
-        isNot = not;
+    public void setNot(Boolean isNot) {
+        this.isNot = isNot != null ? isNot : false;
     }
 
     public int getUpdateVersion() {
