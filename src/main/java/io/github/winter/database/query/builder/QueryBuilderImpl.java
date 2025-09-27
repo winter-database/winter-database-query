@@ -5,7 +5,7 @@ import io.github.winter.boot.sql.Preconditions;
 import io.github.winter.boot.sql.SqlParameter;
 import io.github.winter.boot.tuple.Value;
 import io.github.winter.database.query.*;
-import io.github.winter.database.query.dto.*;
+import io.github.winter.database.query.dto.QueryDto;
 import io.github.winter.database.query.parser.QueryParserImpl;
 import io.github.winter.database.table.TableSchema;
 import io.github.winter.database.template.TableSchemaRegistry;

@@ -1,6 +1,7 @@
-package io.github.winter.database.query.dto;
+package io.github.winter.database.query.builder;
 
 import io.github.winter.boot.tuple.Value;
+import io.github.winter.database.query.BooleanCast;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -12,11 +13,11 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 /**
- * 字段
+ * 条件
  *
  * @author changebooks@qq.com
  */
-public final class QueryColumn implements Serializable {
+public final class QueryFilter implements Serializable {
     /**
      * 主键
      */
@@ -26,6 +27,11 @@ public final class QueryColumn implements Serializable {
      * 查询主键
      */
     private int queryId;
+
+    /**
+     * 父条件主键
+     */
+    private int parentId;
 
     /**
      * 表名
@@ -38,23 +44,33 @@ public final class QueryColumn implements Serializable {
     private String columnName;
 
     /**
-     * 别名
-     */
-    private String asName;
-
-    /**
      * 函数类型
      */
     private int funcType;
+
+    /**
+     * 条件类型
+     */
+    private int filterType;
+
+    /**
+     * 逻辑与或
+     */
+    private int logicalOperator;
+
+    /**
+     * 分组条件？
+     */
+    private boolean having;
 
     /**
      * Build Instance List
      *
      * @param list      [ [ Column Name : Column Value ] ]
      * @param fromTable Table Name
-     * @return [ the {@link QueryColumn} instance ]
+     * @return [ the {@link QueryFilter} instance ]
      */
-    public static List<QueryColumn> newInstance(List<Map<String, Value>> list, @NotEmpty String fromTable) {
+    public static List<QueryFilter> newInstance(List<Map<String, Value>> list, @NotEmpty String fromTable) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
@@ -71,28 +87,34 @@ public final class QueryColumn implements Serializable {
      *
      * @param record    [ Column Name : Column Value ]
      * @param fromTable Table Name
-     * @return the {@link QueryColumn} instance
+     * @return the {@link QueryFilter} instance
      */
-    public static QueryColumn newInstance(Map<String, Value> record, @NotEmpty String fromTable) {
+    public static QueryFilter newInstance(Map<String, Value> record, @NotEmpty String fromTable) {
         if (record == null) {
             return null;
         }
 
         Value id = record.get("id");
         Value queryId = record.get("query_id");
+        Value parentId = record.get("parent_id");
         Value tableName = record.get("table_name");
         Value columnName = record.get("column_name");
-        Value asName = record.get("as_name");
         Value funcType = record.get("func_type");
+        Value filterType = record.get("filter_type");
+        Value logicalOperator = record.get("logical_operator");
+        Value isHaving = record.get("is_having");
 
-        QueryColumn result = new QueryColumn();
+        QueryFilter result = new QueryFilter();
 
         result.setId(id);
         result.setQueryId(queryId);
+        result.setParentId(parentId);
         result.setTableName(tableName, fromTable);
         result.setColumnName(columnName);
-        result.setAsName(asName);
         result.setFuncType(funcType);
+        result.setFilterType(filterType);
+        result.setLogicalOperator(logicalOperator);
+        result.setHaving(isHaving);
 
         return result;
     }
@@ -121,6 +143,19 @@ public final class QueryColumn implements Serializable {
 
     public void setQueryId(int queryId) {
         this.queryId = queryId;
+    }
+
+    public int getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Value value) {
+        int parentId = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
+        setParentId(parentId);
+    }
+
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
     }
 
     @NotNull
@@ -154,20 +189,6 @@ public final class QueryColumn implements Serializable {
         this.columnName = columnName != null ? columnName.trim() : "";
     }
 
-    @NotNull
-    public String getAsName() {
-        return asName != null ? asName : "";
-    }
-
-    public void setAsName(Value value) {
-        String asName = value != null ? value.getString() : null;
-        setAsName(asName);
-    }
-
-    public void setAsName(String asName) {
-        this.asName = asName != null ? asName.trim() : "";
-    }
-
     public int getFuncType() {
         return funcType;
     }
@@ -179,6 +200,46 @@ public final class QueryColumn implements Serializable {
 
     public void setFuncType(int funcType) {
         this.funcType = funcType;
+    }
+
+    public int getFilterType() {
+        return filterType;
+    }
+
+    public void setFilterType(Value value) {
+        int filterType = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
+        setFilterType(filterType);
+    }
+
+    public void setFilterType(int filterType) {
+        this.filterType = filterType;
+    }
+
+    public int getLogicalOperator() {
+        return logicalOperator;
+    }
+
+    public void setLogicalOperator(Value value) {
+        int logicalOperator = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
+        setLogicalOperator(logicalOperator);
+    }
+
+    public void setLogicalOperator(int logicalOperator) {
+        this.logicalOperator = logicalOperator;
+    }
+
+    public boolean isHaving() {
+        return having;
+    }
+
+    public void setHaving(Value value) {
+        Integer having = value != null ? value.getInteger() : null;
+        boolean isHaving = BooleanCast.fromInt(having);
+        setHaving(isHaving);
+    }
+
+    public void setHaving(boolean having) {
+        this.having = having;
     }
 
 }

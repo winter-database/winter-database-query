@@ -1,4 +1,4 @@
-package io.github.winter.database.query.dto;
+package io.github.winter.database.query.builder;
 
 import io.github.winter.boot.tuple.Value;
 import jakarta.validation.constraints.NotNull;

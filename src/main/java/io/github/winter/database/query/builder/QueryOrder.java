@@ -1,7 +1,6 @@
-package io.github.winter.database.query.dto;
+package io.github.winter.database.query.builder;
 
 import io.github.winter.boot.tuple.Value;
-import io.github.winter.database.query.BooleanCast;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -13,11 +12,11 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 /**
- * 条件
+ * 排序
  *
  * @author changebooks@qq.com
  */
-public final class QueryFilter implements Serializable {
+public final class QueryOrder implements Serializable {
     /**
      * 主键
      */
@@ -27,11 +26,6 @@ public final class QueryFilter implements Serializable {
      * 查询主键
      */
     private int queryId;
-
-    /**
-     * 父条件主键
-     */
-    private int parentId;
 
     /**
      * 表名
@@ -49,28 +43,18 @@ public final class QueryFilter implements Serializable {
     private int funcType;
 
     /**
-     * 条件类型
+     * 排序方式
      */
-    private int filterType;
-
-    /**
-     * 逻辑与或
-     */
-    private int logicalOperator;
-
-    /**
-     * 分组条件？
-     */
-    private boolean having;
+    private int orderType;
 
     /**
      * Build Instance List
      *
      * @param list      [ [ Column Name : Column Value ] ]
      * @param fromTable Table Name
-     * @return [ the {@link QueryFilter} instance ]
+     * @return [ the {@link QueryOrder} instance ]
      */
-    public static List<QueryFilter> newInstance(List<Map<String, Value>> list, @NotEmpty String fromTable) {
+    public static List<QueryOrder> newInstance(List<Map<String, Value>> list, @NotEmpty String fromTable) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
@@ -87,34 +71,28 @@ public final class QueryFilter implements Serializable {
      *
      * @param record    [ Column Name : Column Value ]
      * @param fromTable Table Name
-     * @return the {@link QueryFilter} instance
+     * @return the {@link QueryOrder} instance
      */
-    public static QueryFilter newInstance(Map<String, Value> record, @NotEmpty String fromTable) {
+    public static QueryOrder newInstance(Map<String, Value> record, @NotEmpty String fromTable) {
         if (record == null) {
             return null;
         }
 
         Value id = record.get("id");
         Value queryId = record.get("query_id");
-        Value parentId = record.get("parent_id");
         Value tableName = record.get("table_name");
         Value columnName = record.get("column_name");
         Value funcType = record.get("func_type");
-        Value filterType = record.get("filter_type");
-        Value logicalOperator = record.get("logical_operator");
-        Value isHaving = record.get("is_having");
+        Value orderType = record.get("order_type");
 
-        QueryFilter result = new QueryFilter();
+        QueryOrder result = new QueryOrder();
 
         result.setId(id);
         result.setQueryId(queryId);
-        result.setParentId(parentId);
         result.setTableName(tableName, fromTable);
         result.setColumnName(columnName);
         result.setFuncType(funcType);
-        result.setFilterType(filterType);
-        result.setLogicalOperator(logicalOperator);
-        result.setHaving(isHaving);
+        result.setOrderType(orderType);
 
         return result;
     }
@@ -143,19 +121,6 @@ public final class QueryFilter implements Serializable {
 
     public void setQueryId(int queryId) {
         this.queryId = queryId;
-    }
-
-    public int getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Value value) {
-        int parentId = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
-        setParentId(parentId);
-    }
-
-    public void setParentId(int parentId) {
-        this.parentId = parentId;
     }
 
     @NotNull
@@ -202,44 +167,17 @@ public final class QueryFilter implements Serializable {
         this.funcType = funcType;
     }
 
-    public int getFilterType() {
-        return filterType;
+    public int getOrderType() {
+        return orderType;
     }
 
-    public void setFilterType(Value value) {
-        int filterType = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
-        setFilterType(filterType);
+    public void setOrderType(Value value) {
+        int orderType = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
+        setOrderType(orderType);
     }
 
-    public void setFilterType(int filterType) {
-        this.filterType = filterType;
-    }
-
-    public int getLogicalOperator() {
-        return logicalOperator;
-    }
-
-    public void setLogicalOperator(Value value) {
-        int logicalOperator = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
-        setLogicalOperator(logicalOperator);
-    }
-
-    public void setLogicalOperator(int logicalOperator) {
-        this.logicalOperator = logicalOperator;
-    }
-
-    public boolean isHaving() {
-        return having;
-    }
-
-    public void setHaving(Value value) {
-        Integer having = value != null ? value.getInteger() : null;
-        boolean isHaving = BooleanCast.fromInt(having);
-        setHaving(isHaving);
-    }
-
-    public void setHaving(boolean having) {
-        this.having = having;
+    public void setOrderType(int orderType) {
+        this.orderType = orderType;
     }
 
 }

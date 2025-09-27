@@ -1,17 +1,18 @@
-package io.github.winter.database.query.dto;
+package io.github.winter.database.query.builder;
 
 import io.github.winter.boot.tuple.Value;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.*;
 
 /**
- * 列表值
+ * 表达式
  *
  * @author changebooks@qq.com
  */
-public final class QueryFilterInValue implements Serializable {
+public final class QueryFilterExpression implements Serializable {
     /**
      * 主键
      */
@@ -26,6 +27,16 @@ public final class QueryFilterInValue implements Serializable {
      * 条件主键
      */
     private int filterId;
+
+    /**
+     * 编码
+     */
+    private int expressionCode;
+
+    /**
+     * 参数名
+     */
+    private String parameterName;
 
     /**
      * 字符串
@@ -56,13 +67,13 @@ public final class QueryFilterInValue implements Serializable {
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryFilterInValue} instance ]
+     * @return [ the {@link QueryFilterExpression} instance ]
      */
-    public static List<QueryFilterInValue> newInstance(List<Map<String, Value>> list) {
+    public static List<QueryFilterExpression> newInstance(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryFilterInValue::newInstance)
+                    .map(QueryFilterExpression::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -74,9 +85,9 @@ public final class QueryFilterInValue implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryFilterInValue} instance
+     * @return the {@link QueryFilterExpression} instance
      */
-    public static QueryFilterInValue newInstance(Map<String, Value> record) {
+    public static QueryFilterExpression newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
@@ -84,17 +95,21 @@ public final class QueryFilterInValue implements Serializable {
         Value id = record.get("id");
         Value queryId = record.get("query_id");
         Value filterId = record.get("filter_id");
+        Value expressionCode = record.get("expression_code");
+        Value parameterName = record.get("parameter_name");
         Value valueString = record.get("value_string");
         Value valueInteger = record.get("value_integer");
         Value valueLong = record.get("value_long");
         Value valueBigDecimal = record.get("value_big_decimal");
         Value valueDate = record.get("value_date");
 
-        QueryFilterInValue result = new QueryFilterInValue();
+        QueryFilterExpression result = new QueryFilterExpression();
 
         result.setId(id);
         result.setQueryId(queryId);
         result.setFilterId(filterId);
+        result.setExpressionCode(expressionCode);
+        result.setParameterName(parameterName);
         result.setValueString(valueString);
         result.setValueInteger(valueInteger);
         result.setValueLong(valueLong);
@@ -141,6 +156,33 @@ public final class QueryFilterInValue implements Serializable {
 
     public void setFilterId(int filterId) {
         this.filterId = filterId;
+    }
+
+    public int getExpressionCode() {
+        return expressionCode;
+    }
+
+    public void setExpressionCode(Value value) {
+        int expressionCode = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
+        setExpressionCode(expressionCode);
+    }
+
+    public void setExpressionCode(int expressionCode) {
+        this.expressionCode = expressionCode;
+    }
+
+    @NotNull
+    public String getParameterName() {
+        return parameterName != null ? parameterName : "";
+    }
+
+    public void setParameterName(Value value) {
+        String parameterName = value != null ? value.getString() : null;
+        setParameterName(parameterName);
+    }
+
+    public void setParameterName(String parameterName) {
+        this.parameterName = parameterName != null ? parameterName.trim() : "";
     }
 
     public Value getValue(Class<?> valueType) {
