@@ -3,6 +3,8 @@ package io.github.winter.database.query.builder;
 import io.github.winter.database.query.Column;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.List;
+
 /**
  * 创建字段
  *
@@ -20,6 +22,14 @@ public interface ColumnBuilder {
      */
     @NotNull
     Column build(int funcType, String tableName, String columnName, String asName);
+
+    /**
+     * 全字段
+     *
+     * @param tableNames [ 表名 ]
+     * @return [ the {@link Column} instance ]
+     */
+    List<Column> buildAsterisk(List<String> tableNames);
 
     /**
      * 连接别名

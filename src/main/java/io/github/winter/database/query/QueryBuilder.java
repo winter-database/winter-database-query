@@ -5,11 +5,7 @@ import io.github.winter.boot.filter.Order;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * 创建查询
@@ -34,88 +30,6 @@ public interface QueryBuilder {
     Query build(int id);
 
     /**
-     * 子查询
-     *
-     * @param id 查询主键
-     * @return Sub Query Sql
-     */
-    String getSubQuery(int id);
-
-    /**
-     * 字段
-     *
-     * @param queryId   查询主键
-     * @param fromTable 表名
-     * @param asterisk  全字段？
-     * @param joins     [ the {@link Join} instance ]
-     * @return [ the {@link Column} instance ]
-     */
-    default List<Column> selectColumn(int queryId, @NotEmpty String fromTable, boolean asterisk, List<Join> joins) {
-        if (asterisk) {
-            List<String> asteriskTables = selectAsteriskTables(fromTable, joins);
-            return selectColumn(queryId, fromTable, asteriskTables);
-        } else {
-            return selectColumn(queryId, fromTable);
-        }
-    }
-
-    /**
-     * 字段 + 全字段
-     *
-     * @param queryId        查询主键
-     * @param fromTable      表名
-     * @param asteriskTables 全字段表名
-     * @return [ the {@link Column} instance ]
-     */
-    default List<Column> selectColumn(int queryId, @NotEmpty String fromTable, List<String> asteriskTables) {
-        List<Column> result = selectColumn(queryId, fromTable);
-
-        if (asteriskTables == null || asteriskTables.isEmpty()) {
-            return result;
-        }
-
-        if (result == null) {
-            result = new ArrayList<>();
-        }
-
-        Set<String> asNames = result.stream()
-                .filter(Objects::nonNull)
-                .map(Column::getAsName)
-                .collect(Collectors.toSet());
-
-        for (String tableName : asteriskTables) {
-            if (tableName == null || tableName.isEmpty()) {
-                continue;
-            }
-
-            List<Column> columns = selectAsterisk(tableName);
-            if (columns == null) {
-                continue;
-            }
-
-            for (Column column : columns) {
-                if (column == null) {
-                    continue;
-                }
-
-                String asName = column.getAsName();
-                if (asName.isEmpty()) {
-                    continue;
-                }
-
-                if (asNames.contains(asName)) {
-                    continue;
-                }
-
-                asNames.add(asName);
-                result.add(column);
-            }
-        }
-
-        return result;
-    }
-
-    /**
      * 字段
      *
      * @param queryId   查询主键
@@ -125,48 +39,14 @@ public interface QueryBuilder {
     List<Column> selectColumn(int queryId, @NotEmpty String fromTable);
 
     /**
-     * 全字段
-     *
-     * @param fromTable 表名
-     * @return [ the {@link Column} instance ]
-     */
-    List<Column> selectAsterisk(@NotEmpty String fromTable);
-
-    /**
-     * 全字段表名
+     * 全部表名
      *
      * @param fromTable 表名
      * @param joins     [ the {@link Join} instance ]
      * @return [ 表名 ]
      */
     @NotNull
-    default List<String> selectAsteriskTables(@NotEmpty String fromTable, List<Join> joins) {
-        List<String> result = new ArrayList<>();
-        result.add(fromTable);
-
-        if (joins == null) {
-            return result;
-        }
-
-        for (Join join : joins) {
-            if (join == null) {
-                continue;
-            }
-
-            String tableName = join.getTableName();
-            if (tableName.isEmpty()) {
-                continue;
-            }
-
-            if (result.contains(tableName)) {
-                continue;
-            }
-
-            result.add(tableName);
-        }
-
-        return result;
-    }
+    List<String> selectTableName(@NotEmpty String fromTable, List<Join> joins);
 
     /**
      * 连表
@@ -188,12 +68,12 @@ public interface QueryBuilder {
     /**
      * 分组
      *
-     * @param queryId   查询主键
-     * @param subQuery  子查询？
-     * @param fromTable 表名
+     * @param queryId         查询主键
+     * @param isParameterName 忽略参数名？
+     * @param fromTable       表名
      * @return the {@link Group} instance
      */
-    Group selectGroup(int queryId, boolean subQuery, @NotEmpty String fromTable);
+    Group selectGroup(int queryId, boolean isParameterName, @NotEmpty String fromTable);
 
     /**
      * 排序
@@ -207,32 +87,33 @@ public interface QueryBuilder {
     /**
      * 条件
      *
-     * @param isHaving  分组条件？
-     * @param queryId   查询主键
-     * @param parentId  父条件主键
-     * @param subQuery  子查询？
-     * @param fromTable 表名
+     * @param isHaving        分组条件？
+     * @param queryId         查询主键
+     * @param parentId        父条件主键
+     * @param isParameterName 忽略参数名？
+     * @param fromTable       表名
      * @return [ the {@link BaseFilter} instance ]
      */
-    List<BaseFilter> selectFilter(int isHaving, int queryId, int parentId, boolean subQuery, @NotEmpty String fromTable);
+    List<BaseFilter> selectFilter(int isHaving, int queryId, int parentId, boolean isParameterName, @NotEmpty String fromTable);
 
     /**
      * 参数名
      *
-     * @param subQuery      子查询？
-     * @param parameterName 自定义的参数名
-     * @param filterName    条件名
-     * @return 自定义的参数名或条件名
+     * @param isParameterName 忽略参数名？
+     * @param parameterName   自定义的参数名
+     * @param filterName      条件名
+     * @return 忽略参数名，或自定义的参数名，或条件名
      */
-    default String getParameterName(boolean subQuery, String parameterName, String filterName) {
-        if (subQuery) {
-            return "";
-        }
-
-        if (parameterName == null || parameterName.isEmpty()) {
-            return filterName;
+    @NotNull
+    default String getParameterName(boolean isParameterName, String parameterName, String filterName) {
+        if (isParameterName) {
+            if (parameterName == null || parameterName.isEmpty()) {
+                return filterName == null ? "" : filterName;
+            } else {
+                return parameterName;
+            }
         } else {
-            return parameterName;
+            return "";
         }
     }
 

@@ -7,8 +7,7 @@ import io.github.winter.database.table.TableSchema;
 import io.github.winter.database.template.TableSchemaRegistry;
 
 import java.math.BigDecimal;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -35,6 +34,55 @@ public class ColumnBuilderImpl implements ColumnBuilder {
         result.setTableName(tableName);
         result.setColumnName(columnName);
         result.setValueType(valueType);
+
+        return result;
+    }
+
+    @Override
+    public List<Column> buildAsterisk(List<String> tableNames) {
+        if (tableNames == null) {
+            return null;
+        }
+
+        List<Column> result = new ArrayList<>();
+        Set<String> asNameSet = new HashSet<>();
+        Set<String> fieldNameSet = new HashSet<>();
+
+        for (String fromTable : tableNames) {
+            if (fromTable == null || fromTable.isEmpty()) {
+                continue;
+            }
+
+            TableSchema tableSchema = TableSchemaRegistry.get(fromTable);
+            Preconditions.requireNonNull(tableSchema, "tableSchema must not be null, fromTable: " + fromTable);
+
+            String tableName = tableSchema.getTableName();
+            Preconditions.requireNonEmpty(tableName, "tableName must not be empty, fromTable: " + fromTable);
+
+            List<String> columnNames = tableSchema.getColumnNames();
+            Preconditions.requireNonEmpty(columnNames, "columnNames must not be empty, fromTable: " + fromTable);
+
+            for (String columnName : columnNames) {
+                Preconditions.requireNonNull(columnName, "columnName must not be null, fromTable: " + fromTable);
+                Preconditions.requireNonEmpty(columnName, "columnName must not be empty, fromTable: " + fromTable);
+
+                Column column = build(FuncType.NULL, tableName, columnName, null);
+
+                String asName = column.getAsName();
+                if (!asName.isEmpty() && asNameSet.contains(asName)) {
+                    continue;
+                }
+
+                String fieldName = column.getFieldName();
+                if (fieldNameSet.contains(fieldName)) {
+                    continue;
+                }
+
+                result.add(column);
+                asNameSet.add(asName);
+                fieldNameSet.add(fieldName);
+            }
+        }
 
         return result;
     }
