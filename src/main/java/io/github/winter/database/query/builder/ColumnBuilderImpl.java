@@ -2,7 +2,6 @@ package io.github.winter.database.query.builder;
 
 import io.github.winter.boot.sql.Preconditions;
 import io.github.winter.database.query.Column;
-import io.github.winter.database.query.ColumnBuilder;
 import io.github.winter.database.query.FuncType;
 import io.github.winter.database.table.TableSchema;
 import io.github.winter.database.template.TableSchemaRegistry;

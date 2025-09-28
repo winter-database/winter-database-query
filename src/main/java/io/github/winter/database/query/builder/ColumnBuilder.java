@@ -1,5 +1,6 @@
-package io.github.winter.database.query;
+package io.github.winter.database.query.builder;
 
+import io.github.winter.database.query.Column;
 import jakarta.validation.constraints.NotNull;
 
 /**
@@ -49,7 +50,7 @@ public interface ColumnBuilder {
      * @return 函数 + 表名 + 字段名
      */
     @NotNull
-    String joinFunc(int funcType, String fieldName);
+    String joinFunc(int funcType, @NotNull String fieldName);
 
     /**
      * 连接表名

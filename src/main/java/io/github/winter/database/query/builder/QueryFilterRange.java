@@ -247,7 +247,7 @@ public final class QueryFilterRange implements Serializable {
     }
 
     public void setFromParameterName(String fromParameterName) {
-        this.fromParameterName = fromParameterName;
+        this.fromParameterName = fromParameterName != null ? fromParameterName.trim() : "";
     }
 
     public Value getFromValue(Class<?> valueType) {

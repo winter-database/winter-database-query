@@ -1,7 +1,6 @@
 package io.github.winter.database.query.builder;
 
 import io.github.winter.boot.tuple.Value;
-import io.github.winter.database.query.dto.QueryDto;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -27,25 +26,23 @@ public class QuerySelect {
     /**
      * 查询全部
      *
-     * @return [ the {@link QueryDto} instance ]
+     * @return [ [ Column Name : Column Value ] ]
      */
-    public List<QueryDto> selectQueryAll() {
-        List<Map<String, Value>> list = selectTemplate.selectList("xquery", null);
-        return QueryDto.newInstance(list);
+    public List<Map<String, Value>> selectQueryAll() {
+        return selectTemplate.selectList("xquery", null);
     }
 
     /**
      * 查询
      *
      * @param id 主键
-     * @return the {@link QueryDto} instance
+     * @return [ Column Name : Column Value ]
      */
-    public QueryDto selectQuery(int id) {
+    public Map<String, Value> selectQuery(int id) {
         Map<String, Integer> filters = new HashMap<>();
         filters.put("id", id);
 
-        Map<String, Value> record = selectTemplate.selectOne("xquery", filters);
-        return QueryDto.newInstance(record);
+        return selectTemplate.selectOne("xquery", filters);
     }
 
     /**
