@@ -140,4 +140,38 @@ public final class QueryGetter {
         return Optional.ofNullable(value).map(Value::getInteger).orElse(0);
     }
 
+    /**
+     * 获取描述
+     *
+     * @param record [ Column Name : Column Value ]
+     * @return 描述
+     */
+    @NotNull
+    public static String getDescription(@NotNull Map<String, Value> record) {
+        Value value = record.get("query_description");
+        if (value == null) {
+            return "";
+        } else {
+            String queryDescription = value.getString();
+            return queryDescription != null ? queryDescription.trim() : "";
+        }
+    }
+
+    /**
+     * 获取备注
+     *
+     * @param record [ Column Name : Column Value ]
+     * @return 备注
+     */
+    @NotNull
+    public static String getRemark(@NotNull Map<String, Value> record) {
+        Value value = record.get("query_remark");
+        if (value == null) {
+            return "";
+        } else {
+            String queryRemark = value.getString();
+            return queryRemark != null ? queryRemark.trim() : "";
+        }
+    }
+
 }

@@ -82,10 +82,13 @@ public class QueryBuilderImpl implements QueryBuilder {
         String fromTable = QueryGetter.getFromTable(record);
         Preconditions.requireNonEmpty(fromTable, "fromTable must not be empty, queryId: " + queryId);
 
-        String queryName = QueryGetter.getName(record);
         boolean distinct = QueryGetter.isDistinct(record);
         boolean asterisk = QueryGetter.isAsterisk(record);
         boolean parameterName = QueryGetter.isParameterName(record);
+
+        String name = QueryGetter.getName(record);
+        String description = QueryGetter.getDescription(record);
+        String remark = QueryGetter.getRemark(record);
         Page page = QueryGetter.getPage(record);
 
         List<Join> joins = selectJoin(queryId);
@@ -97,7 +100,7 @@ public class QueryBuilderImpl implements QueryBuilder {
         Query result = new Query();
 
         result.setId(id);
-        result.setName(queryName);
+        result.setName(name);
         result.setDistinct(distinct);
         result.setColumns(columns);
         result.setTableName(fromTable);
@@ -106,6 +109,8 @@ public class QueryBuilderImpl implements QueryBuilder {
         result.setGroup(group);
         result.setOrders(orders);
         result.setPage(page);
+        result.setDescription(description);
+        result.setRemark(remark);
 
         return result;
     }
