@@ -250,13 +250,22 @@ public final class QueryFilterRange implements Serializable {
         this.fromParameterName = fromParameterName != null ? fromParameterName.trim() : "";
     }
 
+    @NotNull
     public Value getFromValue(Class<?> valueType) {
         String valueString = getFromValueString();
         Integer valueInteger = getFromValueInteger();
         Long valueLong = getFromValueLong();
         BigDecimal valueBigDecimal = getFromValueBigDecimal();
         Date valueDate = getFromValueDate();
-        return Value.newInstance(valueType, valueString, valueInteger, valueLong, valueBigDecimal, valueDate);
+        return Value.newInstance
+                (
+                        valueType,
+                        valueString,
+                        valueInteger,
+                        valueLong,
+                        valueBigDecimal,
+                        valueDate
+                );
     }
 
     public String getFromValueString() {
@@ -338,13 +347,22 @@ public final class QueryFilterRange implements Serializable {
         this.toParameterName = toParameterName != null ? toParameterName.trim() : "";
     }
 
-    public Value getValue(Class<?> valueType) {
+    @NotNull
+    public Value getToValue(Class<?> valueType) {
         String valueString = getToValueString();
         Integer valueInteger = getToValueInteger();
         Long valueLong = getToValueLong();
         BigDecimal valueBigDecimal = getToValueBigDecimal();
         Date valueDate = getToValueDate();
-        return Value.newInstance(valueType, valueString, valueInteger, valueLong, valueBigDecimal, valueDate);
+        return Value.newInstance
+                (
+                        valueType,
+                        valueString,
+                        valueInteger,
+                        valueLong,
+                        valueBigDecimal,
+                        valueDate
+                );
     }
 
     public String getToValueString() {

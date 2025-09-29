@@ -1,6 +1,7 @@
 package io.github.winter.database.query.builder;
 
 import io.github.winter.boot.tuple.Value;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -143,13 +144,22 @@ public final class QueryFilterInValue implements Serializable {
         this.filterId = filterId;
     }
 
+    @NotNull
     public Value getValue(Class<?> valueType) {
         String valueString = getValueString();
         Integer valueInteger = getValueInteger();
         Long valueLong = getValueLong();
         BigDecimal valueBigDecimal = getValueBigDecimal();
         Date valueDate = getValueDate();
-        return Value.newInstance(valueType, valueString, valueInteger, valueLong, valueBigDecimal, valueDate);
+        return Value.newInstance
+                (
+                        valueType,
+                        valueString,
+                        valueInteger,
+                        valueLong,
+                        valueBigDecimal,
+                        valueDate
+                );
     }
 
     public String getValueString() {

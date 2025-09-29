@@ -185,13 +185,22 @@ public final class QueryFilterExpression implements Serializable {
         this.parameterName = parameterName != null ? parameterName.trim() : "";
     }
 
+    @NotNull
     public Value getValue(Class<?> valueType) {
         String valueString = getValueString();
         Integer valueInteger = getValueInteger();
         Long valueLong = getValueLong();
         BigDecimal valueBigDecimal = getValueBigDecimal();
         Date valueDate = getValueDate();
-        return Value.newInstance(valueType, valueString, valueInteger, valueLong, valueBigDecimal, valueDate);
+        return Value.newInstance
+                (
+                        valueType,
+                        valueString,
+                        valueInteger,
+                        valueLong,
+                        valueBigDecimal,
+                        valueDate
+                );
     }
 
     public String getValueString() {

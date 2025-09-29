@@ -39,16 +39,6 @@ public interface QueryBuilder {
     List<Column> selectColumn(int queryId, @NotEmpty String fromTable);
 
     /**
-     * 全部表名
-     *
-     * @param fromTable 表名
-     * @param joins     [ the {@link Join} instance ]
-     * @return [ 表名 ]
-     */
-    @NotNull
-    List<String> selectTableName(@NotEmpty String fromTable, List<Join> joins);
-
-    /**
      * 连表
      *
      * @param queryId 查询主键
@@ -94,27 +84,7 @@ public interface QueryBuilder {
      * @param fromTable       表名
      * @return [ the {@link BaseFilter} instance ]
      */
-    List<BaseFilter> selectFilter(int isHaving, int queryId, int parentId, boolean isParameterName, @NotEmpty String fromTable);
-
-    /**
-     * 参数名
-     *
-     * @param isParameterName 忽略参数名？
-     * @param parameterName   自定义的参数名
-     * @param filterName      条件名
-     * @return 忽略参数名，或自定义的参数名，或条件名
-     */
     @NotNull
-    default String getParameterName(boolean isParameterName, String parameterName, String filterName) {
-        if (isParameterName) {
-            if (parameterName == null || parameterName.isEmpty()) {
-                return filterName == null ? "" : filterName;
-            } else {
-                return parameterName;
-            }
-        } else {
-            return "";
-        }
-    }
+    List<BaseFilter> selectFilter(int isHaving, int queryId, int parentId, boolean isParameterName, @NotEmpty String fromTable);
 
 }
