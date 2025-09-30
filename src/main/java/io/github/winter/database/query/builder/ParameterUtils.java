@@ -61,14 +61,15 @@ public final class ParameterUtils {
             return result;
         }
 
-        String prefix = parameterName.trim();
+        String namePrefix = parameterName.trim();
         int index = 0;
+
         for (QueryFilterInValue filter : list) {
             if (filter == null) {
                 continue;
             }
 
-            String name = prefix.isEmpty() ? "" : prefix + "_" + (index++);
+            String name = namePrefix.isEmpty() ? "" : (namePrefix + "_" + (index++));
             Value value = filter.getValue(valueType);
 
             Parameter parameter = getParameter(name, value);
@@ -90,33 +91,6 @@ public final class ParameterUtils {
      */
     @NotNull
     public static String getParameterName(@NotNull QueryFilterIn filter, boolean isParameterName, String filterName) {
-        String parameterName = filter.getParameterName();
-        return getParameterName(isParameterName, parameterName, filterName);
-    }
-
-    /**
-     * 参数
-     *
-     * @param parameterName 参数名
-     * @param filter        条件
-     * @param valueType     参数类型
-     * @return the {@link Parameter} instance
-     */
-    public static Parameter getParameter(@NotNull String parameterName, @NotNull QueryFilterWildcard filter, @NotNull Class<?> valueType) {
-        Value value = filter.getValue(valueType);
-        return getParameter(parameterName, value);
-    }
-
-    /**
-     * 参数名
-     *
-     * @param filter          条件
-     * @param isParameterName 忽略参数名？
-     * @param filterName      条件名
-     * @return 忽略参数名，或自定义的参数名，或条件名
-     */
-    @NotNull
-    public static String getParameterName(@NotNull QueryFilterWildcard filter, boolean isParameterName, String filterName) {
         String parameterName = filter.getParameterName();
         return getParameterName(isParameterName, parameterName, filterName);
     }
@@ -172,6 +146,33 @@ public final class ParameterUtils {
     @NotNull
     public static String getToParameterName(@NotNull QueryFilterRange filter, boolean isParameterName, String filterName) {
         String parameterName = filter.getToParameterName();
+        return getParameterName(isParameterName, parameterName, filterName);
+    }
+
+    /**
+     * 参数
+     *
+     * @param parameterName 参数名
+     * @param filter        条件
+     * @param valueType     参数类型
+     * @return the {@link Parameter} instance
+     */
+    public static Parameter getParameter(@NotNull String parameterName, @NotNull QueryFilterWildcard filter, @NotNull Class<?> valueType) {
+        Value value = filter.getValue(valueType);
+        return getParameter(parameterName, value);
+    }
+
+    /**
+     * 参数名
+     *
+     * @param filter          条件
+     * @param isParameterName 忽略参数名？
+     * @param filterName      条件名
+     * @return 忽略参数名，或自定义的参数名，或条件名
+     */
+    @NotNull
+    public static String getParameterName(@NotNull QueryFilterWildcard filter, boolean isParameterName, String filterName) {
+        String parameterName = filter.getParameterName();
         return getParameterName(isParameterName, parameterName, filterName);
     }
 
