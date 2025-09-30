@@ -1,4 +1,4 @@
-package io.github.winter.database.query;
+package io.github.winter.database.query.entity;
 
 /**
  * Boolean类型转换

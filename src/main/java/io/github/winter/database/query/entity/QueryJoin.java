@@ -1,7 +1,7 @@
-package io.github.winter.database.query.builder;
+package io.github.winter.database.query.entity;
 
 import io.github.winter.boot.tuple.Value;
-import io.github.winter.database.query.BooleanCast;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,11 +10,11 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * 空
+ * 连表
  *
  * @author changebooks@qq.com
  */
-public final class QueryFilterNull implements Serializable {
+public final class QueryJoin implements Serializable {
     /**
      * 主键
      */
@@ -26,26 +26,26 @@ public final class QueryFilterNull implements Serializable {
     private int queryId;
 
     /**
-     * 条件主键
+     * 表名
      */
-    private int filterId;
+    private String joinTable;
 
     /**
-     * 取反？
+     * 连表方式
      */
-    private boolean not;
+    private int joinType;
 
     /**
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryFilterNull} instance ]
+     * @return [ the {@link QueryJoin} instance ]
      */
-    public static List<QueryFilterNull> newInstance(List<Map<String, Value>> list) {
+    public static List<QueryJoin> newInstance(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryFilterNull::newInstance)
+                    .map(QueryJoin::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -57,24 +57,24 @@ public final class QueryFilterNull implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryFilterNull} instance
+     * @return the {@link QueryJoin} instance
      */
-    public static QueryFilterNull newInstance(Map<String, Value> record) {
+    public static QueryJoin newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
 
         Value id = record.get("id");
         Value queryId = record.get("query_id");
-        Value filterId = record.get("filter_id");
-        Value isNot = record.get("is_not");
+        Value joinTable = record.get("join_table");
+        Value joinType = record.get("join_type");
 
-        QueryFilterNull result = new QueryFilterNull();
+        QueryJoin result = new QueryJoin();
 
         result.setId(id);
         result.setQueryId(queryId);
-        result.setFilterId(filterId);
-        result.setNot(isNot);
+        result.setJoinTable(joinTable);
+        result.setJoinType(joinType);
 
         return result;
     }
@@ -105,31 +105,31 @@ public final class QueryFilterNull implements Serializable {
         this.queryId = queryId;
     }
 
-    public int getFilterId() {
-        return filterId;
+    @NotNull
+    public String getJoinTable() {
+        return joinTable != null ? joinTable : "";
     }
 
-    public void setFilterId(Value value) {
-        int filterId = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
-        setFilterId(filterId);
+    public void setJoinTable(Value value) {
+        String joinTable = value != null ? value.getString() : null;
+        setJoinTable(joinTable);
     }
 
-    public void setFilterId(int filterId) {
-        this.filterId = filterId;
+    public void setJoinTable(String joinTable) {
+        this.joinTable = joinTable != null ? joinTable.trim() : "";
     }
 
-    public boolean isNot() {
-        return not;
+    public int getJoinType() {
+        return joinType;
     }
 
-    public void setNot(Value value) {
-        Integer not = value != null ? value.getInteger() : null;
-        boolean isNot = BooleanCast.fromInt(not);
-        setNot(isNot);
+    public void setJoinType(Value value) {
+        int joinType = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
+        setJoinType(joinType);
     }
 
-    public void setNot(boolean not) {
-        this.not = not;
+    public void setJoinType(int joinType) {
+        this.joinType = joinType;
     }
 
 }

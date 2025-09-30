@@ -1,7 +1,6 @@
-package io.github.winter.database.query.builder;
+package io.github.winter.database.query.entity;
 
 import io.github.winter.boot.tuple.Value;
-import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,11 +9,11 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * 连表
+ * 空
  *
  * @author changebooks@qq.com
  */
-public final class QueryJoin implements Serializable {
+public final class QueryFilterNull implements Serializable {
     /**
      * 主键
      */
@@ -26,26 +25,26 @@ public final class QueryJoin implements Serializable {
     private int queryId;
 
     /**
-     * 表名
+     * 条件主键
      */
-    private String joinTable;
+    private int filterId;
 
     /**
-     * 连表方式
+     * 取反？
      */
-    private int joinType;
+    private boolean not;
 
     /**
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryJoin} instance ]
+     * @return [ the {@link QueryFilterNull} instance ]
      */
-    public static List<QueryJoin> newInstance(List<Map<String, Value>> list) {
+    public static List<QueryFilterNull> newInstance(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryJoin::newInstance)
+                    .map(QueryFilterNull::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -57,24 +56,24 @@ public final class QueryJoin implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryJoin} instance
+     * @return the {@link QueryFilterNull} instance
      */
-    public static QueryJoin newInstance(Map<String, Value> record) {
+    public static QueryFilterNull newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
 
         Value id = record.get("id");
         Value queryId = record.get("query_id");
-        Value joinTable = record.get("join_table");
-        Value joinType = record.get("join_type");
+        Value filterId = record.get("filter_id");
+        Value isNot = record.get("is_not");
 
-        QueryJoin result = new QueryJoin();
+        QueryFilterNull result = new QueryFilterNull();
 
         result.setId(id);
         result.setQueryId(queryId);
-        result.setJoinTable(joinTable);
-        result.setJoinType(joinType);
+        result.setFilterId(filterId);
+        result.setNot(isNot);
 
         return result;
     }
@@ -105,31 +104,31 @@ public final class QueryJoin implements Serializable {
         this.queryId = queryId;
     }
 
-    @NotNull
-    public String getJoinTable() {
-        return joinTable != null ? joinTable : "";
+    public int getFilterId() {
+        return filterId;
     }
 
-    public void setJoinTable(Value value) {
-        String joinTable = value != null ? value.getString() : null;
-        setJoinTable(joinTable);
+    public void setFilterId(Value value) {
+        int filterId = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
+        setFilterId(filterId);
     }
 
-    public void setJoinTable(String joinTable) {
-        this.joinTable = joinTable != null ? joinTable.trim() : "";
+    public void setFilterId(int filterId) {
+        this.filterId = filterId;
     }
 
-    public int getJoinType() {
-        return joinType;
+    public boolean isNot() {
+        return not;
     }
 
-    public void setJoinType(Value value) {
-        int joinType = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
-        setJoinType(joinType);
+    public void setNot(Value value) {
+        Integer not = value != null ? value.getInteger() : null;
+        boolean isNot = BooleanCast.fromInt(not);
+        setNot(isNot);
     }
 
-    public void setJoinType(int joinType) {
-        this.joinType = joinType;
+    public void setNot(boolean not) {
+        this.not = not;
     }
 
 }

@@ -1,7 +1,6 @@
-package io.github.winter.database.query.builder;
+package io.github.winter.database.query.entity;
 
 import io.github.winter.boot.tuple.Value;
-import io.github.winter.database.query.BooleanCast;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;

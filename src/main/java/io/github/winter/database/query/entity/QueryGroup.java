@@ -1,4 +1,4 @@
-package io.github.winter.database.query.builder;
+package io.github.winter.database.query.entity;
 
 import io.github.winter.boot.tuple.Value;
 import jakarta.validation.constraints.NotEmpty;
@@ -12,11 +12,11 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 /**
- * 字段
+ * 分组
  *
  * @author changebooks@qq.com
  */
-public final class QueryColumn implements Serializable {
+public final class QueryGroup implements Serializable {
     /**
      * 主键
      */
@@ -38,23 +38,13 @@ public final class QueryColumn implements Serializable {
     private String columnName;
 
     /**
-     * 别名
-     */
-    private String asName;
-
-    /**
-     * 函数类型
-     */
-    private int funcType;
-
-    /**
      * Build Instance List
      *
      * @param list      [ [ Column Name : Column Value ] ]
      * @param fromTable Table Name
-     * @return [ the {@link QueryColumn} instance ]
+     * @return [ the {@link QueryGroup} instance ]
      */
-    public static List<QueryColumn> newInstance(List<Map<String, Value>> list, @NotEmpty String fromTable) {
+    public static List<QueryGroup> newInstance(List<Map<String, Value>> list, @NotEmpty String fromTable) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
@@ -71,9 +61,9 @@ public final class QueryColumn implements Serializable {
      *
      * @param record    [ Column Name : Column Value ]
      * @param fromTable Table Name
-     * @return the {@link QueryColumn} instance
+     * @return the {@link QueryGroup} instance
      */
-    public static QueryColumn newInstance(Map<String, Value> record, @NotEmpty String fromTable) {
+    public static QueryGroup newInstance(Map<String, Value> record, @NotEmpty String fromTable) {
         if (record == null) {
             return null;
         }
@@ -82,17 +72,13 @@ public final class QueryColumn implements Serializable {
         Value queryId = record.get("query_id");
         Value tableName = record.get("table_name");
         Value columnName = record.get("column_name");
-        Value asName = record.get("as_name");
-        Value funcType = record.get("func_type");
 
-        QueryColumn result = new QueryColumn();
+        QueryGroup result = new QueryGroup();
 
         result.setId(id);
         result.setQueryId(queryId);
         result.setTableName(tableName, fromTable);
         result.setColumnName(columnName);
-        result.setAsName(asName);
-        result.setFuncType(funcType);
 
         return result;
     }
@@ -152,33 +138,6 @@ public final class QueryColumn implements Serializable {
 
     public void setColumnName(String columnName) {
         this.columnName = columnName != null ? columnName.trim() : "";
-    }
-
-    @NotNull
-    public String getAsName() {
-        return asName != null ? asName : "";
-    }
-
-    public void setAsName(Value value) {
-        String asName = value != null ? value.getString() : null;
-        setAsName(asName);
-    }
-
-    public void setAsName(String asName) {
-        this.asName = asName != null ? asName.trim() : "";
-    }
-
-    public int getFuncType() {
-        return funcType;
-    }
-
-    public void setFuncType(Value value) {
-        int funcType = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
-        setFuncType(funcType);
-    }
-
-    public void setFuncType(int funcType) {
-        this.funcType = funcType;
     }
 
 }

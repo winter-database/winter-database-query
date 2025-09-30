@@ -1,4 +1,4 @@
-package io.github.winter.database.query.builder;
+package io.github.winter.database.query.entity;
 
 import io.github.winter.boot.tuple.Value;
 import jakarta.validation.constraints.NotNull;
@@ -8,11 +8,11 @@ import java.math.BigDecimal;
 import java.util.*;
 
 /**
- * 表达式
+ * 模糊匹配
  *
  * @author changebooks@qq.com
  */
-public final class QueryFilterExpression implements Serializable {
+public final class QueryFilterWildcard implements Serializable {
     /**
      * 主键
      */
@@ -29,9 +29,14 @@ public final class QueryFilterExpression implements Serializable {
     private int filterId;
 
     /**
+     * 取反？
+     */
+    private boolean not;
+
+    /**
      * 编码
      */
-    private int expressionCode;
+    private int wildcardCode;
 
     /**
      * 参数名
@@ -67,13 +72,13 @@ public final class QueryFilterExpression implements Serializable {
      * Build Instance List
      *
      * @param list [ [ Column Name : Column Value ] ]
-     * @return [ the {@link QueryFilterExpression} instance ]
+     * @return [ the {@link QueryFilterWildcard} instance ]
      */
-    public static List<QueryFilterExpression> newInstance(List<Map<String, Value>> list) {
+    public static List<QueryFilterWildcard> newInstance(List<Map<String, Value>> list) {
         if (list != null) {
             return list.stream()
                     .filter(Objects::nonNull)
-                    .map(QueryFilterExpression::newInstance)
+                    .map(QueryFilterWildcard::newInstance)
                     .filter(Objects::nonNull)
                     .toList();
         } else {
@@ -85,9 +90,9 @@ public final class QueryFilterExpression implements Serializable {
      * Build Instance
      *
      * @param record [ Column Name : Column Value ]
-     * @return the {@link QueryFilterExpression} instance
+     * @return the {@link QueryFilterWildcard} instance
      */
-    public static QueryFilterExpression newInstance(Map<String, Value> record) {
+    public static QueryFilterWildcard newInstance(Map<String, Value> record) {
         if (record == null) {
             return null;
         }
@@ -95,7 +100,8 @@ public final class QueryFilterExpression implements Serializable {
         Value id = record.get("id");
         Value queryId = record.get("query_id");
         Value filterId = record.get("filter_id");
-        Value expressionCode = record.get("expression_code");
+        Value isNot = record.get("is_not");
+        Value wildcardCode = record.get("wildcard_code");
         Value parameterName = record.get("parameter_name");
         Value valueString = record.get("value_string");
         Value valueInteger = record.get("value_integer");
@@ -103,12 +109,13 @@ public final class QueryFilterExpression implements Serializable {
         Value valueBigDecimal = record.get("value_big_decimal");
         Value valueDate = record.get("value_date");
 
-        QueryFilterExpression result = new QueryFilterExpression();
+        QueryFilterWildcard result = new QueryFilterWildcard();
 
         result.setId(id);
         result.setQueryId(queryId);
         result.setFilterId(filterId);
-        result.setExpressionCode(expressionCode);
+        result.setNot(isNot);
+        result.setWildcardCode(wildcardCode);
         result.setParameterName(parameterName);
         result.setValueString(valueString);
         result.setValueInteger(valueInteger);
@@ -158,17 +165,31 @@ public final class QueryFilterExpression implements Serializable {
         this.filterId = filterId;
     }
 
-    public int getExpressionCode() {
-        return expressionCode;
+    public boolean isNot() {
+        return not;
     }
 
-    public void setExpressionCode(Value value) {
-        int expressionCode = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
-        setExpressionCode(expressionCode);
+    public void setNot(Value value) {
+        Integer not = value != null ? value.getInteger() : null;
+        boolean isNot = BooleanCast.fromInt(not);
+        setNot(isNot);
     }
 
-    public void setExpressionCode(int expressionCode) {
-        this.expressionCode = expressionCode;
+    public void setNot(boolean not) {
+        this.not = not;
+    }
+
+    public int getWildcardCode() {
+        return wildcardCode;
+    }
+
+    public void setWildcardCode(Value value) {
+        int wildcardCode = Optional.ofNullable(value).map(Value::getInteger).orElse(0);
+        setWildcardCode(wildcardCode);
+    }
+
+    public void setWildcardCode(int wildcardCode) {
+        this.wildcardCode = wildcardCode;
     }
 
     @NotNull
