@@ -1,9 +1,8 @@
 package io.github.winter.database.query.builder;
 
-import io.github.winter.boot.filter.BaseFilter;
-import io.github.winter.boot.filter.Order;
-import io.github.winter.boot.filter.Page;
+import io.github.winter.boot.filter.*;
 import io.github.winter.boot.sql.Preconditions;
+import io.github.winter.boot.sql.SqlParameter;
 import io.github.winter.database.query.Query;
 import io.github.winter.database.query.*;
 import io.github.winter.database.query.entity.*;
@@ -306,7 +305,171 @@ public class QueryBuilderImpl implements QueryBuilder {
 
     @Override
     public List<BaseFilter> buildFilter(int isHaving, int queryId, int parentId, boolean isParameterName, String fromTable) {
-        return null;
+        List<BaseFilter> result = new ArrayList<>();
+
+        List<QueryFilter> list = querySelect.selectFilter(isHaving, queryId, parentId, fromTable);
+        if (list == null) {
+            return result;
+        }
+
+        for (QueryFilter filter : list) {
+            if (filter == null) {
+                continue;
+            }
+
+            int logicalOperator = filter.getLogicalOperator();
+            Boolean isOr = LogicalType.isOr(logicalOperator);
+
+            int filterId = filter.getId();
+            List<BaseFilter> subFilterList = buildFilter(isHaving, queryId, filterId, isParameterName, fromTable);
+            Filters subFilters = null;
+            if (!subFilterList.isEmpty()) {
+                subFilters = new Filters();
+                subFilters.setOr(isOr);
+                subFilters.setFilters(subFilterList);
+            }
+
+            String columnName = filter.getColumnName();
+            if (columnName.isEmpty()) {
+                if (subFilters != null) {
+                    result.add(subFilters);
+                }
+                continue;
+            }
+
+            int funcType = filter.getFuncType();
+            String tableName = filter.getTableName();
+            String filterName = columnBuilder.joinFunc(funcType, tableName, columnName);
+
+            Class<?> valueType = columnBuilder.parseType(funcType, tableName, columnName);
+            Preconditions.requireNonNull(valueType, "valueType must not be null, queryId: " + queryId + ", filterId: " + filterId);
+
+            int filterType = filter.getFilterType();
+            switch (filterType) {
+                case FilterType.EXPRESSION: {
+                    QueryFilterExpression filterExpression = querySelect.selectFilterExpression(queryId, filterId);
+                    Preconditions.requireNonNull(filterExpression, "filterExpression must not be null, queryId: " + queryId + ", filterId: " + filterId);
+
+                    int expressionCode = filterExpression.getExpressionCode();
+                    String parameterName = ParameterUtils.getParameterName(filterExpression, isParameterName, filterName);
+                    Parameter parameter = ParameterUtils.getParameter(parameterName, filterExpression, valueType);
+
+                    ExpressionFilter expressionFilter = new ExpressionFilter();
+
+                    expressionFilter.setOr(isOr);
+                    expressionFilter.setName(filterName);
+                    expressionFilter.setCode(expressionCode);
+                    expressionFilter.setParameter(parameter);
+
+                    result.add(expressionFilter);
+                    break;
+                }
+                case FilterType.IN: {
+                    QueryFilterIn filterIn = querySelect.selectFilterIn(queryId, filterId);
+                    Preconditions.requireNonNull(filterIn, "filterIn must not be null, queryId: " + queryId + ", filterId: " + filterId);
+
+                    boolean not = filterIn.isNot();
+
+                    InFilter inFilter = new InFilter();
+
+                    inFilter.setOr(isOr);
+                    inFilter.setName(filterName);
+                    inFilter.setNot(not);
+
+                    int subQueryId = filterIn.getSubQueryId();
+                    if (subQueryId > 0) {
+                        Query query = build(subQueryId);
+                        Preconditions.requireNonNull(query, "query must not be null, queryId: " + queryId + ", filterId: " + filterId + ", subQueryId: " + subQueryId);
+
+                        SqlParameter sqlParameter = queryParser.parse(query);
+                        Preconditions.requireNonNull(sqlParameter, "sqlParameter must not be null, queryId: " + queryId + ", filterId: " + filterId + ", subQueryId: " + subQueryId);
+
+                        String sql = sqlParameter.getOriginalSql();
+                        List<Parameter> parameters = sqlParameter.getOriginalParameters();
+
+                        inFilter.setSql(sql);
+                        inFilter.setParameters(parameters);
+                    } else {
+                        String parameterName = ParameterUtils.getParameterName(filterIn, isParameterName, filterName);
+                        List<QueryFilterInValue> inValueList = querySelect.selectFilterInValue(queryId, filterId);
+
+                        List<Parameter> parameters = ParameterUtils.getParameters(parameterName, inValueList, valueType);
+                        inFilter.setParameters(parameters);
+                    }
+
+                    result.add(inFilter);
+                    break;
+                }
+                case FilterType.NULL: {
+                    QueryFilterNull filterNull = querySelect.selectFilterNull(queryId, filterId);
+                    Preconditions.requireNonNull(filterNull, "filterNull must not be null, queryId: " + queryId + ", filterId: " + filterId);
+
+                    boolean not = filterNull.isNot();
+
+                    NullFilter nullFilter = new NullFilter();
+
+                    nullFilter.setOr(isOr);
+                    nullFilter.setName(filterName);
+                    nullFilter.setNot(not);
+
+                    result.add(nullFilter);
+                    break;
+                }
+                case FilterType.RANGE: {
+                    QueryFilterRange filterRange = querySelect.selectFilterRange(queryId, filterId);
+                    Preconditions.requireNonNull(filterRange, "filterRange must not be null, queryId: " + queryId + ", filterId: " + filterId);
+
+                    boolean includeLower = filterRange.isIncludeLower();
+                    boolean includeUpper = filterRange.isIncludeUpper();
+
+                    String fromParameterName = ParameterUtils.getFromParameterName(filterRange, isParameterName, filterName);
+                    Parameter fromParameter = ParameterUtils.getFromParameter(fromParameterName, filterRange, valueType);
+
+                    String toParameterName = ParameterUtils.getToParameterName(filterRange, isParameterName, filterName);
+                    Parameter toParameter = ParameterUtils.getToParameter(toParameterName, filterRange, valueType);
+
+                    RangeFilter rangeFilter = new RangeFilter();
+
+                    rangeFilter.setOr(isOr);
+                    rangeFilter.setName(filterName);
+                    rangeFilter.setIncludeLower(includeLower);
+                    rangeFilter.setIncludeUpper(includeUpper);
+                    rangeFilter.setFrom(fromParameter);
+                    rangeFilter.setTo(toParameter);
+
+                    result.add(rangeFilter);
+                    break;
+                }
+                case FilterType.WILDCARD: {
+                    QueryFilterWildcard filterWildcard = querySelect.selectFilterWildcard(queryId, filterId);
+                    Preconditions.requireNonNull(filterWildcard, "wildcardRecord must not be null, queryId: " + queryId + ", filterId: " + filterId);
+
+                    boolean not = filterWildcard.isNot();
+                    int wildcardCode = filterWildcard.getWildcardCode();
+                    String parameterName = ParameterUtils.getParameterName(filterWildcard, isParameterName, filterName);
+                    Parameter parameter = ParameterUtils.getParameter(parameterName, filterWildcard, valueType);
+
+                    WildcardFilter wildcardFilter = new WildcardFilter();
+
+                    wildcardFilter.setOr(isOr);
+                    wildcardFilter.setName(filterName);
+                    wildcardFilter.setNot(not);
+                    wildcardFilter.setCode(wildcardCode);
+                    wildcardFilter.setParameter(parameter);
+
+                    result.add(wildcardFilter);
+                    break;
+                }
+                default:
+                    break;
+            }
+
+            if (subFilters != null) {
+                result.add(subFilters);
+            }
+        }
+
+        return result;
     }
 
     public QuerySelect getQuerySelect() {
