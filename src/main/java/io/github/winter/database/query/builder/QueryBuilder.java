@@ -1,7 +1,11 @@
-package io.github.winter.database.query;
+package io.github.winter.database.query.builder;
 
 import io.github.winter.boot.filter.BaseFilter;
 import io.github.winter.boot.filter.Order;
+import io.github.winter.database.query.Column;
+import io.github.winter.database.query.Group;
+import io.github.winter.database.query.Join;
+import io.github.winter.database.query.Query;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 

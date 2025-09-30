@@ -51,6 +51,6 @@ public interface ColumnBuilder {
      * @param columnName 字段名
      * @return 类型
      */
-    Class<?> parseType(int funcType, @NotNull String tableName, @NotNull String columnName);
+    Class<?> parseType(int funcType, String tableName, String columnName);
 
 }
