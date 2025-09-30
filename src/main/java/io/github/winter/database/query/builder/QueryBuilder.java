@@ -86,7 +86,6 @@ public interface QueryBuilder {
      * @param limit  每页行数
      * @return the {@link Page} instance
      */
-    @NotNull
     Page buildPage(long offset, int limit);
 
     /**
