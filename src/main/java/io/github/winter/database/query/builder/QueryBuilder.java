@@ -2,6 +2,7 @@ package io.github.winter.database.query.builder;
 
 import io.github.winter.boot.filter.BaseFilter;
 import io.github.winter.boot.filter.Order;
+import io.github.winter.boot.filter.Page;
 import io.github.winter.database.query.Column;
 import io.github.winter.database.query.Group;
 import io.github.winter.database.query.Join;
@@ -40,7 +41,7 @@ public interface QueryBuilder {
      * @param fromTable 表名
      * @return [ the {@link Column} instance ]
      */
-    List<Column> selectColumn(int queryId, @NotEmpty String fromTable);
+    List<Column> buildColumn(int queryId, @NotEmpty String fromTable);
 
     /**
      * 连表
@@ -48,7 +49,7 @@ public interface QueryBuilder {
      * @param queryId 查询主键
      * @return [ the {@link Join} instance ]
      */
-    List<Join> selectJoin(int queryId);
+    List<Join> buildJoin(int queryId);
 
     /**
      * 连表条件
@@ -57,7 +58,7 @@ public interface QueryBuilder {
      * @param joinId  连表主键
      * @return [ the {@link Join.On} instance ]
      */
-    List<Join.On> selectJoinOn(int queryId, int joinId);
+    List<Join.On> buildJoinOn(int queryId, int joinId);
 
     /**
      * 分组
@@ -67,7 +68,7 @@ public interface QueryBuilder {
      * @param fromTable       表名
      * @return the {@link Group} instance
      */
-    Group selectGroup(int queryId, boolean isParameterName, @NotEmpty String fromTable);
+    Group buildGroup(int queryId, boolean isParameterName, @NotEmpty String fromTable);
 
     /**
      * 排序
@@ -76,7 +77,16 @@ public interface QueryBuilder {
      * @param fromTable 表名
      * @return [ the {@link Order} instance ]
      */
-    List<Order> selectOrder(int queryId, @NotEmpty String fromTable);
+    List<Order> buildOrder(int queryId, @NotEmpty String fromTable);
+
+    /**
+     * 分页
+     *
+     * @param offset 开始行数
+     * @param limit  每页行数
+     * @return the {@link Page} instance
+     */
+    Page buildPage(long offset, int limit);
 
     /**
      * 条件
@@ -89,6 +99,6 @@ public interface QueryBuilder {
      * @return [ the {@link BaseFilter} instance ]
      */
     @NotNull
-    List<BaseFilter> selectFilter(int isHaving, int queryId, int parentId, boolean isParameterName, @NotEmpty String fromTable);
+    List<BaseFilter> buildFilter(int isHaving, int queryId, int parentId, boolean isParameterName, @NotEmpty String fromTable);
 
 }

@@ -2,8 +2,12 @@ package io.github.winter.database.query.builder;
 
 import io.github.winter.boot.filter.BaseFilter;
 import io.github.winter.boot.filter.Order;
+import io.github.winter.boot.filter.Page;
+import io.github.winter.boot.sql.Preconditions;
 import io.github.winter.database.query.*;
+import io.github.winter.database.query.entity.BooleanCast;
 import io.github.winter.database.query.parser.QueryParserImpl;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
@@ -46,46 +50,79 @@ public class QueryBuilderImpl implements QueryBuilder {
         }
 
         int queryId = record.getId();
+        String fromTable = record.getFromTable();
+        Preconditions.requireNonEmpty(fromTable, "fromTable must not be empty, queryId: " + queryId);
+
         String queryName = record.getQueryName();
         boolean distinct = record.isDistinct();
         boolean asterisk = record.isAsterisk();
         boolean parameterName = record.isParameterName();
-        String fromTable = record.getFromTable();
         long pageOffset = record.getPageOffset();
         int pageLimit = record.getPageLimit();
         String queryDescription = record.getQueryDescription();
         String queryRemark = record.getQueryRemark();
 
+        List<Join> joins = buildJoin(queryId);
+        List<Column> columns = buildColumn(queryId, asterisk, fromTable, joins);
+        List<BaseFilter> filters = buildFilter(BooleanCast.FALSE, queryId, 0, parameterName, fromTable);
+        Group group = buildGroup(queryId, parameterName, fromTable);
+        List<Order> orders = buildOrder(queryId, fromTable);
+        Page page = buildPage(pageOffset, pageLimit);
+
+        Query result = new Query();
+
+        result.setId(id);
+        result.setName(queryName);
+        result.setDistinct(distinct);
+        result.setColumns(columns);
+        result.setTableName(fromTable);
+        result.setJoins(joins);
+        result.setFilters(filters);
+        result.setGroup(group);
+        result.setOrders(orders);
+        result.setPage(page);
+        result.setDescription(queryDescription);
+        result.setRemark(queryRemark);
+
+        return result;
+    }
+
+    protected List<Column> buildColumn(int queryId, boolean asterisk, @NotEmpty String fromTable, List<Join> joins) {
+        
+    }
+
+    @Override
+    public List<Column> buildColumn(int queryId, String fromTable) {
         return null;
     }
 
     @Override
-    public List<Column> selectColumn(int queryId, String fromTable) {
+    public List<Join> buildJoin(int queryId) {
         return null;
     }
 
     @Override
-    public List<Join> selectJoin(int queryId) {
+    public List<Join.On> buildJoinOn(int queryId, int joinId) {
         return null;
     }
 
     @Override
-    public List<Join.On> selectJoinOn(int queryId, int joinId) {
+    public Group buildGroup(int queryId, boolean isParameterName, String fromTable) {
         return null;
     }
 
     @Override
-    public Group selectGroup(int queryId, boolean isParameterName, String fromTable) {
+    public List<Order> buildOrder(int queryId, String fromTable) {
         return null;
     }
 
     @Override
-    public List<Order> selectOrder(int queryId, String fromTable) {
+    public Page buildPage(long offset, int limit) {
         return null;
     }
 
     @Override
-    public List<BaseFilter> selectFilter(int isHaving, int queryId, int parentId, boolean isParameterName, String fromTable) {
+    public List<BaseFilter> buildFilter(int isHaving, int queryId, int parentId, boolean isParameterName, String fromTable) {
         return null;
     }
 
