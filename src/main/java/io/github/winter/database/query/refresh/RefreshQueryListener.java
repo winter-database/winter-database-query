@@ -13,6 +13,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Predicate;
 
 /**
  * 刷查询
@@ -102,6 +104,8 @@ public class RefreshQueryListener implements ApplicationListener<RefreshQueryEve
             return;
         }
 
+        removeAll(ids);
+
         for (Integer id : ids) {
             if (id == null) {
                 continue;
@@ -109,6 +113,32 @@ public class RefreshQueryListener implements ApplicationListener<RefreshQueryEve
 
             if (id > 0) {
                 refresh(id);
+            }
+        }
+    }
+
+    /**
+     * Remove All
+     *
+     * @param queryIds [ ID ]
+     */
+    public void removeAll(List<Integer> queryIds) {
+        if (queryIds == null) {
+            return;
+        }
+
+        List<Integer> removeQueryIds = QueryRegistry.getQueryIds()
+                .stream()
+                .filter(Objects::nonNull)
+                .filter(Predicate.not(queryIds::contains))
+                .toList();
+        if (removeQueryIds.isEmpty()) {
+            return;
+        }
+
+        for (Integer queryId : removeQueryIds) {
+            if (queryId != null) {
+                QueryRegistry.remove(queryId);
             }
         }
     }

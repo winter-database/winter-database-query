@@ -1,8 +1,10 @@
 package io.github.winter.database.query;
 
 import io.github.winter.boot.sql.Preconditions;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -17,6 +19,16 @@ public final class QueryRegistry {
     private static final Map<Integer, Query> DATA = new ConcurrentHashMap<>();
 
     private QueryRegistry() {
+    }
+
+    /**
+     * Get Query Id
+     *
+     * @return [ ID ]
+     */
+    @NotNull
+    public static Set<Integer> getQueryIds() {
+        return DATA.keySet();
     }
 
     /**

@@ -6,7 +6,7 @@
 
     <groupId>io.github.winter-database</groupId>
     <artifactId>winter-database-query</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <name>query</name>
     <description>Complex Select</description>
     <url>https://github.com/winter-database/winter-database-query</url>
@@ -38,7 +38,7 @@
     <properties>
         <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <winter-database-template.version>1.0.2</winter-database-template.version>
+        <winter-database-template.version>1.0.3</winter-database-template.version>
         <central-publishing-maven-plugin.version>0.7.0</central-publishing-maven-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
